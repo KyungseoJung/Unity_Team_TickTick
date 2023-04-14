@@ -1,0 +1,1040 @@
+fileFormatVersion: 2
+guid: 36c1b5b0a75722e4dba611dc3ddfe520
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8103805194316372206
+    second: AnimalCrossing_0
+  - first:
+      213: -310059896107474584
+    second: AnimalCrossing_1
+  - first:
+      213: -1783157576402380736
+    second: AnimalCrossing_2
+  - first:
+      213: 3337490609868575879
+    second: AnimalCrossing_3
+  - first:
+      213: -7819745551764958381
+    second: AnimalCrossing_4
+  - first:
+      213: -4756313477483272697
+    second: AnimalCrossing_5
+  - first:
+      213: -1371595955912828235
+    second: AnimalCrossing_6
+  - first:
+      213: -2188406589505321769
+    second: AnimalCrossing_7
+  - first:
+      213: 2046677014961267845
+    second: AnimalCrossing_8
+  - first:
+      213: -4135191571785071765
+    second: AnimalCrossing_9
+  - first:
+      213: 1234549631184200587
+    second: AnimalCrossing_10
+  - first:
+      213: 9081433480594090829
+    second: AnimalCrossing_11
+  - first:
+      213: -4348260629318577952
+    second: AnimalCrossing_12
+  - first:
+      213: -182212493853080021
+    second: AnimalCrossing_13
+  - first:
+      213: -2119402506774022842
+    second: AnimalCrossing_14
+  - first:
+      213: 1894920673061967487
+    second: AnimalCrossing_15
+  - first:
+      213: -7811437752354685343
+    second: AnimalCrossing_16
+  - first:
+      213: 3428184239348372841
+    second: AnimalCrossing_17
+  - first:
+      213: 2344783415608395379
+    second: AnimalCrossing_18
+  - first:
+      213: 5345395205970101189
+    second: AnimalCrossing_19
+  - first:
+      213: 8322216813086160267
+    second: AnimalCrossing_20
+  - first:
+      213: 2768277258679098237
+    second: AnimalCrossing_21
+  - first:
+      213: -5686846687369577794
+    second: AnimalCrossing_22
+  - first:
+      213: 4130141349522416721
+    second: AnimalCrossing_23
+  - first:
+      213: 119956684166098416
+    second: AnimalCrossing_24
+  - first:
+      213: 4586120059906708968
+    second: AnimalCrossing_25
+  - first:
+      213: 7443111872306150641
+    second: AnimalCrossing_26
+  - first:
+      213: 4625555419152871366
+    second: AnimalCrossing_27
+  - first:
+      213: -4242117072579499366
+    second: AnimalCrossing_28
+  - first:
+      213: -4397284236325237227
+    second: AnimalCrossing_29
+  - first:
+      213: -5760351874098856899
+    second: AnimalCrossing_30
+  - first:
+      213: 3328191855112969338
+    second: AnimalCrossing_31
+  - first:
+      213: -4905982135621070569
+    second: AnimalCrossing_32
+  - first:
+      213: -3810015246429838445
+    second: AnimalCrossing_33
+  - first:
+      213: -2547655280746468449
+    second: AnimalCrossing_34
+  - first:
+      213: 6244353132930937012
+    second: AnimalCrossing_35
+  - first:
+      213: -8694963849535664262
+    second: AnimalCrossing_36
+  - first:
+      213: 9179782246812315252
+    second: AnimalCrossing_37
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AnimalCrossing_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 487
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 217aecf8c10898f80800000000000000
+      internalID: -8103805194316372206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_1
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 487
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8616b61da2272bbf0800000000000000
+      internalID: -310059896107474584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_2
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 487
+        width: 51
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0485dffb1a3f047e0800000000000000
+      internalID: -1783157576402380736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_3
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 487
+        width: 51
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7841b62e606215e20800000000000000
+      internalID: 3337490609868575879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_4
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 487
+        width: 50
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 353db19f9deaa7390800000000000000
+      internalID: -7819745551764958381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_5
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 419
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 706e43e971e2efdb0800000000000000
+      internalID: -4756313477483272697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_6
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 419
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ba1470cebc17fce0800000000000000
+      internalID: -1371595955912828235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_7
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 419
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d449603dc731a1e0800000000000000
+      internalID: -2188406589505321769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_8
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 419
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58429beb6e1476c10800000000000000
+      internalID: 2046677014961267845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_9
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 419
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b63cf85bc29dc96c0800000000000000
+      internalID: -4135191571785071765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_10
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 351
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b83e2504950022110800000000000000
+      internalID: 1234549631184200587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_11
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 351
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b662692abb70e70800000000000000
+      internalID: 9081433480594090829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_12
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 344
+        width: 62
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e056a6eeffd7a3c0800000000000000
+      internalID: -4348260629318577952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_13
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 351
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b26cf36c3b6a87df0800000000000000
+      internalID: -182212493853080021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_14
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 351
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64579af26ae5692e0800000000000000
+      internalID: -2119402506774022842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_15
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 283
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f76176bff4c1c4a10800000000000000
+      internalID: 1894920673061967487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_16
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 283
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16eb2d140c2389390800000000000000
+      internalID: -7811437752354685343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_17
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 282
+        width: 50
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 965d3f2076b539f20800000000000000
+      internalID: 3428184239348372841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_18
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 283
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 376c092e7185a8020800000000000000
+      internalID: 2344783415608395379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_19
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 214
+        width: 54
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c38ce36e98ae2a40800000000000000
+      internalID: 5345395205970101189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_20
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 215
+        width: 54
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b85b8c739147e7370800000000000000
+      internalID: 8322216813086160267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_21
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 214
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7b1c53ff75ea6620800000000000000
+      internalID: 2768277258679098237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_22
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 215
+        width: 54
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebaba3b61134411b0800000000000000
+      internalID: -5686846687369577794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_23
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 213
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 154af6acca5315930800000000000000
+      internalID: 4130141349522416721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_24
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 145
+        width: 55
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fd672cf7fb2aa100800000000000000
+      internalID: 119956684166098416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_25
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 147
+        width: 53
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e5580c65eb25af30800000000000000
+      internalID: 4586120059906708968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_26
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 145
+        width: 53
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fcfc4400de3b4760800000000000000
+      internalID: 7443111872306150641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_27
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 145
+        width: 52
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf6d7f7526413040800000000000000
+      internalID: 4625555419152871366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_28
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 147
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9a67498ff8f025c0800000000000000
+      internalID: -4242117072579499366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_29
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 78
+        width: 53
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51ec86de845b9f2c0800000000000000
+      internalID: -4397284236325237227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_30
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 77
+        width: 52
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3cf41b7d7e1f00b0800000000000000
+      internalID: -5760351874098856899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_31
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 79
+        width: 53
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c5b54dbdc103e20800000000000000
+      internalID: 3328191855112969338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_32
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 78
+        width: 53
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 711d4eb9d337aebb0800000000000000
+      internalID: -4905982135621070569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_33
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 79
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3932ab7d15b102bc0800000000000000
+      internalID: -3810015246429838445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_34
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 11
+        width: 53
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9b65fc2509e4acd0800000000000000
+      internalID: -2547655280746468449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_35
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 11
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b03274271668a650800000000000000
+      internalID: 6244353132930937012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_36
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 11
+        width: 52
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7f409d5278455780800000000000000
+      internalID: -8694963849535664262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnimalCrossing_37
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 11
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47e6fa02153256f70800000000000000
+      internalID: 9179782246812315252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 98441f5e254f1274b90c7d39daaf1780
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

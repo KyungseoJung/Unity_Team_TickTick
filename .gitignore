@@ -10,6 +10,21 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+/[Aa]ssets/_TerrainAutoUpgrade
+/[Aa]ssets/Easter_Village
+/[Aa]ssets/Photon Unity Networking
+/[Aa]ssets/PhotonChatApi
+/[Aa]ssets/Plugins
+/[Aa]ssets/Resources
+/[Aa]ssets/Standard Assets
+/[Aa]ssets/Suriyun
+/[Aa]ssets/TestShader
+/Packages
+/ProjectSettings
+/.vs
+/.vsconfig
+/06.Sounds
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
