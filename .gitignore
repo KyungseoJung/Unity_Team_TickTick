@@ -23,7 +23,7 @@
 /ProjectSettings
 /.vs
 /.vsconfig
-/[Aa]ssets/06.Sounds
+/06.Sounds
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
