@@ -238,6 +238,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: DropItemZone
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0.000050494444
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4193603928394702887, guid: 03d3b203932ea714cb99b0943e97f792, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 03d3b203932ea714cb99b0943e97f792, type: 3}
@@ -1074,7 +1090,6 @@ RectTransform:
   m_Children:
   - {fileID: 5340281805337808087}
   - {fileID: 5340281807311187690}
-  - {fileID: 1584593981}
   m_Father: {fileID: 5340281806339583476}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1725,6 +1740,7 @@ RectTransform:
   m_Children:
   - {fileID: 5340281806339583476}
   - {fileID: 5340281805577843347}
+  - {fileID: 1584593981}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
