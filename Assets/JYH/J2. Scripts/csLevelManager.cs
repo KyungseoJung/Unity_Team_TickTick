@@ -319,6 +319,13 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                             {
                                 tmpCheck = false;
                             }
+                            else if(worldBlock[(int)(blockPos.x + x), (int)(blockPos.y * 2f), (int)(blockPos.z + z)] != null)
+                            {
+                                if(worldBlock[(int)(blockPos.x + x), (int)(blockPos.y * 2f), (int)(blockPos.z + z)].type.Equals(Enum_CubeType.WATER))
+                                {
+                                    tmpCheck = false;
+                                }
+                            }
                         }
                     }
 

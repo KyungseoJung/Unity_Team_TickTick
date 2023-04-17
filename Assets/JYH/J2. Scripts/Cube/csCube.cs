@@ -25,7 +25,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
     public void SetCube(Block cube)
     {
-        cubeInfo = cube;        
+        cubeInfo = cube;
     }
 
     public void SetObj()
