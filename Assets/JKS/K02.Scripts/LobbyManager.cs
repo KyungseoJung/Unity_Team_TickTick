@@ -119,13 +119,13 @@ public class LobbyManager : MonoBehaviour   //#1-1
         btnGoNextScene.onClick.AddListener(OnClickGoNextScene);
 
 //#4-1 
-        Debug.Log("//#1 Start 끝");
+        Debug.Log("//#4-2 Start 끝");
     }
 
     IEnumerator LoadJSONDataFct()
     {
-        Debug.Log("//#1 JSON 불러옴");
-        InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
+        Debug.Log("//#4-2 JSON 불러옴");
+        InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드
         yield return new WaitForSeconds(0.5f);
     }
 
@@ -185,8 +185,6 @@ public class LobbyManager : MonoBehaviour   //#1-1
         //playerClothes.color = newColor[num].color;
          playerClothes.color = InfoManager.Info.clothesColor;
 
-        Debug.Log("//#1 옷 종류 : " + num);
-        Debug.Log("//#1 옷 색 : " + playerClothes.color);
     }
 
 
