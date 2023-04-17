@@ -112,7 +112,7 @@ MonoBehaviour:
   dropItems: []
   ObjType: 1
   haveGrowth: 1
-  dropItem: {fileID: 6781142270476616867, guid: 03250898bd5b917468c14d5c7a35a12a,
+  dropItem: {fileID: 1076815607729153978, guid: a27cf5eaf87564e4baeda921c1a772c7,
     type: 3}
   changeMat:
   - {fileID: 2100000, guid: 851227b096ac4b649aad75482d08851d, type: 2}
