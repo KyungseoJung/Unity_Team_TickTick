@@ -38,6 +38,7 @@ public class PlayManager : MonoBehaviour
 		// 씬을 비동기방식으로 추가하자.
 		//AsyncOperation async = Application.LoadLevelAdditiveAsync ("scStage1");
 		AsyncOperation async = SceneManager.LoadSceneAsync("MainGame", LoadSceneMode.Additive);
+		
 
         proScale = imgLoadProgress.rectTransform.localScale;
 
@@ -60,6 +61,8 @@ public class PlayManager : MonoBehaviour
 			//  IEnumerator문을 바로 탈출하려면 yield break문을 사용하면 된다.
 			yield return true;
 		}
+
+		SceneManager.LoadScene(5,LoadSceneMode.Additive);	//#3-3
 
 		//@로딩 다 마친 후(while 루프문 나온 후니까)
         proScale.x = 1f;

@@ -1,17 +1,9 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/06.Sounds.meta
 guid: 4e684b8430b8a7f40b4c1a0e6f70df33
 ========
 guid: a8b3079a7eb4e1247a357a05338fad46
 >>>>>>>> origin/main:Assets/JKS/K02.Scripts/gitTest1.meta
-=======
-<<<<<<< HEAD
-guid: a4528acbdb9917349ba54b50bcfa5d25
-=======
-guid: 1363ae6b029443945aa7c991fa5dcfd5
->>>>>>> origin/master
->>>>>>> origin/main
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

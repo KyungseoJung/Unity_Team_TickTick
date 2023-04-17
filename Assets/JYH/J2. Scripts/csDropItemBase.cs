@@ -46,9 +46,9 @@ public class csDropItemBase : Item
 
         yield return new WaitForSeconds(0.1f);
 
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
 
     }
 }
