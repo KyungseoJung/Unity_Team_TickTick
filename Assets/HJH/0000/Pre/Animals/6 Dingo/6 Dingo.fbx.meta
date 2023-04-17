@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: be3326f4c70eb73469559339ac6ffa1b
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 5630467265925580928
+    second: DogSitting
+  - first:
+      74: -1739674376870183982
+    second: DogWalking
+  - first:
+      74: 1143324591095696405
+    second: DogRunning
+  - first:
+      74: -7711748917569066029
+    second: DogEat
+  - first:
+      74: -2205397534701474985
+    second: DogAttack
+  - first:
+      74: 1109317361374607427
+    second: DogDies
+  - first:
+      74: -8457990315323760700
+    second: DogSwimming
+  - first:
+      74: -2917243684262531085
+    second: DogLikesPets
+  - first:
+      74: -5190522561652557325
+    second: DogSignal
+  - first:
+      74: 7374032005865234063
+    second: DogJumps
+  - first:
+      74: -6913321441866134512
+    second: DogWindUp
+  - first:
+      74: -5238287198977287191
+    second: DogWindUpWalk
+  - first:
+      74: 7089083604751528730
+    second: DogHowl
+  - first:
+      74: -1747843818369708316
+    second: DogSleeping
+  - first:
+      74: -8508726712252539325
+    second: DogStunned
+  - first:
+      74: 2137352163604227822
+    second: DogPanting
+  - first:
+      74: 3897526349926436340
+    second: DogBarks
+  - first:
+      74: -2913176088726339138
+    second: DogTracking
+  - first:
+      74: -678599158735500476
+    second: DogHit
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 50
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 0.5
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
