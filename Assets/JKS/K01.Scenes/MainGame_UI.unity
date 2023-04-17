@@ -651,6 +651,11 @@ PrefabInstance:
       propertyPath: ImgSlotItem
       value: 
       objectReference: {fileID: 5340281805309385194}
+    - target: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+        type: 3}
+      propertyPath: mySlotNumber
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5449688011908828719, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Color.a
@@ -669,7 +674,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -764,7 +769,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829137, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Name
-      value: Slot (1)
+      value: Slot3
       objectReference: {fileID: 0}
     - target: {fileID: 5449688013510934235, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -807,6 +812,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5340281805309385195 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5340281805309385190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9246f15f18c352409624b47091c3ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5340281805337808084
@@ -861,10 +878,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5340281805928080965}
-  - {fileID: 5340281805309385191}
   - {fileID: 5340281806474635037}
   - {fileID: 5340281806065182673}
+  - {fileID: 5340281805928080965}
+  - {fileID: 5340281805309385191}
   m_Father: {fileID: 5340281805793108986}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1207,6 +1224,11 @@ PrefabInstance:
       propertyPath: ImgSlotItem
       value: 
       objectReference: {fileID: 5340281805928080968}
+    - target: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+        type: 3}
+      propertyPath: mySlotNumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5449688011908828719, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Color.a
@@ -1225,7 +1247,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -1320,7 +1342,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829137, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Name
-      value: Slot
+      value: Slot2
       objectReference: {fileID: 0}
     - target: {fileID: 5449688013510934235, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -1363,6 +1385,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5340281805928080969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5340281805928080964}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9246f15f18c352409624b47091c3ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &5340281805986832336
@@ -1465,6 +1499,11 @@ PrefabInstance:
       propertyPath: ImgSlotItem
       value: 
       objectReference: {fileID: 5340281806065182676}
+    - target: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+        type: 3}
+      propertyPath: mySlotNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5449688011908828719, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Color.a
@@ -1483,7 +1522,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -1578,7 +1617,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829137, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Name
-      value: Slot (3)
+      value: Slot1
       objectReference: {fileID: 0}
     - target: {fileID: 5449688013510934235, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -1621,6 +1660,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5340281806065182677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5340281806065182672}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9246f15f18c352409624b47091c3ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5340281806159794742
@@ -1776,6 +1827,11 @@ MonoBehaviour:
   alreadyDesc: 0
   ImgInventory: {fileID: 5340281805793108987}
   gridInventory: {fileID: 5340281805337808084}
+  slots:
+  - {fileID: 5340281806474635041}
+  - {fileID: 5340281806065182677}
+  - {fileID: 5340281805928080969}
+  - {fileID: 5340281805309385195}
   objFruit: {fileID: 1278894859}
   objSton: {fileID: 1097488104}
   objWood: {fileID: 1857568280}
@@ -1948,7 +2004,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449688011908829136, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -2043,7 +2099,7 @@ PrefabInstance:
     - target: {fileID: 5449688011908829137, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
       propertyPath: m_Name
-      value: Slot (2)
+      value: Slot0
       objectReference: {fileID: 0}
     - target: {fileID: 5449688013510934235, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
         type: 3}
@@ -2086,6 +2142,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5340281806474635041 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5449688011908828717, guid: 75b5c477bb8b7dd4287b69c36138f0fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5340281806474635036}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9246f15f18c352409624b47091c3ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5340281807151076882

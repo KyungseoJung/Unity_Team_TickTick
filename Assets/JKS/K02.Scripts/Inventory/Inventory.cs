@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     [SerializeField]
     private GameObject gridInventory;
 
+    [SerializeField]
     private Slot[] slots;                           // 슬롯 배열로 모두 가져오기
     private Slot[] previousSlots;
 
@@ -51,7 +52,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     void Start()
     {
-        slots = gridInventory.GetComponentsInChildren<Slot>();
+        //slots = gridInventory.GetComponentsInChildren<Slot>();
 
         previousSlots = new Slot[slots.Length];    // 크기가 할당되어 있지 않으면, null로 초기화 됨.
 
@@ -158,7 +159,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 {
                     if (itemInventory[i, j].Equals(dropItemType))
                     {
-                        itemInventoryCount[i, j]+= _count;
+                        //itemInventoryCount[i, j]+= _count;
                         slots[(i% x) + j].UpdateSlotCount(_count);   // 개수 업데이트
                         tmpCheck = true;
                         //Debug.Log((i % x) + j);
@@ -183,8 +184,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 {
                     if (itemInventory[i, j].Equals(Enum_DropItemType.NONE))
                     {
-                        itemInventory[i, j] = dropItemType;
-                        itemInventoryCount[i, j]+= _count;
+                        //itemInventory[i, j] = dropItemType;
+                        //itemInventoryCount[i, j]+= _count;
                         slots[(i%x)+j].AddSlot(_item, _count);
 
                         //Debug.Log((i % x) + j);
@@ -338,4 +339,13 @@ public class Inventory : MonoBehaviour, IInventoryBase
     //     }
 
 
+    public void ChangeSlotData(int slotNum, int count=0,Enum_DropItemType type= Enum_DropItemType.NONE)
+    { 
+        Debug.Log("110" + slotNum + slots.Length);
+
+        Debug.Log("111" + slots[slotNum].item.ItemType + slots[slotNum].itemTotalSum);
+        itemInventory[(slotNum / this.x) , (slotNum%this.y)] = type;
+        itemInventoryCount[(slotNum / this.x), (slotNum % this.y)] = count;
+        Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
+    }
 }
