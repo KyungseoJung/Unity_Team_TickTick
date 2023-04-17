@@ -34,21 +34,13 @@ public class csDropItemBase : Item
     IEnumerator DelObj()
     {
         //플레이어가 없어서 임시로 레벨메니저에서 처리함
-
-        Item tmpItem = this;
-
-        if (tmpItem == null)
-        {
-            Debug.Log("nulllllllllllllllll");
-        }
-
-        csLevelManager.Ins.tPlayer.CollectItem(ItemType, this);
+        csLevelManager.Ins.tPlayer.CollectItem(ItemType);
 
         yield return new WaitForSeconds(0.1f);
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
 
-        //Destroy(gameObject);
+        Destroy(gameObject);
 
     }
 }

@@ -62,7 +62,7 @@ public class PlayManager : MonoBehaviour
 			yield return true;
 		}
 
-		SceneManager.LoadScene(5,LoadSceneMode.Additive);	//#3-3
+		SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);	//#3-3
 
 		//@로딩 다 마친 후(while 루프문 나온 후니까)
         proScale.x = 1f;

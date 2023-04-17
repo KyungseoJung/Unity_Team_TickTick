@@ -26,9 +26,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     [Header("테스트 목적 아이템 추가")]
     [Space(10)]
-    public GameObject item1;
-    public GameObject item2;
-    public GameObject item3;
+    public GameObject objFruit;
+    public GameObject objSton;
+    public GameObject objWood;
 
     public Item equipment1;
 
@@ -73,19 +73,19 @@ public class Inventory : MonoBehaviour, IInventoryBase
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("1 클릭");
-            CollectItem(item1.GetComponent<Item>().ItemType, item1.GetComponent<Item>());
+            CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Debug.Log("2 클릭");
-            CollectItem(item2.GetComponent<Item>().ItemType, item2.GetComponent<Item>());
+            CollectItem(objSton.GetComponent<Item>().ItemType, objSton.GetComponent<Item>());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             Debug.Log("3 클릭");
-            CollectItem(item3.GetComponent<Item>().ItemType, item3.GetComponent<Item>());
+            CollectItem(objWood.GetComponent<Item>().ItemType, objWood.GetComponent<Item>());
         }
 
         //if (Input.GetKey(KeyCode.Alpha4))
@@ -108,6 +108,32 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public void CollectItem(Enum_DropItemType dropItemType, Item _item = null, int _count = 1)  // _item이라는 이름의 아이템을 _count만큼 수집
     {
         bool tmpCheck = false;
+
+        if (_item == null)
+        {
+            switch (dropItemType)
+            {
+                case Enum_DropItemType.NONE:
+                    Debug.Log("무슨아이템인지 모르겠음");
+                    return;
+                case Enum_DropItemType.FRUIT:
+                    _item = objFruit.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.STON:
+                    _item = objSton.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.WOOD:
+                    _item = objWood.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.WEAPON_SWORD:
+                    Debug.Log("아이템에 웨폰 연결해줘야함");
+                    break;
+                default:
+                    Debug.Log("무슨아이템인지 모르겠음");
+                    return;
+
+            }
+        }
 
         if (!_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))
         {
