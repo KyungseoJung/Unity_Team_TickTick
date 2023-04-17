@@ -56,11 +56,12 @@ public class LobbyManager : MonoBehaviour   //#1-1
     [Header("다음 씬 넘어가기 임시 버튼")]
     [Space(10)]
     public Button btnGoNextScene;
-
 //버튼 연결 ========================================================
     
     void Start()
     {
+        StartCoroutine(LoadJSONDataFct());
+
         _oMgr = GameObject.Find("OptionManager").GetComponent<OptionManager>();
 //        _oMgr.PlayBackground(stage);
 
@@ -116,9 +117,17 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
 // 다음씬 넘어가기 임시 버튼 =========================
         btnGoNextScene.onClick.AddListener(OnClickGoNextScene);
+
+//#4-1 
+        Debug.Log("//#1 Start 끝");
     }
 
-
+    IEnumerator LoadJSONDataFct()
+    {
+        Debug.Log("//#1 JSON 불러옴");
+        InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
+        yield return new WaitForSeconds(0.5f);
+    }
 
 // '뒤로 가기' 버튼 ======================
     void OnClickGoBack()
@@ -169,12 +178,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         goBackBtn.gameObject.SetActive(true);
 
-        InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
+    //    InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
         int num = InfoManager.Info.clothesNum;
         playerClothes.sprite = newClothes[num].sprite;
-        playerClothes.color = newColor[num].color;
 
+        //playerClothes.color = newColor[num].color;
+         playerClothes.color = InfoManager.Info.clothesColor;
+
+        Debug.Log("//#1 옷 종류 : " + num);
+        Debug.Log("//#1 옷 색 : " + playerClothes.color);
     }
+
+
     void OnClickMultiGame()
     {
         lobby.SetActive(false);
