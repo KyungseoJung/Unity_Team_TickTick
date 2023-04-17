@@ -10,6 +10,8 @@ using TeamInterface;
 public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나의 관리
                             /* ,IPointerClickHandler*/ , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    [SerializeField]
+    private int mySlotNumber=0;
 
     private GameObject inventoryObject;
     public Inventory inventory;         //#3-1 // alreadyAsc, alreadyDesc 체크 목적 
@@ -23,11 +25,11 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     [SerializeField]
     private GameObject ImgCount;        //아이템 개수 이미지
 
+
     void Awake()
     {
         inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
         inventory = inventoryObject.GetComponent<Inventory>();
-
     }
 
     // 아이템 이미지 투명도 조절 목적
@@ -46,7 +48,9 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         itemTotalSum = _count; /*_count;*/
         ImgSlotItem.sprite = item.itemImage;        // 슬롯에 각 아이템 고유의 이미지 띄우기
 
-        if(!item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))    //무기가 아니라면 개수와 함께 슬롯에 추가
+        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);
+
+        if (!item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))    //무기가 아니라면 개수와 함께 슬롯에 추가
         {
             // ImgCount.SetActive(true);
             txtCount.text = itemTotalSum.ToString();
@@ -66,16 +70,21 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         itemTotalSum += _count;
         txtCount.text = itemTotalSum.ToString();    //바뀐 개수로 텍스트 업데이트
 
-        if(itemTotalSum <=0)
+        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);
+
+        if (itemTotalSum <=0)
             RemoveSlot();
     }
 
     // 해당 슬롯 하나 삭제
     private void RemoveSlot()
     {
+        inventory.ChangeSlotData(mySlotNumber);
+
         item = null;
         itemTotalSum = 0;
-        ImgSlotItem.sprite = null;
+        ImgSlotItem.sprite = null;        
+
         txtCount.text = itemTotalSum.ToString();    //#3-1 
         SetAlpha(0);    // 투명하게 보이도록
     }
