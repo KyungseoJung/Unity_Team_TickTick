@@ -672,13 +672,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2872819829279640722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 054487272f10b6b4e8fca067725b7b03, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
   stamina: 0
-  moveSpeed: 0.5
-  rotateSpeed: 0.5
+  moveSpeed: 1
+  rotateSpeed: 1
   directionChangeInterval: 5
 --- !u!136 &2872819829279640723
 CapsuleCollider:
