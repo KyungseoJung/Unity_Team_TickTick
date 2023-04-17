@@ -13,7 +13,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '로비' 화면 ======================
     [Header("로비 화면")]
     [Space(10)]                         //변수들의 간격을 위한 어트리뷰트 선언(보기 좋다)
-    public Button[] lobbyBtns;       // '로비' 화면 버튼 배열
+    public Button[] lobbyBtns;       // '로비' 화면 버튼 배열   //[0]부터 차례대로 BtnLoadGame, BtnNewGame, BtnMultiPlay, BtnGameExit
     public GameObject lobby;            // '로비' 화면
     public GameObject loadGame;         // '게임 불러오기' 화면
     public GameObject newGame;          // '새로운 게임' 화면
@@ -29,13 +29,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
     [Header("새로운 게임 화면")]
     [Space(10)]
     public Button[] newGameBtns;     // '새로운 게임' 화면 내 버튼 배열
-    public Button[] chooseClothesBtns;  // '옷' 선택 버튼
-    public Button[] chooseColorsBtns;   // '색' 선택 버튼
+    public Button[] chooseClothesBtns;  // '옷' 선택 버튼   //[0]부터 차례대로 : btnClothes0, btnClothes1, btnClothes2
+    public Button[] chooseColorsBtns;   // '색' 선택 버튼   //[0]부터 차례대로 : btnColor0, btnColor1, btnColor2
     public GameObject[] chooseScreen;       //[0] : 옷 선택하는 panel, [1] : 색 선택하는 panel, [2] : 플레이어 이름, 섬 이름 작성하는 panel
 
-    public Image playerClothes;
+    public Image playerClothes;     // ImgPlayerClothes 오브젝트
     public Image[] newClothes;
     public Image[] newColor;
+
+    public InputField inputName;        //#4-1 
+    public InputField inputIslandName;  //#4-1 
+    private int clothesNum;         //#4-1 싱글톤, JSON 데이터 저장
+    private Color clothesColor;     //#4-1 싱글톤, JSON 데이터 저장   
 
 // '멀티 플레이' 화면 ======================
     [Header("멀티 플레이 화면")]
@@ -163,6 +168,12 @@ public class LobbyManager : MonoBehaviour   //#1-1
         newGame.SetActive(true);
 
         goBackBtn.gameObject.SetActive(true);
+
+        InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
+        int num = InfoManager.Info.clothesNum;
+        playerClothes.sprite = newClothes[num].sprite;
+        playerClothes.color = newColor[num].color;
+
     }
     void OnClickMultiGame()
     {
@@ -196,6 +207,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         playerClothes.sprite = newClothes[randomClothes].sprite;
         playerClothes.color = newColor[randomColor].color;
+
+        clothesNum = randomClothes;         //#4-1 
     }
     void OnClickOpenClothes()
     {
@@ -216,26 +229,41 @@ public class LobbyManager : MonoBehaviour   //#1-1
         chooseScreen[1].SetActive(false);
         chooseScreen[2].SetActive(true);    // 이름 작성 화면
     }
-    void OnClickCreateRole()
+    void OnClickCreateRole()    //#4-1
     {
         //역할 생성 
-        //JSON 데이터 저장
+        //JSON 데이터 저장 - 플레이어 이름, 섬 이름, 옷 종류, 옷 색
+        InfoManager.Info.playerName = inputName.text;
+        InfoManager.Info.islandName = inputIslandName.text;
+        InfoManager.Info.clothesNum = clothesNum;           // 옷 종류는 옷 누를 때마다 들어가게 해서
+
+        clothesColor = playerClothes.color;                 //옷 색깔은 한번에 저장 가능하겠다~
+        InfoManager.Info.clothesColor = clothesColor;
+
+        InfoManager.Info.SaveJSONData();        //작성한 데이터를 JSON에 저장하기
+
     }
     void OnClickClothes0()
     {
         // 옷0로 변경
         playerClothes.sprite = newClothes[0].sprite;
         //imageToChange.SetNativeSize(); // 이미지 크기를 원래 크기로 설정
+
+        clothesNum = 0;     //#4-1
     }
     void OnClickClothes1()
     {   
         // 옷1 로 변경
         playerClothes.sprite = newClothes[1].sprite;
+
+        clothesNum = 1;     //#4-1
     }
     void OnClickClothes2()
     {
         // 옷2 로 변경
         playerClothes.sprite = newClothes[2].sprite;
+
+        clothesNum = 2;     //#4-1
     }
 
     void OnClickColors0()
