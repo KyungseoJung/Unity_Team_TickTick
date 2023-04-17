@@ -7807,6 +7807,8 @@ MonoBehaviour:
   - {fileID: 131601350}
   - {fileID: 850366043}
   - {fileID: 978547542}
+  inputName: {fileID: 541203625}
+  inputIslandName: {fileID: 1943361155}
   multiGameBtns:
   - {fileID: 4299707516661777331}
   - {fileID: 727534619}
