@@ -19,6 +19,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
     [SerializeField]
     private GameObject ImgInventory;
     [SerializeField]
+    private GameObject SortingButtonsObj;   //#4-3 정렬 버튼 모음 오브젝트 (Sorting 오브젝트)
+    [SerializeField]
+    private GameObject DropItemZone;   //#4-3 아이템 드랍 존
+    [SerializeField]
     private GameObject gridInventory;
 
     [SerializeField]
@@ -66,6 +70,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
         btnInventory[2].SetActive(false);
 
         ImgInventory.SetActive(false);  //인벤토리는 비활성화 상태로 시작
+        SortingButtonsObj.SetActive(false); //#4-3 비활성화 상태로 시작
+        DropItemZone.SetActive(false);  //#4-3
     }
 
     void Update()
@@ -101,6 +107,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
             inventoryOpen = !inventoryOpen;
 
             ImgInventory.SetActive(inventoryOpen);
+            SortingButtonsObj.SetActive(inventoryOpen); //#4-3
+            DropItemZone.SetActive(inventoryOpen);  //#4-3
         }
 
 
