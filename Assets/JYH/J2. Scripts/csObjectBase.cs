@@ -28,7 +28,7 @@ namespace JinscObjectBase
         GameObject[] dropItems;
         public GameObject[] DropItems { get { return dropItems; } set { dropItems = value; } }
 
-        bool isDie = false;
+        protected bool isDie = false;
 
         public Enum_ObjectType ObjType;
 
@@ -69,9 +69,10 @@ namespace JinscObjectBase
                         Shake();
                     }
                     break;
-                case Enum_ObjectType.CARROT:
+                case Enum_ObjectType.FIELD:
                     if (useItemType == Enum_PlayerUseItemType.SHOVEL)
                     {
+                        Debug.Log(2222222);
                         hp -= dmg;
                     }
                     else

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;     //#2-2
 using TeamInterface;
 
 public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나의 관리
-                            /* ,IPointerClickHandler*/ , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+                             ,IPointerClickHandler , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [SerializeField]
     private int mySlotNumber=0;
@@ -26,11 +26,14 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     private GameObject ImgCount;        //아이템 개수 이미지
 
 
+
     void Awake()
     {
         inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
         inventory = inventoryObject.GetComponent<Inventory>();
+        
     }
+
 
     // 아이템 이미지 투명도 조절 목적
     private void SetAlpha(float _alpha)
@@ -77,7 +80,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     }
 
     // 해당 슬롯 하나 삭제
-    private void RemoveSlot()
+    public void RemoveSlot()
     {
         inventory.ChangeSlotData(mySlotNumber);
 
@@ -168,12 +171,43 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         RemoveSlot();       // 드래그 시작했던 아이템의 슬롯 위치를 지워
 
     }
-//#5-1 마우스 우클릭 - 파기하기 창 생성
-    private void OnMouseOver()
+//#5-1 마우스 우클릭 - 파기하기 창 생성 ========================
+
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if(Input.GetMouseButtonDown(1))
+        if((item != null) && (eventData.button == PointerEventData.InputButton.Right))  // 아이템이 있는 슬롯에 && 우측 마우스 클릭했을 때
         {
+            Vector2 finalPos = eventData.position;
+
+            //0,1 열은 우측에 상 생성   //2,3 열은 좌측에 창 생성
+            switch(mySlotNumber % 4)  //나머지가 0, 1이면 0열, 1열 //나머지가 2,3이면 2열, 3열
+            {
+                case 0 : 
+                case 1 :
+                    finalPos.x -= 35f;  //자연스럽게 보이기 위한 위치 조정
+                    finalPos.y -= 30f;
+                    break;
+                case 2 :
+                case 3 :
+                    finalPos.x += 35f;  //자연스럽게 보이기 위한 위치 조정
+                    finalPos.y -= 30f;
+                    break;
+            }
             
+
+            DestructionOpt.instance.transform.position = finalPos;    // '파기하기' 창이 마우스 위치한 곳에 나타나도록
+            DestructionOpt.instance.destructionOptSlot = this;
+            DestructionOpt.instance.OpenDestrucionOpt(true);
+        }
+        else    // ??? 
+        {
+            DestructionOpt.instance.OpenDestrucionOpt(false);
         }
     }
+
+    // private void DestroyItemAtAll()  //아이템 아예 파기
+    // {
+    //     DestructionOpt.instance.OpenDestrucionOpt(false);           // 파기하기 창 닫기
+    //     DestructionOpt.instance.destructionOptSlot.RemoveSlot();    // 아이템 아예 파기
+    // }
 }

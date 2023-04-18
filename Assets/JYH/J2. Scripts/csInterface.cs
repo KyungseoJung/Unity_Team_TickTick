@@ -22,7 +22,7 @@ namespace TeamInterface
         }
     }
 
-    public enum Enum_ObjectType { NONE=0, GRASS, TREE, ROCK, FLOWER, CARROT}
+    public enum Enum_ObjectType { NONE=0, GRASS, TREE, ROCK, FLOWER, FIELD}
     public enum Enum_PreViewType { NONE=0, FIRE, TENT};
     public enum Enum_CubeType { DARKSOIL= 0, STON, GRASS, SOIL, SEND, WATER }
     public enum Enum_CubeState { NONE = 0 , GRASS1, GRASS2, TREE1, TREE2, ROCK1, FIELD };

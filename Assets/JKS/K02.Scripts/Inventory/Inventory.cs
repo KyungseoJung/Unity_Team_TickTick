@@ -356,4 +356,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
         itemInventoryCount[(slotNum / this.x), (slotNum % this.y)] = count;
         Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
     }
+
+    public void DestroyItemAtAll()  //#5-1 아이템 파기하기
+    {
+        DestructionOpt.instance.DestroyItemAtAll();
+    }
 }
