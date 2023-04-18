@@ -531,7 +531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5779527966489975829
 Transform:
   m_ObjectHideFlags: 0
@@ -540,7 +540,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4188712801748682538}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0.6445, z: -0.2768132}
+  m_LocalPosition: {x: 0, y: 0.707, z: -0.277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1393121051201356067}
@@ -1023,6 +1023,8 @@ GameObject:
   - component: {fileID: 7112043620007332332}
   - component: {fileID: 7112043620007332322}
   - component: {fileID: 7112043620007332321}
+  - component: {fileID: 6296320}
+  - component: {fileID: 6296319}
   m_Layer: 0
   m_Name: 4 Magpie
   m_TagString: Enemy
@@ -1037,7 +1039,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7958533633688491886}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1094,9 +1096,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   stamina: 0
+  maxHp: 5
+  attackRange: 5.45
+  energy: 100
+  damagePerHit: 10
   moveSpeed: 1
   rotateSpeed: 1
   directionChangeInterval: 5
+--- !u!54 &6296320
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958533633688491886}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6296319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958533633688491886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  stamina: 0
+  maxHp: 5
+  attackRange: 15.87
+  energy: 100
+  damagePerHit: 10
 --- !u!1 &8309494769416992854
 GameObject:
   m_ObjectHideFlags: 0
