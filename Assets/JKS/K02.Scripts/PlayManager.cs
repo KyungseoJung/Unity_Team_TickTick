@@ -62,10 +62,12 @@ public class PlayManager : MonoBehaviour
 			yield return true;
 		}
 
-		SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);	//#3-3
+		SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+		SceneManager.LoadScene("addMain", LoadSceneMode.Additive);
+		SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);
 
 		//@로딩 다 마친 후(while 루프문 나온 후니까)
-        proScale.x = 1f;
+		proScale.x = 1f;
         imgLoadProgress.rectTransform.localScale = proScale;
 
 		dogPos.x = -260 + 520;
