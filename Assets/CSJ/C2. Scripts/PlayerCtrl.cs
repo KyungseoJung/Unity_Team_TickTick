@@ -43,6 +43,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     // 필요한 컴포넌트
     [SerializeField]
     private Camera theCamera;
+    public Transform camPos;
     private Rigidbody myRigid;
     private CapsuleCollider capsuleCollider;
 
@@ -64,7 +65,11 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     float maxHp;
 
 
-
+    private void Awake()
+    {
+        theCamera = Camera.main;
+        
+    }
 
     void Start()
     {
@@ -79,6 +84,10 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         applyCrouchPosY = originPosY;
 
         anim = GetComponent<Animator>();
+
+        theCamera.transform.SetParent(camPos);
+        theCamera.transform.position = camPos.transform.position;
+        theCamera.transform.localRotation = camPos.transform.localRotation;
     }
 
     void Update()
