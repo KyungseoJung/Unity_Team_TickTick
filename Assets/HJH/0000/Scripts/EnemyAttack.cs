@@ -1,9 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TeamInterface;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour, IObjectStatus
 {
+
+    [SerializeField]
+    float hp = 0;
+    public float Hp { get { return hp; } set { hp = value; } }
+
+    [SerializeField]
+     float stamina = 0;
+    public float Stamina { get { return stamina; } set { stamina = value; } }
+    public float maxHp = 5.0f;
     public float attackRange = 2f;      // 일정 범위
     public float energy = 100f;         // 에너지 초기값
     public float damagePerHit = 10f;    // 공격 데미지
@@ -47,4 +57,19 @@ public class EnemyAttack : MonoBehaviour
             animator.SetTrigger("TakeDamage");
         }
     }
+     public float HpFill()
+        {
+            return Hp / maxHp;
+        }
+
+        public void SetHpDamaged(float dmg,Enum_PlayerUseItemType useItemType){
+            switch(useItemType){
+                case Enum_PlayerUseItemType.AXE:
+                hp-=dmg;
+                break;
+                default:
+                hp-=1;
+                break;
+            }
+        }
 }
