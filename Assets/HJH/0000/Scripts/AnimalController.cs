@@ -1,18 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using TeamInterface;
+using TeamInterface;
 using UnityEngine.AI;
 
-public class AnimalController : MonoBehaviour//, IObjectStatus
+public class AnimalController : EnemyAttack
 {
-     [SerializeField]
-    float hp = 0;
-    public float Hp { get { return hp; } set { hp = value; } }
-
-    [SerializeField]
-     float stamina = 0;
-    public float Stamina { get { return stamina; } set { stamina = value; } }
+   
+     
     public float moveSpeed = 1f; // 동물의 이동 속도
     public float rotateSpeed = 1f; // 동물의 회전 속도
     public float directionChangeInterval = 5f; // 방향 변경 주기 (초)
@@ -58,4 +53,6 @@ private Vector3 GetRandomDirection()
 
     return randomDirection;
 }
+
+      
 }
