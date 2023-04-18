@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3398570}
   - component: {fileID: 2389944}
   - component: {fileID: 568600289653800732}
+  - component: {fileID: -5261815738971781106}
   m_Layer: 8
   m_Name: Field_05
   m_TagString: Grass
@@ -105,6 +106,19 @@ MonoBehaviour:
   childObj: {fileID: 3836965566059294311}
   fakeChildObj: {fileID: 7492866734103245315}
   growthLevel: 0
+--- !u!65 &-5261815738971781106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9582467, y: 0.06755268, z: 2.7362728}
+  m_Center: {x: 0, y: 0.033365, z: 0.0056930184}
 --- !u!1 &3836965566059294311
 GameObject:
   m_ObjectHideFlags: 0

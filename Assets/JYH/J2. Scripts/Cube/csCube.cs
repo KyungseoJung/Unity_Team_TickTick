@@ -144,6 +144,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
             if (tmp!= null)
             {
+                //Debug.Log("dmg2");
                 tmp.SetHpDamaged(dmg, useItemType);
             }           
         }

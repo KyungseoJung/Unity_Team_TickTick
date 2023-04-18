@@ -680,12 +680,30 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
 
         if (Physics.Raycast(ray, out hit, 1000f))
         {
+            bool tmpCheck=false;
+
             if (hit.transform.tag != "Block")
             {
-                return;
+                if (hit.transform.root.tag != "Block")
+                {                    
+                    return;
+                }
+                else
+                {
+                    tmpCheck = true;
+                }
             }
 
-            Vector3 blockPos = hit.transform.position;
+            Vector3 blockPos;
+
+            if (tmpCheck)
+            {
+                blockPos = hit.transform.root.position;
+            }
+            else
+            {
+                blockPos = hit.transform.position;
+            }     
 
             blockPos.y *= 2f;
 
@@ -694,13 +712,20 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                 return;
             }
 
-            if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type.Equals(Enum_CubeType.WATER))//땅위에 뭐 있으면 탈출
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type.Equals(Enum_CubeType.WATER))//물이면 탈출
             {
                 return;
             }
 
             if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].haveChild)//땅위에 뭐 있으면 탈출
             {
+                //Debug.Log("hit1");
+                if (oldBlock != null)//흔들기
+                {
+                    //Debug.Log("hit2");
+                    oldBlock.StartAction(1, UseItemType);
+                    // Debug.Log("탄다2");
+                }
                 return;
             }
 
@@ -765,22 +790,22 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
         //BlockObj.transform.SetParent(map);
         BlockObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
 
-        if(worldBlock[(int)blockPos.x - 1, (int)blockPos.y, (int)blockPos.z] == null)
+        if (blockPos.x - 1 > 0 && worldBlock[(int)blockPos.x - 1, (int)blockPos.y, (int)blockPos.z] == null)
         {
             CreateWaterAuto(new Vector3((int)blockPos.x - 1, (int)blockPos.y, (int)blockPos.z));
         }
 
-        if (worldBlock[(int)blockPos.x + 1, (int)blockPos.y, (int)blockPos.z] == null)
+        if (blockPos.x + 1 < widthX && worldBlock[(int)blockPos.x + 1, (int)blockPos.y, (int)blockPos.z] == null)
         {
             CreateWaterAuto(new Vector3((int)blockPos.x + 1, (int)blockPos.y, (int)blockPos.z));
         }
 
-        if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z-1] == null)
+        if (blockPos.z - 1 > 0 && worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z-1] == null )
         {
             CreateWaterAuto(new Vector3((int)blockPos.x , (int)blockPos.y, (int)blockPos.z-1));
         }
 
-        if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z+1] == null)
+        if (blockPos.z + 1 < widthZ && worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z+1] == null )
         {
             CreateWaterAuto(new Vector3((int)blockPos.x , (int)blockPos.y, (int)blockPos.z+1));
         }
@@ -805,22 +830,22 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
     {
         //worldBlock[(int)pos.x, (int)pos.y +(i-y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
 
-        if (worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
+        if (pos.x - 1 > 0 && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
             //Debug.Log(1);
             return true;
         }
-        else if (worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
+        else if (pos.x + 1 < widthX && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
             //Debug.Log(2);
             return true;
         }
-        else if (worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type.Equals(Enum_CubeType.WATER))
+        else if (pos.z - 1 > 0 && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type.Equals(Enum_CubeType.WATER))
         {
             //Debug.Log(3);
             return true;
         }
-        else if (worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type.Equals(Enum_CubeType.WATER))
+        else if (pos.z + 1 < widthZ && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type.Equals(Enum_CubeType.WATER))
         {
             //Debug.Log(4);
             return true;
@@ -883,11 +908,11 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
 
         string date = DateTime.Now.ToString("yy.MM.dd ") + DateTime.Now.DayOfWeek.ToString().ToUpper().Substring(0, 3);
         //or date = DateTime.Now.ToString("yyyy. MM. dd. ddd");
-        string time = DateTime.Now.ToString("HH:mm:ss");
+        string time = DateTime.Now.ToString("HH:mm");
 
         if (oldTime == null)
         {
-            oldTime = DateTime.Now.ToString("HH:mm:ss");
+            oldTime = DateTime.Now.ToString("HH:mm");
 
         }
 
