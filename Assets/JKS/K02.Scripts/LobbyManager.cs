@@ -125,7 +125,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     IEnumerator LoadJSONDataFct()
     {
         Debug.Log("//#4-2 JSON 불러옴");
-        InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드
+        InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
         yield return new WaitForSeconds(0.5f);
     }
 
@@ -178,12 +178,11 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         goBackBtn.gameObject.SetActive(true);
 
-    //    InfoManager.Info.LoadJSONData();    //#4-1 JSON 테스트용
+        //#4-1 JSON 테스트용    //#4-4 나중에 주석 풀 것
         int num = InfoManager.Info.clothesNum;
         playerClothes.sprite = newClothes[num].sprite;
 
-        //playerClothes.color = newColor[num].color;
-         playerClothes.color = InfoManager.Info.clothesColor;
+        playerClothes.color = InfoManager.Info.clothesColor;
 
     }
 
@@ -244,6 +243,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     }
     void OnClickCreateRole()    //#4-1
     {
+        //#4-4 나중에 주석 풀 것
         //역할 생성 
         //JSON 데이터 저장 - 플레이어 이름, 섬 이름, 옷 종류, 옷 색
         InfoManager.Info.playerName = inputName.text;

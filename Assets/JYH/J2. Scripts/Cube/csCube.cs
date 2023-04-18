@@ -44,6 +44,26 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
             StartCoroutine(InsObj((Enum_CubeState)Random.Range(0, 100)));
         }
     }
+    public void SetObj(Enum_CubeState state)
+    {
+        StartCoroutine(CreateObj(state));
+    }
+
+    IEnumerator CreateObj(Enum_CubeState state)
+    {
+        if (childObj == null)
+        {
+            switch (state)
+            {
+                case Enum_CubeState.FIELD:
+                    childObj = Instantiate(csLevelManager.Ins.field, new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
+                    childObj.transform.SetParent(transform);
+                    cubeInfo.haveChild = true;
+                    break;
+            }
+        }
+            yield return null;
+    }
 
     IEnumerator InsObj(Enum_CubeState cs)
     {

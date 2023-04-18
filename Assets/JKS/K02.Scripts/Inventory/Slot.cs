@@ -168,4 +168,12 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         RemoveSlot();       // 드래그 시작했던 아이템의 슬롯 위치를 지워
 
     }
+//#5-1 마우스 우클릭 - 파기하기 창 생성
+    private void OnMouseOver()
+    {
+        if(Input.GetMouseButtonDown(1))
+        {
+            
+        }
+    }
 }
