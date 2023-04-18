@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TeamInterface;
-
+using JinscObjectBase;
 public class csTree : csObjectBase, IGrowth
 {
     [SerializeField]
@@ -49,7 +49,7 @@ public class csTree : csObjectBase, IGrowth
         base.Update();
     }
 
-    public void GrowthDay()//시간에 따른 흐름마다 일어나는 일
+    public override void GrowthDay()//시간에 따른 흐름마다 일어나는 일
     {
         if (growthLevel.Equals(Enum_ObjectGrowthLevel.ZERO))
         {
@@ -58,14 +58,14 @@ public class csTree : csObjectBase, IGrowth
         }
         else if (growthLevel.Equals(Enum_ObjectGrowthLevel.ONE))
         {
-            if (haveGrowth)
+            if (haveGrowth && Random.Range(0,5)==0)
             {
                 StartCoroutine(DropItem());
             }
             growthLevel = Enum_ObjectGrowthLevel.ZERO;
         }
     }
-    public void GrowthRain()//비올때 일어나는 일
+    public override void GrowthRain()//비올때 일어나는 일
     {
 
     }

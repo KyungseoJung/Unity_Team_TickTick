@@ -9,8 +9,6 @@ using TeamInterface;
 
 using System;
 
-
-
 public class csLevelManager : csGenericSingleton<csLevelManager>
 {
     [Header("블록")]
@@ -29,6 +27,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
 
     [Header("필드 오브젝트")]
     public GameObject[] fieldObj;
+    public GameObject field;
 
     IHighlighter oldBlock;
 
@@ -533,7 +532,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
             case Enum_PlayerUseItemType.HAND://맨손
             case Enum_PlayerUseItemType.AXE://도끼
             case Enum_PlayerUseItemType.PICKAXE://곡괭이
-            case Enum_PlayerUseItemType.HOE://괭이
+            
                 //Debug.Log("탄다");
                 if (oldBlock != null)//흔들기
                 {
@@ -541,6 +540,9 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                     oldBlock.StartAction(1, UseItemType);
                    // Debug.Log("탄다2");
                 }
+                break;
+            case Enum_PlayerUseItemType.HOE://괭이                
+                ActionHOE();
                 break;
             case Enum_PlayerUseItemType.SHOVEL://삽
                 ActionSHOVEL();
@@ -560,6 +562,56 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
         yield return new WaitForSeconds(0.1f);
 
         actionNow = true;
+    }
+
+    void ActionHOE()
+    {
+        RaycastHit hit;
+
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        if (Physics.Raycast(ray, out hit, 2.5f))
+        {
+            if (hit.transform.tag != "Block")
+            {
+                return;
+            }
+
+            Vector3 blockPos = hit.transform.position;
+
+            blockPos.y *= 2f;
+
+            if (blockPos.y <= 1)
+            {
+                return;
+            }
+
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type.Equals(Enum_CubeType.WATER))//땅위에 뭐 있으면 탈출
+            {
+                return;
+            }
+
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].haveChild)//땅위에 뭐 있으면 탈출
+            {
+                if (oldBlock != null)//흔들기
+                {
+                    //Debug.Log("hit");
+                    oldBlock.StartAction(1, UseItemType);
+                    // Debug.Log("탄다2");
+                }
+                return;
+            }
+
+            if (!worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top)//제일위에있는거 아니면 탈출
+            {
+                return;
+            }
+
+            //Debug.Log(123123123);
+
+            //밭 설치
+            worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj.GetComponent<csCube>().SetObj(Enum_CubeState.FIELD);
+        }
     }
 
     void ActionAddBlock(Enum_CubeType type)
@@ -831,11 +883,11 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
 
         string date = DateTime.Now.ToString("yy.MM.dd ") + DateTime.Now.DayOfWeek.ToString().ToUpper().Substring(0, 3);
         //or date = DateTime.Now.ToString("yyyy. MM. dd. ddd");
-        string time = DateTime.Now.ToString("HH:mm");
+        string time = DateTime.Now.ToString("HH:mm:ss");
 
         if (oldTime == null)
         {
-            oldTime = DateTime.Now.ToString("HH:mm");
+            oldTime = DateTime.Now.ToString("HH:mm:ss");
 
         }
 
@@ -873,7 +925,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
 
         foreach (GameObject grass in allGrass)
         {
-            //grass.SendMessage("GrowthDay");
+            grass.SendMessage("GrowthDay");
         }
 
         yield return null;
