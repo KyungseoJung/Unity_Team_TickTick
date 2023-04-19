@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3893669396014437963}
   m_Layer: 0
   m_Name: 3 Crocodile
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: 3 Crocodile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851120999681772496, guid: 57deac5745087f044aae4ef79f5f99f3,
+        type: 3}
+      propertyPath: directionChangeInterval
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57deac5745087f044aae4ef79f5f99f3, type: 3}

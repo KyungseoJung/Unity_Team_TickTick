@@ -47,14 +47,14 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus
         if (energy <= 0)
         {
             // 에너지가 없으면 사망 애니메이션 실행
-            animator.SetTrigger("Death");
+            animator.SetTrigger("Die");
             // 이후, 다른 액션을 막기 위해 스크립트를 비활성화
             enabled = false;
         }
         else
         {
             // 피격 애니메이션 실행
-            animator.SetTrigger("TakeDamage");
+            animator.SetTrigger("Stunned");
         }
     }
      public float HpFill()
