@@ -64,6 +64,17 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     float maxHp;
 
+    private HPBar hpBar;
+
+    float damage;
+
+    [SerializeField]
+    private float maxHP;
+    private float currentHP;
+
+    [SerializeField]
+    private HPBar hPBar;
+
 
     private void Awake()
     {
@@ -88,6 +99,12 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         theCamera.transform.SetParent(camPos);
         theCamera.transform.position = camPos.transform.position;
         theCamera.transform.localRotation = camPos.transform.localRotation;
+
+        currentHP = maxHP;
+        hpBar.UpdateHPBar(currentHP, maxHP);
+
+
+        hpBar = GetComponent<HPBar>();
     }
 
     void Update()
@@ -268,16 +285,33 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     }
 
-    public void SetHpDamaged(float damageAmount, Enum_PlayerUseItemType itemType)
+    public void SetHpDamaged(float damage, Enum_PlayerUseItemType Type)
     {
         //구현
+
+        currentHP -= damage;
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
+
+        // HPBar 업데이트
+        hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
 
     public float HpFill()
     {
+
+        // HP 채우기
+        //hp = maxHp;
+
+        // HPBar 업데이트
+        hpBar.UpdateHPBar(hp, maxHp);
+
         return currentHp / maxHp;
     }
+
 
 
 
