@@ -6,7 +6,12 @@ using TeamInterface;
 
 public class csPreViewBase : MonoBehaviour, IPreViewBase
 {
+    [SerializeField]
     bool canBuild;
+    [SerializeField]
+    bool groundCheck;
+
+
     public bool CanBuild { get { return canBuild; } set { canBuild = value; } }
     bool showPreViewCheck;
     public bool ShowPreViewCheck { get { return showPreViewCheck; } set { showPreViewCheck = value; } }
@@ -15,6 +20,9 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     int sizeX, sizeZ;
     public int SizeX { get { return sizeX; } set { sizeX = value; } }
     public int SizeZ { get { return sizeZ; } set { sizeZ = value; } }
+
+    [SerializeField]
+    float sizeY;
 
     [SerializeField]
     Enum_PreViewType preViewType;
@@ -39,8 +47,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
 
 
     LayerMask layer;
-    bool groundCheck;
-
+    float yVal = 0;
     public void HiedPreView()
     {
         showPreViewCheck = false;
@@ -51,14 +58,14 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     {
         this.groundCheck = groundCheck;
 
-        float yVal=0;
+        
         switch (preViewType)
         {
             case Enum_PreViewType.FIRE:
                 yVal = 0.7f;
                 break;
             case Enum_PreViewType.TENT:
-                yVal = 2.7f;
+                yVal =0.3f;
                 break;
         }
         targetPos = new Vector3(pos.x, pos.y + yVal, pos.z);
@@ -72,10 +79,12 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     }
     public virtual void Update()
     {
-        Collider[] colHit = Physics.OverlapBox(this.transform.position, this.transform.localScale / 2, Quaternion.identity, layer);
+
+        Collider[] colHit = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y+(sizeY/2), transform.position.z), this.transform.localScale / 2, Quaternion.identity, layer);
 
         if (colHit.Length != 0 || !groundCheck)
         {
+            Debug.Log(CanBuild+"캔빌드"+ colHit.Length+ groundCheck);
             CanBuild = false;
         }
         else
@@ -102,9 +111,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     {
         if (canBuild)
         {
-            Instantiate(buildObj, transform).transform.SetParent(null);
-
-            
+            Instantiate(buildObj, transform).transform.SetParent(null);      
            
         }
 
