@@ -111,6 +111,9 @@ MonoBehaviour:
   maxHP: 1
   dropItems: []
   ObjType: 1
+  hpBarObj: {fileID: 7218777781573641739, guid: 2d26aa13a91049d4483ba2c7054a932a,
+    type: 3}
+  haBarAddY: 0.2
   haveGrowth: 1
   dropItem: {fileID: 1076815607729153978, guid: a27cf5eaf87564e4baeda921c1a772c7,
     type: 3}

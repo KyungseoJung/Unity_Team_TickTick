@@ -112,6 +112,9 @@ MonoBehaviour:
   dropItems:
   - {fileID: 7843345161292197713, guid: ea11c21e3aa811c42a2411a4f0c42fa9, type: 3}
   ObjType: 2
+  hpBarObj: {fileID: 7218777781573641739, guid: 2d26aa13a91049d4483ba2c7054a932a,
+    type: 3}
+  haBarAddY: 1.5
   haveGrowth: 1
   dropItem: {fileID: 1076815607729153978, guid: a27cf5eaf87564e4baeda921c1a772c7,
     type: 3}

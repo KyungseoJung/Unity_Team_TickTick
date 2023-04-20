@@ -32,6 +32,24 @@ namespace JinscObjectBase
 
         public Enum_ObjectType ObjType;
 
+        public GameObject hpBarObj;
+        public float haBarAddY;
+        HPBar hpBar;
+        bool isDamaged = false;
+
+        IEnumerator Start()
+        {
+            GameObject tmpObj = Instantiate(hpBarObj);
+            tmpObj.transform.SetParent(this.transform);
+            tmpObj.SetActive(false);
+            tmpObj.transform.position = new Vector3(tmpObj.transform.position.x, tmpObj.transform.position.y + haBarAddY, tmpObj.transform.position.z);
+            hpBar = tmpObj.GetComponent<HPBar>();
+
+            hpBar.SetMaxHealth(maxHP);
+
+            yield return null;
+        }
+
         public void SetHpDamaged(float dmg, Enum_PlayerUseItemType useItemType)
         {
             switch (ObjType)
@@ -46,6 +64,7 @@ namespace JinscObjectBase
                     else
                     {
                         hp -= dmg;
+                        hpBar.UpdateHealth(hp);
                     }
                     break;
                 case Enum_ObjectType.TREE:
@@ -53,6 +72,7 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.AXE)
                     {
                         hp -= dmg;
+                        hpBar.UpdateHealth(hp);
                     }
                     else
                     {
@@ -63,6 +83,7 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.PICKAXE)
                     {
                         hp -= dmg;
+                        hpBar.UpdateHealth(hp);
                     }
                     else
                     {
@@ -72,8 +93,9 @@ namespace JinscObjectBase
                 case Enum_ObjectType.FIELD:
                     if (useItemType == Enum_PlayerUseItemType.SHOVEL)
                     {
-                        Debug.Log(2222222);
+                        //Debug.Log(2222222);
                         hp -= dmg;
+                        hpBar.UpdateHealth(hp);
                     }
                     else
                     {
@@ -137,6 +159,38 @@ namespace JinscObjectBase
                 isDie = true;
 
                 DropItemFct();
+            }
+            else if( hp != maxHP)
+            {
+                hpBar.gameObject.SetActive(true);
+
+                if (!isDamaged)
+                {
+                    isDamaged = true;
+                    InvokeRepeating("RegenHp", 0, 5f);
+                }
+            }
+            else if(hp >= maxHP)
+            {
+                if (isDamaged)
+                {
+                    CancelInvoke("RegenHp");
+                    hp = maxHP;
+                    hpBar.gameObject.SetActive(false);
+                    isDamaged = false;
+                }
+            }
+        }
+
+        void RegenHp()
+        {
+            if (hp< maxHP)
+            {
+                hp++;
+            }
+            else
+            {
+                hp = maxHP;
             }
         }
 
