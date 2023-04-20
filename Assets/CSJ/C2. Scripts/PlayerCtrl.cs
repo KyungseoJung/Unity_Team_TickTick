@@ -58,22 +58,22 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     GameObject[] dropItems;
     public GameObject[] DropItems { get { return dropItems; } set { dropItems = value; } }
 
-    bool isDie = false;
+    //bool isDie = false;
 
     float currentHp = 0;
 
-    float maxHp;
+    float maxHp = 0;
 
-    private HPBar hpBar;
+    //private HPBar hpBar;
 
     float damage;
 
-    [SerializeField]
-    private float maxHP;
-    private float currentHP;
+    // [SerializeField]
+    // public float maxHP;
+    // public float currentHP;
 
-    [SerializeField]
-    private HPBar hPBar;
+    // [SerializeField]
+    // private HPBar hPBar;
 
 
     private void Awake()
@@ -100,11 +100,12 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         theCamera.transform.position = camPos.transform.position;
         theCamera.transform.localRotation = camPos.transform.localRotation;
 
-        currentHP = maxHP;
-        hpBar.UpdateHPBar(currentHP, maxHP);
+        //currentHP = maxHP;
+        //hpBar.UpdateHPBar(currentHP, maxHP);
+
+        //hpBar = GetComponent<HPBar>();
 
 
-        hpBar = GetComponent<HPBar>();
     }
 
     void Update()
@@ -260,6 +261,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         float _yRotation = Input.GetAxisRaw("Mouse X");
         Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
         myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
+    
     }
 
     public void DamageProcess(int damage)
@@ -275,8 +277,6 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     }
 
-    //회복 아이템이 존재..? 하나? 농사를 해서 농작물을 먹으면 체력이 회복되려나..
-
     public void DeathProcess()
     {
         Debug.Log("Player is dead.");
@@ -287,16 +287,15 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     public void SetHpDamaged(float damage, Enum_PlayerUseItemType Type)
     {
-        //구현
 
-        currentHP -= damage;
-        if (currentHP < 0)
-        {
-            currentHP = 0;
-        }
+        // currentHP -= damage;
+        // if (currentHP < 0)
+        // {
+        //     currentHP = 0;
+        // }
 
         // HPBar 업데이트
-        hpBar.UpdateHPBar(currentHP, maxHP);
+        //hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
 
@@ -304,30 +303,16 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     {
 
         // HP 채우기
-        //hp = maxHp;
+        hp = maxHp;
 
         // HPBar 업데이트
-        hpBar.UpdateHPBar(hp, maxHp);
+       // hpBar.UpdateHPBar(hp, maxHp);
 
         return currentHp / maxHp;
     }
 
 
 
-
-    
-
-    //Attack, Die, Walk (얜 만들었는데 이상해서 바꾸는 게 나을 듯), trace 
-    //(낚시 게임 만들자고 했으니까 혹시 모르니..)fishig 맞나?
-    //공격 모션이랑 일하는 모션은 똑같아서 별로 만들 필요 없을 듯..
-    //가장 문제점은 자연스러운 애니메이션 만들기..
-    //잠수, 수영 등의 모션은 잠수기능과 수영기능을 구현할 건지 안할건지부터 알아야됨
-    //또 뭐가 잇을까나..
-    //점프 애니메이션은 만들었는데 애니메이터가 연결 안되있음 이거 바꾸기.
-
-
-    //포톤 각자 방 만들어서 해보는 거 !!! 그거 이번 주까지 해보는 걸로 !!! 
-    //근데 경서님이 만들어주셔야 할 수 잇을듯
 
     
 
