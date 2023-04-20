@@ -106,9 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9ba734a88a40148954847b8f913f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 3
+  hp: 5
   stamina: 0
-  maxHP: 0
+  maxHP: 5
   dropItems:
   - {fileID: 7843345161292197713, guid: ea11c21e3aa811c42a2411a4f0c42fa9, type: 3}
   - {fileID: 7843345161292197713, guid: ea11c21e3aa811c42a2411a4f0c42fa9, type: 3}

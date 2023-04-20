@@ -9,6 +9,7 @@ using TeamInterface;
 
 public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나의 관리
                              ,IPointerClickHandler , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+                             ,IPointerEnterHandler, IPointerExitHandler //#8-1 툴팁 구현
 {
     [SerializeField]
     private int mySlotNumber=0;
@@ -22,9 +23,10 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
     [SerializeField]
     private Text txtCount;              //아이템 개수 텍스트
-    [SerializeField]
-    private GameObject ImgCount;        //아이템 개수 이미지
+    // [SerializeField]
+    // private GameObject ImgCount;        //아이템 개수 이미지
 
+    private bool toolTipOpen = false;           //#8-1 툴팁 오픈 한번만 타도록
 
 
     void Awake()
@@ -51,7 +53,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         itemTotalSum = _count; /*_count;*/
         ImgSlotItem.sprite = item.itemImage;        // 슬롯에 각 아이템 고유의 이미지 띄우기
 
-        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);
+        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //# 용훈님 추가 내용. 슬롯 데이터 저장 목적
 
         if (!item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))    //무기가 아니라면 개수와 함께 슬롯에 추가
         {
@@ -113,7 +115,6 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
             //Debug.Log(103);
         }
-
     }
 
     public void OnEndDrag(PointerEventData eventData)   // 드래그 끝날 때 호출되는 이벤트 함수
@@ -154,11 +155,11 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         Item dragItem = DragItem.instance.dragStartSlot.item; // 드래그 하고 있는 아이템의 정보를 넣기
         int dragItemTotalSum = DragItem.instance.dragStartSlot.itemTotalSum;
         
-        AddSlot(dragItem, dragItemTotalSum);
+        AddSlot(dragItem, dragItemTotalSum);        // D&D 을 마지막으로 실행한 슬롯의 AddSlot이 실행돼
 
-        if(originItem != null)   //이동 후의 위치에 무언가 있었다면, 바꿔치기 (드래그 시작 위치에 originItem 갖다놓아)
+        if(originItem != null)   //이동 후의 위치에 무언가가(originItem) 있었다면, 바꿔치기 (드래그 시작 위치에 originItem 갖다놓아)
             DragItem.instance.dragStartSlot.AddSlot(originItem, originItemTotalSum);
-        else    // 이동 후 위치에 아무것도 없었다면, 그냥 추가만~
+        else    // 이동 후 위치에 아무것도 없었다면, 그냥 추가만~ // 드래그 시작 위치에 그냥 Remove 실행
             DragItem.instance.dragStartSlot.RemoveSlot();
 
        // Debug.Log(101);
@@ -196,10 +197,16 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
             
 
             DestructionOpt.instance.transform.position = finalPos;    // '파기하기' 창이 마우스 위치한 곳에 나타나도록
-            DestructionOpt.instance.destructionOptSlot = this;
+            DestructionOpt.instance.changeOptSlot = this;             //# 7-1 뭔가 변화를 줄(파기하기 or 퀵슬롯에) 슬롯 선택
+            
+            if(mySlotNumber<4)  //#7-1 만약 퀵슬롯에서 우클릭을 한 거라면
+            {
+                DestructionOpt.instance.OpenDestrucionOpt(true, false); //'퀵 슬롯' 버튼은 열릴 필요가 없지
+                return;
+            }
             DestructionOpt.instance.OpenDestrucionOpt(true);
         }
-        else    // ??? 
+        else    // ??? // 아이템이 없는 곳에 or 좌측 마우스 클릭하면 창 닫히도록
         {
             DestructionOpt.instance.OpenDestrucionOpt(false);
         }
@@ -210,4 +217,54 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     //     DestructionOpt.instance.OpenDestrucionOpt(false);           // 파기하기 창 닫기
     //     DestructionOpt.instance.destructionOptSlot.RemoveSlot();    // 아이템 아예 파기
     // }
+
+// //#7-1 퀵슬롯으로 이동 ========================
+//     public void PushToQuickSlot()
+//     {
+//         //
+//         // 우클릭한 퀵슬롯 DestructionOpt.instance.changeOptSlot 을 mySlotNumber : 12번 이상의 배열로 이동시켜
+
+//     }
+
+// #8-1 툴팁 구현   ========================
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(item != null && !toolTipOpen)
+        {
+            Vector2 finalPos = eventData.position;
+
+            //0,1 열은 우측에 상 생성   //2,3 열은 좌측에 창 생성
+            switch(mySlotNumber % 4)  //나머지가 0, 1이면 0열, 1열 //나머지가 2,3이면 2열, 3열
+            {
+                case 0 : 
+                case 1 :
+                    finalPos.x -= 150f;  //자연스럽게 보이기 위한 위치 조정
+                    break;
+                case 2 :
+                case 3 :
+                    finalPos.x += 150f;  //자연스럽게 보이기 위한 위치 조정
+                    break;
+            }
+            
+            ToolTip.instance.toolTipSlot = this;
+            ToolTip.instance.transform.position = finalPos;
+            ToolTip.instance.OpenToolTip(true, item.itemName);
+
+            Debug.Log("Slot 스크립트 - toolTip 오픈");
+            toolTipOpen= true;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if(item != null && toolTipOpen)
+        {
+            ToolTip.instance.OpenToolTip(false, item.itemName);
+
+            Debug.Log("Slot 스크립트 - toolTip 닫기");
+            toolTipOpen = false;
+        }
+    }
+
+
 }

@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 1
   stamina: 0
-  maxHP: 0
+  maxHP: 1
   dropItems: []
   ObjType: 4
   hpBarObj: {fileID: 7218777781573641739, guid: 2d26aa13a91049d4483ba2c7054a932a,

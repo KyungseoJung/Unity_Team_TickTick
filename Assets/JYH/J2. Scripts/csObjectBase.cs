@@ -160,21 +160,23 @@ namespace JinscObjectBase
 
                 DropItemFct();
             }
-            else if( hp != maxHP)
+            else if( hp < maxHP)
             {
                 hpBar.gameObject.SetActive(true);
 
                 if (!isDamaged)
                 {
+                    //Debug.Log(111567);
                     isDamaged = true;
-                    InvokeRepeating("RegenHp", 0, 5f);
+                    StartCoroutine(RegenHp());
                 }
             }
             else if(hp >= maxHP)
             {
                 if (isDamaged)
                 {
-                    CancelInvoke("RegenHp");
+                   // Debug.Log(111345);
+                    StopCoroutine(RegenHp());
                     hp = maxHP;
                     hpBar.gameObject.SetActive(false);
                     isDamaged = false;
@@ -182,13 +184,16 @@ namespace JinscObjectBase
             }
         }
 
-        void RegenHp()
-        {
-            if (hp< maxHP)
+        IEnumerator RegenHp()
+        {       
+            while (hp < maxHP)
             {
-                hp++;
+                yield return new WaitForSeconds(5f);
+                //Debug.Log(111123);
+                hp++;                
             }
-            else
+
+            if (hp > maxHP)
             {
                 hp = maxHP;
             }

@@ -548,6 +548,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                 ActionSHOVEL();
                 break;           
             case Enum_PlayerUseItemType.BLUEPRINT://청사진
+                UseItemType = Enum_PlayerUseItemType.HAND;
                 bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
                 isBuild = false;
                 break;

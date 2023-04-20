@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb5c974503ae0547a4c1e6dddc39825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: STON
+  itemName: STONE
   ItemType: 1
   itemImage: {fileID: 6884987407953709304, guid: 0b0a926c3e6932648883cd2c3cfc3e07,
     type: 3}
