@@ -34,9 +34,9 @@ public class HPBar : MonoBehaviour
     }
 
 
-    // public void UpdateHPBar(float currentHP, float maxHP)
-    // {
+    public void UpdateHPBar(float currentHP, float maxHP)
+    {
         
-    // }
+    }
 
 }
