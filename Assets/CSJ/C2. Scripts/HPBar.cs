@@ -37,25 +37,28 @@ using UnityEngine.UI;
 public class HPBar : MonoBehaviour
 {
     [SerializeField]
-    Renderer sr;
-    
+    SpriteRenderer sr;
+
+
+    [SerializeField]
     private Material material;
 
-    private float currentHP;
-    private float maxHP;
+    private float currentHP=1;
+    private float maxHP=1;
 
-    private void Awake() {
-        material = sr.material;
+    private void Start() {
+        material = sr.sharedMaterial;
     }
 
-        public void UpdateHPBar(float currentHP, float maxHP)
+     public void UpdateHPBar(float currentHP, float maxHP)
     {
         if (material == null) 
         {
             // material이 아직 할당되지 않은 경우, 새로운 material을 생성합니다.
-            material = GetComponent<Material>();
+            material = sr.sharedMaterial;
         }
-        material.SetFloat("_Progress", currentHP / maxHP);
+
+        material.SetFloat("_Progress", (float)currentHP / maxHP);
     }
 
     //플레이어의 체력을 갱신

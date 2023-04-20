@@ -40,9 +40,9 @@ namespace JinscObjectBase
         IEnumerator Start()
         {
             GameObject tmpObj = Instantiate(hpBarObj);
+            tmpObj.transform.localPosition = new Vector3(tmpObj.transform.position.x, tmpObj.transform.position.y + haBarAddY, tmpObj.transform.position.z);
             tmpObj.transform.SetParent(this.transform);
-            tmpObj.SetActive(false);
-            tmpObj.transform.position = new Vector3(tmpObj.transform.position.x, tmpObj.transform.position.y + haBarAddY, tmpObj.transform.position.z);
+            tmpObj.SetActive(false);            
             hpBar = tmpObj.GetComponent<HPBar>();
 
             hpBar.SetMaxHealth(maxHP);
