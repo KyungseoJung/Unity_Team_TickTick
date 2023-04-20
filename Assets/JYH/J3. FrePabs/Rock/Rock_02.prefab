@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 5
   stamina: 0
-  maxHP: 0
+  maxHP: 5
   dropItems:
   - {fileID: 140290, guid: 87d35c33b35b8df4f890dc9efc9f0d0c, type: 3}
   - {fileID: 140290, guid: 87d35c33b35b8df4f890dc9efc9f0d0c, type: 3}
