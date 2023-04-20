@@ -49,8 +49,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     Animator anim;
 
-    float hp = 0;
-    public float Hp { get { return hp; } set { hp = value; } }
+    float currentHp = 0;
+    public float Hp { get { return currentHp; } set { currentHp = value; } }
 
     float stamina = 0;
     public float Stamina { get { return stamina; } set { stamina = value; } }
@@ -60,11 +60,9 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     //bool isDie = false;
 
-    float currentHp = 0;
+    
 
     float maxHp = 0;
-
-    private HPBar hpBar;
 
     float damage;
 
@@ -73,20 +71,19 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
      public float currentHP;
 
     [SerializeField]
-    private HPBar hPBar;
+    private HPBar hpBar;
 
 
     private void Awake()
-    {
-        
-        
+    {        
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        myRigid = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
         // 컴포넌트 할당
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        myRigid = GetComponent<Rigidbody>();
+        
         theCamera = Camera.main;
 
         Debug.Assert(theCamera);
@@ -104,15 +101,16 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         theCamera.transform.localRotation = camPos.transform.localRotation;
 
         currentHP = maxHP;
-        //hpBar.UpdateHPBar(currentHP, maxHP);
-
-        hpBar = GetComponent<HPBar>();
-
-
+        hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
     void Update()
     {
+
+        //임시
+        //hpBar.UpdateHPBar(currentHP, maxHP);
+
+
         IsGround();
         TryJump();
         TryRun();
@@ -304,20 +302,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     public float HpFill()
     {
-
-        // HP 채우기
-        hp = maxHp;
-
-        // HPBar 업데이트
-        hpBar.UpdateHPBar(hp, maxHp);
-
         return currentHp / maxHp;
     }
-
-
-
-
-    
-
 }
 
