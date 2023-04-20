@@ -64,21 +64,21 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     float maxHp = 0;
 
-    //private HPBar hpBar;
+    private HPBar hpBar;
 
     float damage;
 
-    // [SerializeField]
-    // public float maxHP;
-    // public float currentHP;
+     [SerializeField]
+     public float maxHP;
+     public float currentHP;
 
-    // [SerializeField]
-    // private HPBar hPBar;
+    [SerializeField]
+    private HPBar hPBar;
 
 
     private void Awake()
     {
-        theCamera = Camera.main;
+        
         
     }
 
@@ -87,7 +87,10 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         // 컴포넌트 할당
         capsuleCollider = GetComponent<CapsuleCollider>();
         myRigid = GetComponent<Rigidbody>();
+        theCamera = Camera.main;
 
+        Debug.Assert(theCamera);
+        
         // 초기화
         applySpeed = walkSpeed;
 
@@ -100,10 +103,10 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         theCamera.transform.position = camPos.transform.position;
         theCamera.transform.localRotation = camPos.transform.localRotation;
 
-        //currentHP = maxHP;
+        currentHP = maxHP;
         //hpBar.UpdateHPBar(currentHP, maxHP);
 
-        //hpBar = GetComponent<HPBar>();
+        hpBar = GetComponent<HPBar>();
 
 
     }
@@ -288,14 +291,14 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     public void SetHpDamaged(float damage, Enum_PlayerUseItemType Type)
     {
 
-        // currentHP -= damage;
-        // if (currentHP < 0)
-        // {
-        //     currentHP = 0;
-        // }
+        currentHP -= damage;
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
 
-        // HPBar 업데이트
-        //hpBar.UpdateHPBar(currentHP, maxHP);
+        //HPBar 업데이트
+        hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
 
@@ -306,7 +309,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         hp = maxHp;
 
         // HPBar 업데이트
-       // hpBar.UpdateHPBar(hp, maxHp);
+        hpBar.UpdateHPBar(hp, maxHp);
 
         return currentHp / maxHp;
     }
