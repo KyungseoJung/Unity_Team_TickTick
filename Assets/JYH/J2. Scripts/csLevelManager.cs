@@ -327,7 +327,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                             }
                         }
                     }
-
+                    Debug.Log(tmpCheck);
                     tmpPreView.ShowPreView(blockPos, tmpCheck);
                 }
                 else if (hit.transform.root.tag == "Block")
@@ -708,6 +708,11 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
             blockPos.y *= 2f;
 
             if (blockPos.y <= 1)
+            {
+                return;
+            }
+
+            if(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] == null)
             {
                 return;
             }

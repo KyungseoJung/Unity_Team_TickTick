@@ -106,8 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d82462df07c15d48872068c103ae47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeX: 0
-  sizeZ: 0
+  canBuild: 0
+  groundCheck: 0
+  sizeX: 1
+  sizeZ: 1
+  sizeY: 1
   preViewType: 1
   preViewObj: {fileID: 6910399725354924586}
   buildObj: {fileID: 6010661357038123271, guid: db0d120332a5cff41b6e6b2d1a2d7769,
