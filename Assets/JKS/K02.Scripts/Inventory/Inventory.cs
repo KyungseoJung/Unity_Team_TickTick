@@ -46,13 +46,13 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public Button btnDescSorting;   // 내림차순 정렬
     public Button btnGetPrevious;   // 원위치로
 
-    public Enum_DropItemType[,] itemInventory;
+    public Enum_DropItemType[,] itemInventory;  //#7-1 Slot에서 가져와서 쓰고 싶은데, static으로 선언해야 되나? - 그냥 Inventory에서 실행하는 함수 만들면 되려나?
     public int[,] itemInventoryCount;
 
     [SerializeField]
-    int x=5;
+    int row=4;
     [SerializeField]
-    int y=5;
+    int col=4;
 
     void Start()
     {
@@ -60,8 +60,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         previousSlots = new Slot[slots.Length];    // 크기가 할당되어 있지 않으면, null로 초기화 됨.
 
-        itemInventory = new Enum_DropItemType[x, y];
-        itemInventoryCount = new int[x, y];
+        itemInventory = new Enum_DropItemType[row, col];
+        itemInventoryCount = new int[row, col];
 
         btnAscSorting.onClick.AddListener(AscSorting);
         btnDescSorting.onClick.AddListener(DescSorting);
@@ -110,8 +110,6 @@ public class Inventory : MonoBehaviour, IInventoryBase
             SortingButtonsObj.SetActive(inventoryOpen); //#4-3
             DropItemZone.SetActive(inventoryOpen);  //#4-3
         }
-
-
     }
 
     public void CollectItem(Enum_DropItemType dropItemType, Item _item = null, int _count = 1)  // _item이라는 이름의 아이템을 _count만큼 수집
@@ -144,7 +142,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
             }
         }
 
-        if (!_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))
+        if (!_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD)) // SWORD 외의 아이템을 collect 했을 때
         {
             //for (int i = 0; i < slots.Length; i++)  //획득한 아이템이 슬롯에 이미 있는 아이템인가 확인
             //{
@@ -161,22 +159,22 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
            
 
-            for (int i = 0; i < x && !tmpCheck; i++)
+            for (int i = 0; i < row && !tmpCheck; i++)
             {
-                for (int j = 0; j < y && !tmpCheck; j++)
+                for (int j = 0; j < col && !tmpCheck; j++)
                 {
-                    if (itemInventory[i, j].Equals(dropItemType))
+                    if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
                     {
                         //itemInventoryCount[i, j]+= _count;
-                        slots[(i% x) + j].UpdateSlotCount(_count);   // 개수 업데이트
+                        slots[(col*i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
                         tmpCheck = true;
-                        //Debug.Log((i % x) + j);
+                        //Debug.Log((i % row) + j);
                         //Debug.Log("타긴하니2");
                     }
                 }
             }            
         }
-        else if (_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))
+        else if (_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD)) // sword를 collect 했을 때
         {
             tmpCheck = false;
             _count = 1;
@@ -186,17 +184,17 @@ public class Inventory : MonoBehaviour, IInventoryBase
         {
             bool isFind = false;
 
-            for (int i = 0; i < x && !isFind; i++)
+            for (int i = 0; i < row && !isFind; i++)
             {
-                for (int j = 0; j < y && !isFind; j++)
+                for (int j = 0; j < col && !isFind; j++)
                 {
-                    if (itemInventory[i, j].Equals(Enum_DropItemType.NONE))
+                    if (itemInventory[i, j].Equals(Enum_DropItemType.NONE)) // 슬롯에 sword가 없었다면, 슬롯에 추가
                     {
                         //itemInventory[i, j] = dropItemType;
                         //itemInventoryCount[i, j]+= _count;
-                        slots[(i%x)+j].AddSlot(_item, _count);
+                        slots[(col*i)+j].AddSlot(_item, _count);
 
-                        //Debug.Log((i % x) + j);
+                        //Debug.Log((i % row) + j);
                         isFind = true;
                         //Debug.Log("타긴하니3");
                     }
@@ -349,16 +347,41 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void ChangeSlotData(int slotNum, int count=0,Enum_DropItemType type= Enum_DropItemType.NONE)
     { 
-        Debug.Log("110" + slotNum + slots.Length);
+        //Debug.Log("110" + slotNum + slots.Length);
 
-        Debug.Log("111" + slots[slotNum].item.ItemType + slots[slotNum].itemTotalSum);
-        itemInventory[(slotNum / this.x) , (slotNum%this.y)] = type;
-        itemInventoryCount[(slotNum / this.x), (slotNum % this.y)] = count;
-        Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
+        //Debug.Log("111" + slots[slotNum].item.ItemType + slots[slotNum].itemTotalSum);
+        itemInventory[(slotNum / this.col) , (slotNum%this.col)] = type;
+        itemInventoryCount[(slotNum / this.col), (slotNum % this.col)] = count;
+        //Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
     }
 
-    public void DestroyItemAtAll()  //#5-1 아이템 파기하기
+    public void DestroyItemAtAll()  //#5-1 아이템 파기하기  // btnDestruction 버튼에 연결
     {
-        DestructionOpt.instance.DestroyItemAtAll();
+        DestructionOpt.instance.RemoveItem();
+    }
+
+    public void MoveToQuickSlot(/*Item _item, int _count=1*/)   //#7-1 퀵슬롯으로 아이템 이동   //btnQuickSlot 버튼에 연결
+    {
+        // DestructionOpt.instance.MoveToQuickSlot();
+        // 인벤토리 배열 중 3행에 null 값이 있는지 0열부터 3열까지 검사
+        bool goQuickSlot = false;   // for문 1번만 타도록 검사 장치
+
+        for(int j=0; j<col && !goQuickSlot; j++)
+        {
+            if(itemInventory[0, j].Equals(Enum_DropItemType.NONE))
+            {
+                // 퀵슬롯으로 이동
+                Item _tempItem = DestructionOpt.instance.changeOptSlot.item;
+                int _tempCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
+
+                DestructionOpt.instance.RemoveItem();   //기존 위치의 Slot은 Remove
+
+                slots[0+j].AddSlot(_tempItem, _tempCount);  //이동 후 위치의 Slot(0+j)에는 Add  // 그러면 Slot의 AddSlot 스크립트에서 자동으로 배열에도 업데이트 해줌
+
+                
+                goQuickSlot = true;
+            }
+        }
+        
     }
 }
