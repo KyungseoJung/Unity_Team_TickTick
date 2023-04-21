@@ -39,13 +39,21 @@ namespace JinscObjectBase
 
         IEnumerator Start()
         {
-            GameObject tmpObj = Instantiate(hpBarObj);
-            tmpObj.transform.localPosition = new Vector3(tmpObj.transform.position.x, tmpObj.transform.position.y + haBarAddY, tmpObj.transform.position.z);
-            tmpObj.transform.SetParent(this.transform);
-            tmpObj.SetActive(false);            
-            hpBar = tmpObj.GetComponent<HPBar>();
+            //GameObject tmpObj = Instantiate(hpBarObj);            
+            //tmpObj.transform.SetParent(this.transform);
+            //Debug.Log(transform.position);
+            //tmpObj.transform.position = new Vector3(transform.root.position.x, transform.root.position.y+haBarAddY, transform.root.position.z);
+            //tmpObj.transform.localScale = new Vector3(0.08f, 0.01f, 1f);
+            //tmpObj.SetActive(false);
 
-            hpBar.SetMaxHealth(maxHP);
+            if (hpBarObj != null)
+            {
+                hpBarObj.SetActive(false);
+
+                hpBar = hpBarObj.GetComponent<HPBar>();
+
+                hpBar.SetMaxHealth(maxHP);
+            }
 
             yield return null;
         }

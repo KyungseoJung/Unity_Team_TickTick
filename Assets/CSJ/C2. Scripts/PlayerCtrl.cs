@@ -49,8 +49,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     Animator anim;
 
-    float currentHp = 0;
-    public float Hp { get { return currentHp; } set { currentHp = value; } }
+    float currentHP = 0;
+    public float Hp { get { return currentHP; } set { currentHP = value; } }
 
     float stamina = 0;
     public float Stamina { get { return stamina; } set { stamina = value; } }
@@ -60,15 +60,10 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     //bool isDie = false;
 
-    
-
-    float maxHp = 0;
-
     float damage;
 
      [SerializeField]
      public float maxHP;
-     public float currentHP;
 
     [SerializeField]
     private HPBar hpBar;
@@ -101,6 +96,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         theCamera.transform.localRotation = camPos.transform.localRotation;
 
         currentHP = maxHP;
+
+        //Debug.Log(currentHP +"..."+ maxHP);
         hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
@@ -302,7 +299,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
 
     public float HpFill()
     {
-        return currentHp / maxHp;
+        return currentHP / maxHP;
     }
 }
 

@@ -46,19 +46,16 @@ public class HPBar : MonoBehaviour
     private float currentHP=1;
     private float maxHP=1;
 
-    private void Start() {
-        material = sr.sharedMaterial;
+    private void Awake() {
+        material = sr.material;
+        material.SetFloat("_Progress", 0.8f);
     }
 
      public void UpdateHPBar(float currentHP, float maxHP)
     {
-        if (material == null) 
-        {
-            // material이 아직 할당되지 않은 경우, 새로운 material을 생성합니다.
-            material = sr.sharedMaterial;
-        }
-
-        material.SetFloat("_Progress", (float)currentHP / maxHP);
+        
+        material.SetFloat("_Progress", (((float)currentHP / maxHP) * 0.8f));
+        Debug.Log(currentHP + "..." + maxHP + "..." + ((float)currentHP / maxHP)+"./." + material.GetFloat("_Progress"));
     }
 
     //플레이어의 체력을 갱신
@@ -72,5 +69,6 @@ public class HPBar : MonoBehaviour
     public void SetMaxHealth(float maxHealth)
     {
         //....
+        currentHP = maxHP = maxHealth;
     }
 }
