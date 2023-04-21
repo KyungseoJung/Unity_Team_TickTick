@@ -123,8 +123,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         currentHP = maxHP;
 
         //Debug.Log(currentHP +"..."+ maxHP);
-        hpBar.SetMaxHealth(maxHP);
-        hpBar.UpdateHPBar(currentHP, maxHP);
+        //hpBar.SetMaxHealth(maxHP);
+        //hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
     void Update()

@@ -379,6 +379,67 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
             StartCoroutine(PlayerUseItem(UseItemType));
         }
 
+        if(actionNow && Input.GetKeyDown(KeyCode.Q))
+        {
+            
+            switch (UseItemType)
+            {
+                case Enum_PlayerUseItemType.HAND:
+                    UseItemType = Enum_PlayerUseItemType.AXE;
+                    break;
+                case Enum_PlayerUseItemType.AXE:
+                    UseItemType = Enum_PlayerUseItemType.PICKAXE;
+                    break;
+                case Enum_PlayerUseItemType.PICKAXE:
+                    UseItemType = Enum_PlayerUseItemType.SHOVEL;
+                    break;
+                case Enum_PlayerUseItemType.SHOVEL:
+                    UseItemType = Enum_PlayerUseItemType.HOE;
+                    break;
+                case Enum_PlayerUseItemType.HOE:
+                    UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
+                    break;
+                case Enum_PlayerUseItemType.BLOCKSOIL:
+                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
+                    break;
+                case Enum_PlayerUseItemType.BLUEPRINT:
+                    UseItemType = Enum_PlayerUseItemType.HAND;
+                    break;
+            }
+
+            Debug.Log("QQQQQQQQ"+ UseItemType);
+        }
+        else if (actionNow && Input.GetKeyDown(KeyCode.E))
+        {
+           
+            switch (UseItemType)
+            {
+                case Enum_PlayerUseItemType.HAND:
+                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
+                    break;
+                case Enum_PlayerUseItemType.AXE:
+                    UseItemType = Enum_PlayerUseItemType.HAND;
+                    break;
+                case Enum_PlayerUseItemType.PICKAXE:
+                    UseItemType = Enum_PlayerUseItemType.AXE;
+                    break;
+                case Enum_PlayerUseItemType.SHOVEL:
+                    UseItemType = Enum_PlayerUseItemType.PICKAXE;
+                    break;
+                case Enum_PlayerUseItemType.HOE:
+                    UseItemType = Enum_PlayerUseItemType.SHOVEL;
+                    break;
+                case Enum_PlayerUseItemType.BLOCKSOIL:
+                    UseItemType = Enum_PlayerUseItemType.HOE;
+                    break;
+                case Enum_PlayerUseItemType.BLUEPRINT:
+                    UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
+                    break;
+            }
+
+            Debug.Log("EEEEEEEEE" + UseItemType);
+        }
+
         /*
         //0411          
          

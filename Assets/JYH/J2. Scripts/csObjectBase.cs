@@ -38,7 +38,12 @@ namespace JinscObjectBase
 
         bool isDamaged = false;
 
-        IEnumerator Start()
+        public virtual void Awake()
+        {
+            
+        }
+
+        public virtual void Start()
         {
             //GameObject tmpObj = Instantiate(hpBarObj);            
             //tmpObj.transform.SetParent(this.transform);
@@ -49,14 +54,14 @@ namespace JinscObjectBase
 
             if (hpBarObj != null)
             {
-                hpBarObj.SetActive(false);
-
                 hpBar = hpBarObj.GetComponent<HPBar>();
 
-                hpBar.SetMaxHealth(maxHP);
-            }
+                hpBarObj.transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y + haBarAddY, transform.parent.position.z);
+                hpBarObj.transform.localScale = new Vector3(0.08f, 0.01f, 1f);
 
-            yield return null;
+                hpBarObj.SetActive(false);
+                // hpBar.SetMaxHealth(maxHP);
+            }
         }
 
         public void SetHpDamaged(float dmg, Enum_PlayerUseItemType useItemType)
@@ -73,7 +78,10 @@ namespace JinscObjectBase
                     else
                     {
                         hp -= dmg;
-                        hpBar.UpdateHealth(hp);
+                        if (maxHP!=1 && hpBar != null)
+                        {
+                            hpBar.UpdateHPBar(hp,maxHP);
+                        }
                     }
                     break;
                 case Enum_ObjectType.TREE:
@@ -81,7 +89,10 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.AXE)
                     {
                         hp -= dmg;
-                        hpBar.UpdateHealth(hp);
+                        if (maxHP != 1 && hpBar != null)
+                        {
+                            hpBar.UpdateHPBar(hp, maxHP);
+                        }
                     }
                     else
                     {
@@ -92,7 +103,10 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.PICKAXE)
                     {
                         hp -= dmg;
-                        hpBar.UpdateHealth(hp);
+                        if (maxHP != 1 && hpBar != null)
+                        {
+                            hpBar.UpdateHPBar(hp, maxHP);
+                        }
                     }
                     else
                     {
@@ -104,7 +118,10 @@ namespace JinscObjectBase
                     {
                         //Debug.Log(2222222);
                         hp -= dmg;
-                        hpBar.UpdateHealth(hp);
+                        if (maxHP != 1 && hpBar != null)
+                        {
+                            hpBar.UpdateHPBar(hp, maxHP);
+                        }
                     }
                     else
                     {
@@ -157,6 +174,12 @@ namespace JinscObjectBase
 
             transform.parent.GetComponent<ICubeInfo>().CubeInfo.haveChild = false;
 
+            gameObject.SetActive(false);
+            Invoke("DelObj", 0.5f);
+        }
+
+        void DelObj()
+        {
             Destroy(gameObject);
         }
 

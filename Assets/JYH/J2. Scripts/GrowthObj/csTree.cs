@@ -21,6 +21,15 @@ public class csTree : csObjectBase, IGrowth
     [SerializeField]
     Renderer mesh;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
+    public override void Start()
+    {
+        base.Start();
+    }
 
     public override void Shake()//흔들기 당했을 때
     {

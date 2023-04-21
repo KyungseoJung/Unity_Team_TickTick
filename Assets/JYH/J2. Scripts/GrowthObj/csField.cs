@@ -22,6 +22,15 @@ public class csField : csObjectBase, IGrowth
     [SerializeField]
     Enum_ObjectGrowthLevel growthLevel;//성장단계표현
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
+    public override void Start()
+    {
+        base.Start();
+    }
 
     public override void Shake()//흔들기 당했을 때
     {
@@ -53,9 +62,14 @@ public class csField : csObjectBase, IGrowth
         if (isDie)
         {
             transform.parent.GetComponent<ICubeInfo>().CubeInfo.haveChild = false;
-
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            Invoke("DelObj", 0.5f);
         }
+    }
+
+    void DelObj()
+    {
+        Destroy(gameObject);
     }
 
     IEnumerator DropItem()
