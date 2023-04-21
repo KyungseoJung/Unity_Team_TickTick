@@ -1577,8 +1577,8 @@ MonoBehaviour:
   crouchSpeed: 5
   jumpForce: 5
   crouchPosY: 0.5
-  lookSensitivity: 0.1
-  cameraRotationLimit: 20
+  lookSensitivity: 1
+  cameraRotationLimit: 45
   theCamera: {fileID: 0}
   camPos: {fileID: 2541779849897460429}
   dropItemPos: {fileID: 1257357729079951469}
