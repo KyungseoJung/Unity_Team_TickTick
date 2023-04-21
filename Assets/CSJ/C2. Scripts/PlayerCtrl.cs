@@ -59,6 +59,9 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     public GameObject[] DropItems { get { return dropItems; } set { dropItems = value; } }
 
 
+    //드랍 아이템시 아이템 떨굴 위치 저장용 변수
+    public Transform dropItemPos;
+
     /// <summary>
     /// ///////////////////////////////////////
     /// 포톤 추가

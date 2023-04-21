@@ -946,6 +946,36 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.009570559, y: -0.000044974964, z: -0.000174555}
     m_Extent: {x: 0.0039824704, y: 0.005845343, z: 0.0021750736}
   m_DirtyAABB: 0
+--- !u!1 &1462226428194183800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257357729079951469}
+  m_Layer: 10
+  m_Name: DropItemPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1257357729079951469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462226428194183800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.02, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2510797932240913740}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1488436449735540668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,9 +1485,9 @@ GameObject:
   - component: {fileID: 2996008408902082546}
   - component: {fileID: 1552237690554583885}
   - component: {fileID: 7021647103632850412}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Char 1 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1477,6 +1507,7 @@ Transform:
   - {fileID: 8580048127908946684}
   - {fileID: 2707299658780789820}
   - {fileID: 1362056850380035391}
+  - {fileID: 1257357729079951469}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1550,6 +1581,7 @@ MonoBehaviour:
   cameraRotationLimit: 20
   theCamera: {fileID: 0}
   camPos: {fileID: 2541779849897460429}
+  dropItemPos: {fileID: 1257357729079951469}
   pV: {fileID: 0}
   cUrrPos: {x: 0, y: 0, z: 0}
   cUrrRot: {x: 0, y: 0, z: 0, w: 0}

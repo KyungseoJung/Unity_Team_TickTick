@@ -35,6 +35,7 @@ namespace JinscObjectBase
         public GameObject hpBarObj;
         public float haBarAddY;
         HPBar hpBar;
+
         bool isDamaged = false;
 
         IEnumerator Start()

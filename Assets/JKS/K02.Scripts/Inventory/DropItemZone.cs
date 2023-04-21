@@ -11,8 +11,24 @@ public class DropItemZone : MonoBehaviour, IDropHandler
         //Debug.Log("드롭1");
         if(DragItem.instance.dragStartSlot != null)
         {
-            //Debug.Log("드롭2");
-            DragItem.instance.dragStartSlot.DropItemOnGround(transform);    // 플레이어 위치 넣기
+            GameObject[] tmpPlayer = GameObject.FindGameObjectsWithTag("Player");
+
+            Debug.Log(tmpPlayer.Length +"asdasdasd");
+
+            foreach(GameObject obj in tmpPlayer)
+            {
+                PhotonView tmpPV = obj.GetPhotonView();
+
+                if (tmpPV != null && tmpPV.isMine)
+                {
+                    //Debug.Log("드롭2");
+                    DragItem.instance.dragStartSlot.DropItemOnGround(obj.GetComponent<PlayerCtrl>().dropItemPos);    // 플레이어 위치 넣기
+                }
+                else
+                {
+                    Debug.Log("포톤뷰 미아");
+                }
+            }            
         }
     }
 
