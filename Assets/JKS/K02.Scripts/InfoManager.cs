@@ -77,13 +77,6 @@ public class InfoManager : MonoBehaviour        //#5-1 플레이어 정보 저�
         TextAsset jsonData = Resources.Load<TextAsset>("player_info");
         string StrJsonData = jsonData.text;                             //# 데이터를 문자열로 가져와서
         var json = JSON.Parse(StrJsonData); //배열 형태로 자동 파싱         //# SimpleJSON을 통해 객체로 생성
-
-
-
-Debug.Log("플레이어 이름" + json["플레이어 이름"].ToString());
-Debug.Log("테스트용 string hex = json 풍선색 value : " + json["풍선 색"].Value );
-
-
 //플레이어 정보 파싱
 
         playerInfo.playerName = json["플레이어 이름"].ToString();
@@ -94,6 +87,14 @@ Debug.Log("테스트용 string hex = json 풍선색 value : " + json["풍선 색
         string hex = json["옷 색"].Value;
         Color32 color = HexToColor32(hex);
         playerInfo.clothesColor = color;
+
+
+
+Debug.Log("플레이어 이름" + json["플레이어 이름"].ToString());
+Debug.Log("섬 이름" + json["섬 이름"].ToString());
+Debug.Log("옷 종류" + json["옷 종류"]);
+Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].Value );
+
     }
     
     public void SaveJSONData()  //데이터 저장. (클래스 -> JSON 파일)
@@ -104,7 +105,7 @@ Debug.Log("테스트용 string hex = json 풍선색 value : " + json["풍선 색
 
         // 플레이어 정보     ===========================
         json.Add("플레이어 이름", playerInfo.playerName);
-        json.Add("플레이 타입", playerInfo.islandName);
+        json.Add("섬 이름", playerInfo.islandName);
         json.Add("옷 종류", playerInfo.clothesNum);
 
         Color32 color = playerInfo.clothesColor;

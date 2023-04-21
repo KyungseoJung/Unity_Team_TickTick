@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5188679, b: 0.5188679, a: 1}
+  m_Color: {r: 1, g: 0.36320752, b: 0.36320752, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2676,10 +2676,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
+    m_BestFit: 1
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -4986,10 +4986,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
+    m_BestFit: 1
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -8182,6 +8182,9 @@ MonoBehaviour:
   - {fileID: 978547542}
   inputName: {fileID: 541203625}
   inputIslandName: {fileID: 1943361155}
+  loadInfoName:
+  - {fileID: 1866812095}
+  - {fileID: 1866812094}
   multiGameBtns:
   - {fileID: 4299707516661777331}
   - {fileID: 727534619}
@@ -9967,6 +9970,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1866812094 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7327151650362659187, guid: bf822df067b56b741b2290d243cbd773,
+    type: 3}
+  m_PrefabInstance: {fileID: 1866812090}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1866812095 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1110237192706703618, guid: bf822df067b56b741b2290d243cbd773,
+    type: 3}
+  m_PrefabInstance: {fileID: 1866812090}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1890428823
 GameObject:
   m_ObjectHideFlags: 0
@@ -11640,8 +11667,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 259205093}
   m_HandleRect: {fileID: 259205092}
   m_Direction: 3
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

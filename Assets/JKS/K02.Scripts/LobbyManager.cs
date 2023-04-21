@@ -28,6 +28,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '새로운 게임' 화면 ======================
     [Header("새로운 게임 화면")]
     [Space(10)]
+    private bool inputAllInfo;      // #9-1 모든 정보를 입력했나 확인용 (플레이어 옷 종류, 옷 색, 이름, 섬 이름)
     public Button[] newGameBtns;     // '새로운 게임' 화면 내 버튼 배열
     public Button[] chooseClothesBtns;  // '옷' 선택 버튼   //[0]부터 차례대로 : btnClothes0, btnClothes1, btnClothes2
     public Button[] chooseColorsBtns;   // '색' 선택 버튼   //[0]부터 차례대로 : btnColor0, btnColor1, btnColor2
@@ -41,6 +42,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public InputField inputIslandName;  //#4-1 
     private int clothesNum;         //#4-1 싱글톤, JSON 데이터 저장
     private Color clothesColor;     //#4-1 싱글톤, JSON 데이터 저장   
+
+    public Text[] loadInfoName;      //#9-1  플레이어 이름 //[0]부터 : txtPlayerName, txtIslandName
 
 // '멀티 플레이' 화면 ======================
     [Header("멀티 플레이 화면")]
@@ -93,6 +96,9 @@ public class LobbyManager : MonoBehaviour   //#1-1
         chooseColorsBtns[0].onClick.AddListener(OnClickColors0);
         chooseColorsBtns[1].onClick.AddListener(OnClickColors1);
         chooseColorsBtns[2].onClick.AddListener(OnClickColors2);
+
+        inputName.onValueChanged.AddListener(OnInputChange);        // #9-1 최대 글자수 제한
+        inputIslandName.onValueChanged.AddListener(OnInputChange);
  // '멀티 플레이' 화면 내 버튼 배열 ======================
         multiGameBtns[0].onClick.AddListener(OnClickMultiStart);
         multiGameBtns[1].onClick.AddListener(OnClickHostGame);
@@ -128,6 +134,26 @@ public class LobbyManager : MonoBehaviour   //#1-1
         InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
         yield return new WaitForSeconds(0.5f);
     }
+// #9-1 Input Field 글자수 제한
+    void OnInputChange(string input)
+    {
+        if(input.Length > 3)
+        {
+            inputName.text = input.Substring(0,3);      // 3글자 넘어가도 값이 바뀌지 않도록
+            inputIslandName.text = input.Substring(0,3);
+        }
+    }
+// #9-1 현재 색 확인용
+    // private Color32 HexToColor32(string hex)
+    // {
+    //     // HEX 문자열을 RGB 값으로 분리
+    //     byte r = byte.Parse(hex.Substring(1, 2), System.Globalization.NumberStyles.HexNumber);
+    //     byte g = byte.Parse(hex.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
+    //     byte b = byte.Parse(hex.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
+
+    //     // Color32로 변환하여 반환
+    //     return new Color32(r, g, b, 255);
+    // }
 
 // '뒤로 가기' 버튼 ======================
     void OnClickGoBack()
@@ -166,6 +192,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '로비' 화면 버튼 ======================
     void OnClickLoad()
     {
+        Debug.Log("#9-1 플레이어 이름 : " +InfoManager.Info.playerName);
+
+        string name = InfoManager.Info.playerName;
+        // name = name.Substring(1, name.Length - 2);
+        Debug.Log("#9-1 플레이어 이름 name : " + name);
+
+        if(name == "")  //#9-1 플레이어 정보 없으면 안 눌리도록
+        {
+            Debug.Log("정보 없음");
+            return;
+        }
+        
         lobby.SetActive(false);
         loadGame.SetActive(true);
 
@@ -241,7 +279,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         chooseScreen[1].SetActive(false);
         chooseScreen[2].SetActive(true);    // 이름 작성 화면
     }
-    void OnClickCreateRole()    //#4-1
+    void OnClickCreateRole()    //#4-1  //#9-1
     {
         //#4-4 나중에 주석 풀 것
         //역할 생성 
@@ -253,7 +291,31 @@ public class LobbyManager : MonoBehaviour   //#1-1
         clothesColor = playerClothes.color;                 //옷 색깔은 한번에 저장 가능하겠다~
         InfoManager.Info.clothesColor = clothesColor;
 
+        //#9-1 하나라도 입력 안 하면, 확인 버튼 안 눌리도록 return
+//         Color _color = HexToColor32("#FFFFFF");
+// Debug.Log("내가 선택한 컬러 : " + InfoManager.Info.clothesColor);
+// Debug.Log("그냥 백색 컬러 : " + _color);
+
+        if(! (InfoManager.Info.playerName == "") 
+        || !(InfoManager.Info.islandName == ""))
+            inputAllInfo = true;   // 모든 값을 입력했다.
+
+        if(!inputAllInfo)
+            return;
+        
+
         InfoManager.Info.SaveJSONData();        //작성한 데이터를 JSON에 저장하기
+
+        //#9-1 [게임 불러오기 - 플레이어 박스에 데이터 연결, 저장하기]
+        loadInfoName[0].text = InfoManager.Info.playerName;
+        loadInfoName[1].text = InfoManager.Info.islandName;
+
+        Debug.Log("플레이어 이름 : " + InfoManager.Info.playerName);
+
+        // StartCoroutine(LoadJSONDataFct());  // [새로운 게임 눌렀을 때 들어가지도록]
+
+        //#9-1 로비로 이동하도록 - ESC와 같은 역할 하면 되겠다~
+        OnClickGoBack();
 
     }
     void OnClickClothes0()
