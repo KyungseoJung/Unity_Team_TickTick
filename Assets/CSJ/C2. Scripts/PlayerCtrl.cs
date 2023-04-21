@@ -5,7 +5,7 @@ using TeamInterface;
 
 
 
-public class PlayerCtrl : MonoBehaviour, IObjectStatus
+public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTheRoomCallBackFct
 {
     // 스피드 조정 변수
     [SerializeField]
@@ -58,6 +58,28 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     GameObject[] dropItems;
     public GameObject[] DropItems { get { return dropItems; } set { dropItems = value; } }
 
+
+    /// <summary>
+    /// ///////////////////////////////////////
+    /// 포톤 추가
+    /// </summary>
+    /// 
+    //PhotonView 컴포넌트를 할당할 레퍼런스 
+    [SerializeField]
+    PhotonView pV;
+    public PhotonView pv { get { return pV; } set { pV = value; } }
+
+    //위치 정보를 송수신할 때 사용할 변수 선언 및 초기값 설정 
+    [SerializeField]
+    Vector3 cUrrPos;
+    public Vector3 currPos { get { return currPos; } set { currPos = value; } }
+
+    [SerializeField]
+    Quaternion cUrrRot;
+    public Quaternion currRot { get { return cUrrRot; } set { cUrrRot = value; } }
+    /// <summary>
+    /// ///////////////////////////////////////////
+    /// </summary>
     //bool isDie = false;
 
     float damage;
@@ -98,6 +120,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
         currentHP = maxHP;
 
         //Debug.Log(currentHP +"..."+ maxHP);
+        hpBar.SetMaxHealth(maxHP);
         hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
@@ -301,5 +324,36 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus
     {
         return currentHP / maxHP;
     }
+
+
+    /// <summary>
+    /// ///////////////////
+    /// 포톤추가
+    /// </summary>
+    /// 
+
+    //PhotonView 컴포넌트의 Observe 속성이 스크립트 컴포넌트로 지정되면 PhotonView
+    //컴포넌트는 데이터를 송수신할 때, 해당 스크립트의 OnPhotonSerializeView 콜백 함수를 호출한다.
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //...
+    }
+
+    // 네트워크 객체 생성 완료시 자동 호출되는 함수
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        //...
+    }
+
+    // 마스터 클라이언트가 변경되면 호출
+    public void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+    {
+        //...
+    }
+
+    ////////////////////////////////////
+    ///
+
+
 }
 

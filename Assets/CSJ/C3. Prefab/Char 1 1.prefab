@@ -1550,9 +1550,11 @@ MonoBehaviour:
   cameraRotationLimit: 20
   theCamera: {fileID: 0}
   camPos: {fileID: 2541779849897460429}
+  pV: {fileID: 0}
+  cUrrPos: {x: 0, y: 0, z: 0}
+  cUrrRot: {x: 0, y: 0, z: 0, w: 0}
   maxHP: 1000
-  currentHP: 1000
-  hpBar: {fileID: 1638060403, guid: b2e5f64d6f88cf54295f90928310c248, type: 3}
+  hpBar: {fileID: 8500906509622598848}
 --- !u!82 &7021647103632850412
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4882,6 +4884,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180941, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180943, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_Size.x
@@ -5028,3 +5035,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8500906509096357299}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8500906509622598848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1638060403, guid: b2e5f64d6f88cf54295f90928310c248,
+    type: 3}
+  m_PrefabInstance: {fileID: 8500906509096357299}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ceed5e10d0f96f4b962f711e68cc547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
