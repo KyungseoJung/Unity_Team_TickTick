@@ -9,6 +9,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
 {
     private OptionManager _oMgr;    // 효과음 사용을 위해 옵션 메니저 가져옴
     public Button goBackBtn;           //'뒤로가기 버튼'
+    string _playerName;             //#9-1 플레이어가 값을 입력했는지 확인하는 목적
+    string _islandName;
 
 // '로비' 화면 ======================
     [Header("로비 화면")]
@@ -18,6 +20,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public GameObject loadGame;         // '게임 불러오기' 화면
     public GameObject newGame;          // '새로운 게임' 화면
     public GameObject multiGame;        // '멀티 플레이' 화면
+
+    public GameObject loadGameBtn;      //#9-1 '게임 불러오기' 버튼 - 활성화/ 비활성화 목적
 // '게임 불러오기' 화면 ======================
     [Header("게임 불러오기 화면")]
     [Space(10)]
@@ -97,8 +101,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
         chooseColorsBtns[1].onClick.AddListener(OnClickColors1);
         chooseColorsBtns[2].onClick.AddListener(OnClickColors2);
 
-        inputName.onValueChanged.AddListener(OnInputChange);        // #9-1 최대 글자수 제한
-        inputIslandName.onValueChanged.AddListener(OnInputChange);
+        inputName.onValueChanged.AddListener(OnInputChange1);        // #9-1 최대 글자수 제한
+        inputIslandName.onValueChanged.AddListener(OnInputChange2);
  // '멀티 플레이' 화면 내 버튼 배열 ======================
         multiGameBtns[0].onClick.AddListener(OnClickMultiStart);
         multiGameBtns[1].onClick.AddListener(OnClickHostGame);
@@ -135,12 +139,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
         yield return new WaitForSeconds(0.5f);
     }
 // #9-1 Input Field 글자수 제한
-    void OnInputChange(string input)
+    void OnInputChange1(string _input1)
     {
-        if(input.Length > 3)
+        if(_input1.Length > 3)
         {
-            inputName.text = input.Substring(0,3);      // 3글자 넘어가도 값이 바뀌지 않도록
-            inputIslandName.text = input.Substring(0,3);
+            inputName.text = _input1.Substring(0,3);      // 3글자 넘어가도 값이 바뀌지 않도록
+        }
+    }
+    void OnInputChange2(string _input2)
+    {
+        if(_input2.Length > 3)
+        {
+            inputName.text = _input2.Substring(0,3);      // 3글자 넘어가도 값이 바뀌지 않도록
         }
     }
 // #9-1 현재 색 확인용
@@ -158,6 +168,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '뒤로 가기' 버튼 ======================
     void OnClickGoBack()
     {
+        //#9-1 입력한 플레이어 정보 없으면 [게임 불러오기] 버튼 비활성화
+        string _playerName = InfoManager.Info.playerName.Trim('"');
+        string _islandName = InfoManager.Info.islandName.Trim('"');
+
+        if(string.IsNullOrEmpty(_playerName) || string.IsNullOrEmpty(_islandName))    // 하나라도 값이 없으면
+            inputAllInfo = false;
+        else
+            inputAllInfo = true;
+
+        loadGameBtn.SetActive(inputAllInfo);    // 플레이어가 입력한 정보가 있을 때에만 [게임 불러오기] 버튼 활성화 시키도록
+
+
         loadGame.SetActive(false);
 
         chooseScreen[2].SetActive(false);   // pnlName 비활성화
@@ -192,13 +214,18 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '로비' 화면 버튼 ======================
     void OnClickLoad()
     {
+        //#9-1 [게임 불러오기 - 플레이어 박스에 데이터 연결, 저장하기]
+        // InfoManager.Info.LoadJSONData();    // 데이터 가져오기
+        loadInfoName[0].text = InfoManager.Info.playerName.Trim('"');
+        loadInfoName[1].text = InfoManager.Info.islandName.Trim('"');
+
         Debug.Log("#9-1 플레이어 이름 : " +InfoManager.Info.playerName);
 
-        string name = InfoManager.Info.playerName;
-        // name = name.Substring(1, name.Length - 2);
+        string name = InfoManager.Info.playerName.Trim('"');    //# 큰 따옴표를 제외한 문자열 부분만 가져오기
+                        // name = name.Substring(1, name.Length - 2);   //# 수정 확인 필요
         Debug.Log("#9-1 플레이어 이름 name : " + name);
 
-        if(name == "")  //#9-1 플레이어 정보 없으면 안 눌리도록
+        if(string.IsNullOrEmpty(name))  //#9-1 플레이어 정보 없으면 안 눌리도록
         {
             Debug.Log("정보 없음");
             return;
@@ -245,7 +272,9 @@ public class LobbyManager : MonoBehaviour   //#1-1
     }   
     void OnClickDestroyData()
     {
-        //싱글 플레이 데이터 삭제
+        //싱글 플레이 JSON 데이터 초기화하고, 다시 로비로 이동 
+        InfoManager.Info.InitializeJSONData();  
+        OnClickGoBack();
     }
 
 // '새로운 게임' 화면 내 버튼 배열 ======================
@@ -296,23 +325,26 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // Debug.Log("내가 선택한 컬러 : " + InfoManager.Info.clothesColor);
 // Debug.Log("그냥 백색 컬러 : " + _color);
 
-        if(! (InfoManager.Info.playerName == "") 
-        || !(InfoManager.Info.islandName == ""))
-            inputAllInfo = true;   // 모든 값을 입력했다.
+//#9-1 입력한 플레이어 정보 없으면 [게임 불러오기] 버튼 비활성화
+        _playerName = InfoManager.Info.playerName.Trim('"');
+        _islandName = InfoManager.Info.islandName.Trim('"');
+
+        if(string.IsNullOrEmpty(_playerName) || string.IsNullOrEmpty(_islandName))    // 하나라도 값이 없으면
+            inputAllInfo = false;
+        else if(! string.IsNullOrEmpty(_playerName) && ! string.IsNullOrEmpty(_islandName))
+            inputAllInfo = true;
 
         if(!inputAllInfo)
             return;
         
-
+// 입력한 데이터 있으면 통과~ JSON에 저장하고, 로비로 이동
         InfoManager.Info.SaveJSONData();        //작성한 데이터를 JSON에 저장하기
-
-        //#9-1 [게임 불러오기 - 플레이어 박스에 데이터 연결, 저장하기]
-        loadInfoName[0].text = InfoManager.Info.playerName;
-        loadInfoName[1].text = InfoManager.Info.islandName;
+        inputName.text = null;                  
+        inputIslandName.text = null;
 
         Debug.Log("플레이어 이름 : " + InfoManager.Info.playerName);
 
-        // StartCoroutine(LoadJSONDataFct());  // [새로운 게임 눌렀을 때 들어가지도록]
+        // StartCoroutine(LoadJSONDataFct());  // [새로운 게임 눌렀을 때 들어가지도록] - Save하고 바로 로드하니까 저장되기 전 값이 로드됨
 
         //#9-1 로비로 이동하도록 - ESC와 같은 역할 하면 되겠다~
         OnClickGoBack();
