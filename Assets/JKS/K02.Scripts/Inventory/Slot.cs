@@ -12,7 +12,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
                              ,IPointerEnterHandler, IPointerExitHandler //#8-1 툴팁 구현
 {
     [SerializeField]
-    private int mySlotNumber=0;
+    public int mySlotNumber=0;  //#9-2 정렬에서 사용
 
     private GameObject inventoryObject;
     public Inventory inventory;         //#3-1 // alreadyAsc, alreadyDesc 체크 목적 
@@ -117,11 +117,12 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)   // 드래그 끝날 때 호출되는 이벤트 함수
+    public void OnEndDrag(PointerEventData eventData)   // (D&D 가장 마짐가에 호출됨. OnDrop보다 나중 호출) 드래그 끝날 때 호출되는 이벤트 함수
     {
         DragItem.instance.SetAlpha(0);          // 드래그 앤 드롭 색깔 투명하게
         DragItem.instance.dragStartSlot = null;      //드래그 앤 드롭 끝~!
         //Debug.Log(107);
+        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //#9-3 질문
     }
 
     public void OnDrop(PointerEventData eventData)  // 내 자신한테 무언가가 드롭되었을 때 호출되는 이벤트 함수 (OnEndDrag 보다 먼저 호출된대)
@@ -140,11 +141,13 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     private void ChangeSlotItem()
     {
         //        inventory.SavePreviousItems();            //#3-1 변경 전 아이템 위치 저장
-
+        
         if (inventory.alreadyAsc)
             inventory.alreadyAsc = false;
         if (inventory.alreadyDesc)
             inventory.alreadyDesc = false;
+
+        inventory.sortTimes = 0;                            //#9-2 정렬 횟수 0으로 초기화
 
         inventory.btnInventory[2].SetActive(false);        //#3-1 원위치로 돌아가는 버튼 다시 사라지도록(정렬 버튼 눌렀을 때에만 나오게)
 
@@ -185,12 +188,12 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
             {
                 case 0 : 
                 case 1 :
-                    finalPos.x -= 35f;  //자연스럽게 보이기 위한 위치 조정
+                    finalPos.x -= 70f;  //자연스럽게 보이기 위한 위치 조정
                     finalPos.y -= 30f;
                     break;
                 case 2 :
                 case 3 :
-                    finalPos.x += 35f;  //자연스럽게 보이기 위한 위치 조정
+                    finalPos.x += 70f;  //자연스럽게 보이기 위한 위치 조정
                     finalPos.y -= 30f;
                     break;
             }
@@ -201,10 +204,11 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
             
             if(mySlotNumber<4)  //#7-1 만약 퀵슬롯에서 우클릭을 한 거라면
             {
-                DestructionOpt.instance.OpenDestrucionOpt(true, false); //'퀵 슬롯' 버튼은 열릴 필요가 없지
+                DestructionOpt.instance.OpenDestrucionOpt(true, false, true); //'퀵 슬롯' 버튼 닫고, 인벤토리 이동 버튼 활성화
                 return;
             }
-            DestructionOpt.instance.OpenDestrucionOpt(true);
+            else if(mySlotNumber>=4)    //#9-2 인벤토리 슬롯에서 우클릭을 한 거라면
+                DestructionOpt.instance.OpenDestrucionOpt(true, true, false);
         }
         else    // ??? // 아이템이 없는 곳에 or 좌측 마우스 클릭하면 창 닫히도록
         {

@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public bool alreadyAsc = false;    // 이미 오름차순 버튼 눌렀을 때, 반복해서 함수 실행되지 않도록  
                                        //Slot에서도 접근할 거임(드래그해서 위치 움직인 후에는 false)
     public bool alreadyDesc = false;   // 이미 내림차순 버튼 눌렀을 때, 반복해서 함수 실행되지 않도록
+    public int sortTimes = 0;          //#9-2 정렬한 횟수가 2번이상이 되면, 더이상 이전 값을 저장하지 않도록
 
     [SerializeField]
     private GameObject ImgInventory;
@@ -28,6 +29,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
     [SerializeField]
     private Slot[] slots;                           // 슬롯 배열로 모두 가져오기
     private Slot[] previousSlots;
+    // [SerializeField]
+    // private Slot[] sortSlots;       //#9-2 정렬할 슬롯들
 
     [Header("테스트 목적 아이템 추가")]
     [Space(10)]
@@ -251,11 +254,18 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 alreadyAsc = false;
             }
         }
+        sortTimes++;        // 정렬 1번 했음~
 
-        SavePreviousItems();    // 정렬하기 전 아이템 배열 저장
+        if(sortTimes == 1)  // 정렬 2번 이상 연속으로 하면, 더이상 저장하지 않기. 맨 처음 정렬 버튼 누르기 전의 값만 저장.
+            SavePreviousItems();    // 정렬하기 전 아이템 배열 저장
 
-        Array.Sort(slots, delegate (Slot slot1, Slot slot2)
-        {
+        Array.Sort(slots, delegate (Slot slot1, Slot slot2) 
+        {    
+            //#9-2 퀵슬롯에 해당하는 슬롯은 정렬 안타도록
+            if(slot1.mySlotNumber ==0 || slot1.mySlotNumber ==1 ||slot1.mySlotNumber ==2 ||slot1.mySlotNumber ==3 
+            ||slot2.mySlotNumber ==0 ||slot2.mySlotNumber ==1 ||slot2.mySlotNumber ==2 ||slot2.mySlotNumber ==3 )
+                return 0;
+
             if (slot1.item == null && slot2.item == null)
                 return 0;
             if (slot1.item == null)
@@ -273,7 +283,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         // 변경한 순서에 따라 슬롯 위치도 변경  //Array.Sort 함수로 배열 정렬 후, 슬롯의 위치를 변경해주는 함수
         for (int i = 0; i < slots.Length; i++)
         {
-            slots[i].transform.SetSiblingIndex(i);
+            slots[i].transform.SetSiblingIndex(i);  // 정렬된 함수를 "실제로" 이동시켜주는 함수
         }
     }
 
@@ -360,28 +370,50 @@ public class Inventory : MonoBehaviour, IInventoryBase
         DestructionOpt.instance.RemoveItem();
     }
 
-    public void MoveToQuickSlot(/*Item _item, int _count=1*/)   //#7-1 퀵슬롯으로 아이템 이동   //btnQuickSlot 버튼에 연결
+    public void InvenToQuick(/*Item _item, int _count=1*/)   //#7-1 퀵슬롯으로 아이템 이동   //btnQuickSlot 버튼에 연결
     {
         // DestructionOpt.instance.MoveToQuickSlot();
         // 인벤토리 배열 중 3행에 null 값이 있는지 0열부터 3열까지 검사
-        bool goQuickSlot = false;   // for문 1번만 타도록 검사 장치
+        bool _goQuickSlot = false;   // for문 1번만 타도록 검사 장치
 
-        for(int j=0; j<col && !goQuickSlot; j++)
+        for(int j=0; j<col && !_goQuickSlot; j++)
         {
             if(itemInventory[0, j].Equals(Enum_DropItemType.NONE))
             {
                 // 퀵슬롯으로 이동
-                Item _tempItem = DestructionOpt.instance.changeOptSlot.item;
-                int _tempCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
+                Item _tempQuickItem = DestructionOpt.instance.changeOptSlot.item;
+                int _tempQuickCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
 
                 DestructionOpt.instance.RemoveItem();   //기존 위치의 Slot은 Remove
 
-                slots[0+j].AddSlot(_tempItem, _tempCount);  //이동 후 위치의 Slot(0+j)에는 Add  // 그러면 Slot의 AddSlot 스크립트에서 자동으로 배열에도 업데이트 해줌
+                slots[0+j].AddSlot(_tempQuickItem, _tempQuickCount);  //이동 후 위치의 Slot(0+j)에는 Add  // 그러면 Slot의 AddSlot 스크립트에서 자동으로 배열에도 업데이트 해줌
 
                 
-                goQuickSlot = true;
+                _goQuickSlot = true;
             }
         }
-        
+    }
+
+    public void QuickToInven()  //#9-2 인벤토리로 가는 버튼도 구현
+    {
+        bool _goInvenSlot = false;  //for문 1번만 타도록 검사 장치
+
+        for(int i=1; i<row && !_goInvenSlot; i++)
+        {
+            for(int j=0; j<col && !_goInvenSlot; j++)
+            {
+                if(itemInventory[i, j].Equals(Enum_DropItemType.NONE))
+                {
+                    Item _tempInvenItem = DestructionOpt.instance.changeOptSlot.item;
+                    int _tempInvenCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
+
+                    DestructionOpt.instance.RemoveItem();
+
+                    slots[col*i + j].AddSlot(_tempInvenItem, _tempInvenCount);
+
+                    _goInvenSlot = true;
+                }
+            }
+        }
     }
 }
