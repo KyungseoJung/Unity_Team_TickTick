@@ -403,6 +403,9 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                     UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
                     break;
                 case Enum_PlayerUseItemType.BLUEPRINT:
+                    UseItemType = Enum_PlayerUseItemType.PLAYERWEAPONAXE1;
+                    break;
+                case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
                     UseItemType = Enum_PlayerUseItemType.HAND;
                     break;
             }
@@ -415,7 +418,7 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
             switch (UseItemType)
             {
                 case Enum_PlayerUseItemType.HAND:
-                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
+                    UseItemType = Enum_PlayerUseItemType.PLAYERWEAPONAXE1;
                     break;
                 case Enum_PlayerUseItemType.AXE:
                     UseItemType = Enum_PlayerUseItemType.HAND;
@@ -434,6 +437,9 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
                     break;
                 case Enum_PlayerUseItemType.BLUEPRINT:
                     UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
+                    break;
+                case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
+                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
                     break;
             }
 
@@ -1021,5 +1027,10 @@ public class csLevelManager : csGenericSingleton<csLevelManager>
         }
 
         yield return null;
+    }
+
+    public void ChangePlayerUseItem()
+    {
+
     }
 }

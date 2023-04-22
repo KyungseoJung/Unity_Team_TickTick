@@ -27,8 +27,9 @@ namespace TeamInterface
     public enum Enum_CubeType { DARKSOIL= 0, STON, GRASS, SOIL, SEND, WATER }
     public enum Enum_CubeState { NONE = 0 , GRASS1, GRASS2, TREE1, TREE2, ROCK1, FIELD };
     public enum Enum_AnimState { IDLE=0, JUMP,WALK, ATTACK, TRACE, DIE};
-    public enum Enum_DropItemType { NONE=0, STON,WOOD, FRUIT, WEAPON_SWORD, CARROT };
-    public enum Enum_PlayerUseItemType { HAND=0, BLUEPRINT, SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER};
+    public enum Enum_DropItemType { NONE=0, STON,WOOD, FRUIT, CARROT,
+                                SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE };
+    public enum Enum_PlayerUseItemType { HAND=0, BLUEPRINT, SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE };
     public enum Enum_ObjectGrowthLevel { ZERO =0, ONE, TWO, THREE, FOUR, FIVE}
 
     public interface IPreViewBase

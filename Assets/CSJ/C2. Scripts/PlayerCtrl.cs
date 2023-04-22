@@ -294,14 +294,18 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         mouseX += Input.GetAxis("Mouse X") * 5;
         mouseY += Input.GetAxis("Mouse Y") * 5;
         //transform.eulerAngles = new Vector3(-mouseY,mouseX, 0);
-        transform.eulerAngles = new Vector3(0,mouseX, 0);
-        //좌우 회전
+        transform.eulerAngles = new Vector3(0,mouseX, 0); // 캐릭터 좌우 회전
+        theCamera.transform.eulerAngles = new Vector3(Mathf.Clamp((-mouseY), -35f, 50f), mouseX, 0);// 카메라 상하, 좌우 회전
+       
 
         //theCamera.transform.eulerAngles = new Vector3(mouseY,0, 0);
-        Vector3 tpmCamPos =new Vector3( -mouseY, transform.rotation.y,0);
-        camPos.transform.rotation = Quaternion.Euler(tpmCamPos);
-        theCamera.transform.LookAt(camPos);
+        //Vector3 tpmCamPos =new Vector3( -mouseY, transform.rotation.y,0);
+        //camPos.transform.rotation = Quaternion.Euler(tpmCamPos);
+        //theCamera.transform.LookAt(camPos);
         //위아래 회전
+
+        //camPos.localRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+        //camPos.transform.eulerAngles = new Vector3(Mathf.Clamp((-mouseY),-35f,50f), 0, 0);
     }
 
     // public void DamageProcess(int damage)

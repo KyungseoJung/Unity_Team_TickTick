@@ -55,7 +55,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
         inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //# 용훈님 추가 내용. 슬롯 데이터 저장 목적
 
-        if (!item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD))    //무기가 아니라면 개수와 함께 슬롯에 추가
+        if (!item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1))    //무기가 아니라면 개수와 함께 슬롯에 추가
         {
             // ImgCount.SetActive(true);
             txtCount.text = itemTotalSum.ToString();

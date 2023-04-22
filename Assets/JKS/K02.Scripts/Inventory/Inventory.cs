@@ -124,7 +124,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
             switch (dropItemType)
             {
                 case Enum_DropItemType.NONE:
-                    Debug.Log("무슨아이템인지 모르겠음");
+                    Debug.Log("빈칸 -> 손");
                     return;
                 case Enum_DropItemType.FRUIT:
                     _item = objFruit.GetComponent<Item>();
@@ -135,17 +135,37 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 case Enum_DropItemType.WOOD:
                     _item = objWood.GetComponent<Item>();
                     break;
-                case Enum_DropItemType.WEAPON_SWORD:
+                case Enum_DropItemType.PLAYERWEAPONAXE1:
                     Debug.Log("아이템에 웨폰 연결해줘야함");
+                    break;
+                case Enum_DropItemType.SHOVEL:
+                    Debug.Log("삽");
+                    break;
+                case Enum_DropItemType.AXE:
+                    Debug.Log("도끼");
+                    break;
+                case Enum_DropItemType.PICKAXE:
+                    Debug.Log("곡괭이");
+                    break;
+                case Enum_DropItemType.HOE:
+                    Debug.Log("괭이");
+                    break;
+                case Enum_DropItemType.BLOCKSOIL:
+                    Debug.Log("땅");
+                    break;
+                case Enum_DropItemType.BLUEPRINTTENT:
+                    Debug.Log("탠트 청사진");
+                    break;
+                case Enum_DropItemType.BLUEPRINTWATCHFIRE:
+                    Debug.Log("모닥불 청사진");
                     break;
                 default:
                     Debug.Log("무슨아이템인지 모르겠음");
                     return;
-
             }
         }
 
-        if (!_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD)) // SWORD 외의 아이템을 collect 했을 때
+        if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)) // SWORD 외의 아이템을 collect 했을 때
         {
             //for (int i = 0; i < slots.Length; i++)  //획득한 아이템이 슬롯에 이미 있는 아이템인가 확인
             //{
@@ -177,7 +197,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
             }            
         }
-        else if (_item.ItemType.Equals(Enum_DropItemType.WEAPON_SWORD)) // sword를 collect 했을 때
+        else if (_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)) // sword를 collect 했을 때
         {
             tmpCheck = false;
             _count = 1;

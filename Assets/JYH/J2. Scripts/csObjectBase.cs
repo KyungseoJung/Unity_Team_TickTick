@@ -127,6 +127,8 @@ namespace JinscObjectBase
                     {
                         Shake();
                     }
+
+                    
                     break;
             }
         }
