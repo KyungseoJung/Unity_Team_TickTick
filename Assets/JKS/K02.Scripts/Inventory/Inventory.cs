@@ -37,8 +37,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public GameObject objFruit;
     public GameObject objSton;
     public GameObject objWood;
-
-    public Item equipment1;
+    public GameObject equipment1;
 
     [Header("정렬 임시 버튼")]
     [Space(10)]
@@ -376,12 +375,23 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
 
     public void ChangeSlotData(int slotNum, int count=0,Enum_DropItemType type= Enum_DropItemType.NONE)
-    { 
-        //Debug.Log("110" + slotNum + slots.Length);
+    {
+        //for (int i = 0; i < row ; i++)
+        //{
+        //    for (int j = 0; j < col ; j++)
+        //    {
+        //        Debug.Log(itemInventory[i, j]
+        //                    + " : " +  itemInventoryCount[i,j]);
+        //    }
+        //}
 
+        //Debug.Log("110" + slotNum + slots.Length);
+        //Debug.Log(slotNum + " ..??.. " + (slotNum / this.col) +","+ (slotNum % this.col));
         //Debug.Log("111" + slots[slotNum].item.ItemType + slots[slotNum].itemTotalSum);
+
         itemInventory[(slotNum / this.col) , (slotNum%this.col)] = type;
         itemInventoryCount[(slotNum / this.col), (slotNum % this.col)] = count;
+
         //Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
     }
 

@@ -118,11 +118,12 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     }
 
     public void OnEndDrag(PointerEventData eventData)   // (D&D 가장 마짐가에 호출됨. OnDrop보다 나중 호출) 드래그 끝날 때 호출되는 이벤트 함수
-    {
+    {      
+
         DragItem.instance.SetAlpha(0);          // 드래그 앤 드롭 색깔 투명하게
         DragItem.instance.dragStartSlot = null;      //드래그 앤 드롭 끝~!
-        //Debug.Log(107);
-        inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //#9-3 질문
+        //Debug.Log(107);        
+        // inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //#9-3 질문 /A/ 저도 이거 무슨 생각하면서 넣었는지 모르겠어요..ㅠ 있으면 잘되지만 에러나고 없으면 잘되고 에러안나서 주석함
     }
 
     public void OnDrop(PointerEventData eventData)  // 내 자신한테 무언가가 드롭되었을 때 호출되는 이벤트 함수 (OnEndDrag 보다 먼저 호출된대)

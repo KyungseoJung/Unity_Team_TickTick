@@ -42,7 +42,7 @@ Shader "ChoiProCustom/WooProProgress" {
 	ENDCG
 	
 	SubShader {
-		Tags {"Queue"="Transparent" "RenderType"="Transparent" }
+		Tags {"Queue"="Transparent+1" "RenderType"="Overlay" }
 		LOD 200
 		Pass{
 			Blend SrcAlpha OneMinusSrcAlpha
