@@ -145,6 +145,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         Move();
         //CameraRotation();
         CharacterRotation();
+
+      
         
     }
 
@@ -268,9 +270,21 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         // Animator 컴포넌트 가져오기
         Animator animator = GetComponent<Animator>();
 
+
+        // if (_velocity.magnitude > 0)
+        // {
+        //     anim.SetBool("isWalk", true);
+        // }
+        // else
+        // {
+        //     anim.SetBool("isWalk", false);
+        // }
+
+
         anim.SetBool("isWalk", _velocity != Vector3.zero);
         //anim.SetBool("isRun", isRun);
-       
+
+        //_velocity != Vector3.zero)
     }
 
     private void CameraRotation()
