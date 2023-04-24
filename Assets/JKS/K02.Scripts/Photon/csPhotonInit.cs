@@ -185,7 +185,7 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     //RoomItem이 차일드로 생성될 Parent 객체의 레퍼런스 (UI 버전에서 사용)
     public GameObject scrollContents;
     //룸 목록만큼 생성될 RoomItem 프리팹 연결 레퍼런스 (UI 버전에서 사용)
-    public GameObject roomItem;
+    public GameObject roomItem; //ImgRoomItem 프리팹 연결 - CreateRoom 하면 다른 플레이어들도 들어올 수 있도록
 
 
     //플레어의 생성 위치 저장 레퍼런스
@@ -662,7 +662,7 @@ SceneManager.UnloadSceneAsync("02. Room");
         PhotonNetwork.JoinRandomRoom();
     }
 
-    //Make Room 버튼 클릭 시 호출될 함수 (UI 버전에서 사용)
+    //Make Room 버튼 클릭 시 호출될 함수 (UI 버전에서 사용) //#10-1 b tnHostGameStart 버튼과 연결
     public void OnClickCreateRoom()
     {
         string _roomName = roomName.text;
@@ -698,6 +698,9 @@ SceneManager.UnloadSceneAsync("02. Room");
     //생성된 룸 목록이 변경됐을 때 호출되는 콜백 함수 (최초 룸 접속시 호출) (UI 버전에서 사용)
     void OnReceivedRoomListUpdate()
     {
+        if(LobbyManager.playSingleGame) //#10-1 싱글 플레이라면, 다른 플레이어가 들어올 수 있는 버튼 만들지 않도록.
+            return;
+
         // 포톤 클라우드 서버에서는 룸 목록의 변경이 발생하면 클라이언트로 룸 목록을 재전송하기
         // 때문에 밑에 로직이 없으면 다른 클라이언트에서 룸을 나갈때마다 룸 목록이 쌓인다.
         // 룸 목록을 다시 받았을 때 새로 갱신하기 위해 기존에 생성된 RoomItem을 삭제  

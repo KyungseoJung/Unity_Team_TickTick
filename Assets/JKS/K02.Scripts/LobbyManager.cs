@@ -11,7 +11,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public Button goBackBtn;           //'뒤로가기 버튼'
     string _playerName;             //#9-1 플레이어가 값을 입력했는지 확인하는 목적
     string _islandName;
-
+    public static bool playSingleGame = true;       //#10-1 싱글플레이 or 멀티 플레이인지 확인용(csPhotonInit에서 가져갈 예정) - 경우에 따라 csPhotonInit에서 방을 만들거나 or 안 만들거나
 // '로비' 화면 ======================
     [Header("로비 화면")]
     [Space(10)]                         //변수들의 간격을 위한 어트리뷰트 선언(보기 좋다)
@@ -22,6 +22,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public GameObject multiGame;        // '멀티 플레이' 화면
 
     public GameObject loadGameBtn;      //#9-1 '게임 불러오기' 버튼 - 활성화/ 비활성화 목적
+    public GameObject multiPlayBtn;     //#9-4 '멀티 플레이' 버튼 - 활성화/ 비활성화 목적
 // '게임 불러오기' 화면 ======================
     [Header("게임 불러오기 화면")]
     [Space(10)]
@@ -53,11 +54,13 @@ public class LobbyManager : MonoBehaviour   //#1-1
     [Header("멀티 플레이 화면")]
     [Space(10)]
     public Button[] multiGameBtns;   // '멀티 플레이' 화면 내 버튼 배열
+    //0부터 순서대로 : btnStart, btnDestroy, btnHostGame, btnOpenGames, btnConnect
     public GameObject[] multiScreen;       
     // 0부터 순서대로 : (pnlPlayerList 오브젝트), (pnlMulti 오브젝트), (HostGame 오브젝트), (OpenGames 오브젝트)
     public Toggle[] tgHostOption;
     public Toggle[] tgOpenOption;   
     public Text hostOptExplain;     // 호스트 옵션 설명 텍스트
+    public Text[] loadMInfoName;      //#9-4  플레이어 이름 //[0]부터 : txtPlayerName, txtIslandName
 
 // '멀티 플레이' 화면 ======================
     [Header("다음 씬 넘어가기 임시 버튼")]
@@ -105,9 +108,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
         inputIslandName.onValueChanged.AddListener(OnInputChange2);
  // '멀티 플레이' 화면 내 버튼 배열 ======================
         multiGameBtns[0].onClick.AddListener(OnClickMultiStart);
-        multiGameBtns[1].onClick.AddListener(OnClickHostGame);
-        multiGameBtns[2].onClick.AddListener(OnClickOpenGame);
-        multiGameBtns[3].onClick.AddListener(OnClickLANGame);
+        multiGameBtns[1].onClick.AddListener(OnClickDestroyData);
+        multiGameBtns[2].onClick.AddListener(OnClickHostGame);
+        multiGameBtns[3].onClick.AddListener(OnClickOpenGame);
+        multiGameBtns[4].onClick.AddListener(OnClickLANGame);
 
         for(int i=0; i<tgHostOption.Length ; i++)
         {
@@ -177,8 +181,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
         else
             inputAllInfo = true;
 
-        loadGameBtn.SetActive(inputAllInfo);    // 플레이어가 입력한 정보가 있을 때에만 [게임 불러오기] 버튼 활성화 시키도록
+        Debug.Log("모든 정보 적혀있나요? : " + inputAllInfo);
 
+        loadGameBtn.SetActive(inputAllInfo);    // 플레이어가 입력한 정보가 있을 때에만 [게임 불러오기] 버튼 활성화 시키도록
+        multiPlayBtn.SetActive(inputAllInfo);   //#9-4 위와 동일
 
         loadGame.SetActive(false);
 
@@ -214,6 +220,9 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // '로비' 화면 버튼 ======================
     void OnClickLoad()
     {
+        if(!playSingleGame)      //#10-1 멀티플레이일 때에만, 다른 플레이어도 들어올 수 있는 방 IngRoomItem 만들기
+            playSingleGame = true;
+
         //#9-1 [게임 불러오기 - 플레이어 박스에 데이터 연결, 저장하기]
         // InfoManager.Info.LoadJSONData();    // 데이터 가져오기
         loadInfoName[0].text = InfoManager.Info.playerName.Trim('"');
@@ -254,6 +263,12 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
     void OnClickMultiGame()
     {
+        if(playSingleGame)          //#10-1 멀티플레이일 때에만, 다른 플레이어도 들어올 수 있는 방 IngRoomItem 만들기
+            playSingleGame = false;
+
+        loadMInfoName[0].text = InfoManager.Info.playerName.Trim('"');
+        loadMInfoName[1].text = InfoManager.Info.islandName.Trim('"');
+
         lobby.SetActive(false);
         multiGame.SetActive(true);
 
