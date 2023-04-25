@@ -128,10 +128,16 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
             if (tmp!= null)
             {
+                //GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetObjDMG(dmg, tmp, useItemType);
                 //Debug.Log("dmg2");
                 tmp.SetHpDamaged(dmg, useItemType);
             }           
         }
+    }
+
+    public Vector3 GetCubePos()
+    {
+        return new Vector3(transform.position.x, transform.position.y * 2, transform.position.z);
     }
 
     public void DelayDestroy()

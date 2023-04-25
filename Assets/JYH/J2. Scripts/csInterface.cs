@@ -106,6 +106,8 @@ namespace TeamInterface
         void OffHighlighter();
 
         void StartAction(float dmg, Enum_PlayerUseItemType useItemType);
+
+        Vector3 GetCubePos();
     }
 
     public interface IObjectStatus

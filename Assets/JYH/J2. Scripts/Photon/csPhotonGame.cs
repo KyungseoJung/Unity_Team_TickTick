@@ -545,6 +545,17 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
+    public void SetObjDMG(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
+    {
+        pV.RPC("SetObjDMGRPC", PhotonTargets.AllBuffered, pos, dmg, ui);
+    }
+
+    [PunRPC]
+    void SetObjDMGRPC(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
+    {
+        worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().StartAction(dmg, ui);
+    }
+
     IEnumerator PlayerUseItem(Enum_PlayerUseItemType type)//플레이어가 들고있는 장비에 따라 다른 액션
     {
         actionNow = false;
@@ -559,7 +570,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (oldBlock != null)//흔들기
                 {
                     //Debug.Log("hit");
-                    oldBlock.StartAction(1, UseItemType);
+                    //oldBlock.StartAction(1, UseItemType);
+                    SetObjDMG(oldBlock.GetCubePos(), 1, UseItemType);
                     // Debug.Log("탄다2");
                 }
                 break;
@@ -615,7 +627,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (oldBlock != null)//흔들기
                 {
                     //Debug.Log("hit");
-                    oldBlock.StartAction(1, UseItemType);
+                    //oldBlock.StartAction(1, UseItemType);
+                    SetObjDMG(oldBlock.GetCubePos(), 1, UseItemType);
                     // Debug.Log("탄다2");
                 }
                 return;
@@ -750,7 +763,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (oldBlock != null)//흔들기
                 {
                     //Debug.Log("hit2");
-                    oldBlock.StartAction(1, UseItemType);
+                    //oldBlock.StartAction(1, UseItemType);
+                    SetObjDMG(oldBlock.GetCubePos(), 1, UseItemType);
                     // Debug.Log("탄다2");
                 }
                 return;
