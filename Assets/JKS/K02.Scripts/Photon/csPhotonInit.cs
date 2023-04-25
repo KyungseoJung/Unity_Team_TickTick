@@ -187,7 +187,25 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     //룸 목록만큼 생성될 RoomItem 프리팹 연결 레퍼런스 (UI 버전에서 사용)
     public GameObject roomItem; //ImgRoomItem 프리팹 연결 - CreateRoom 하면 다른 플레이어들도 들어올 수 있도록
 
+//#10-1 ==================================
+// 룸 속성 설정할 해쉬테이블 저장
+    [Space(20)]
+    [Header(" 해쉬테이블 ======= ")]
+    [HideInInspector]
+    public ExitGames.Client.Photon.Hashtable targetHash;
 
+    [Space(20)]
+    [Header(" 방 생성")]
+    public Toggle tgIsScretRoom;  //비밀방인지 체크하는 토글
+    public InputField createRoomPassWord;
+    private RoomData targetRoom;    //public이어야 하나?
+
+//#10-1 ==================================
+    [Space(20)]
+    [Header(" 방 입장")]
+    // public InputField inputEntranceRoomPassWord; // 방 입장할 때 적을 비밀번호
+
+// ==================================
     //플레어의 생성 위치 저장 레퍼런스
     public Transform playerPos;
 
@@ -265,7 +283,7 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
 //        Debug.Log("공부용 : MyRoom 들어가기 성공했나?");
 
         // 유저 아이디를 가져와 셋팅 (UI 버전에서 사용)
-        userId = GetUserId();   //userId.text = GetUserId();
+        userId = GetUserId();   //# JSON에 저장된 데이터 가져오기 //userId.text = GetUserId();
 
 /*
 * Method
@@ -316,7 +334,7 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     }
 
     //로컬에 저장된 플레이어 이름을 반환하거나 랜덤 생성하는 함수 (UI 버전에서 사용)
-    string GetUserId()
+    string GetUserId()  // 이건 원래 있던 함수이고, 안에 내용을 JSON으로 가져오도록 하는 부분만 내가 수정한 것
     {
         //(참고) 구글플레이 연동시 구글 아이디로 유저 아이디 가져오자.
         string userId = InfoManager.Info.playerName;    //PlayerPrefs.GetString("USER_ID");
@@ -665,16 +683,34 @@ SceneManager.UnloadSceneAsync("02. Room");
     //Make Room 버튼 클릭 시 호출될 함수 (UI 버전에서 사용) //#10-1 b tnHostGameStart 버튼과 연결
     public void OnClickCreateRoom()
     {
-        string _roomName = roomName.text;
-        Debug.Log("//#6-1 방 이름은 : " + _roomName );
-        //룸 이름이 없거나 Null일 경우 룸 이름 지정
-        if(string.IsNullOrEmpty(roomName.text))
-        {
-            //자릿수 맞춰서 반환
-            _roomName = "ROOM_" + Random.Range(0, 999).ToString("000");
-        Debug.Log("//#6-2 방 이름은 : " + _roomName );
+        Debug.Log("//#10 호스트 게임 클릭");
 
+        string _roomName = roomName.text;
+        string _roomPassword = createRoomPassWord.text;   //#10-1 패스워드 
+        
+        if(string.IsNullOrEmpty(roomName.text)) //룸 이름이 없거나 Null일 경우 룸 이름 지정
+        {
+            _roomName = "ROOM_" + Random.Range(0, 999).ToString("000"); //자릿수 맞춰서 반환
         }
+
+//#10-1 '비밀방' 토글 켜져 있는데, 입력한 값 없으면 _roomPassWord = "";
+        if(tgIsScretRoom.isOn)
+        {
+        Debug.Log("//#10 토글 클릭되어 있네");
+
+            if(string.IsNullOrEmpty(createRoomPassWord.text))
+            {
+                tgIsScretRoom.isOn = false;
+                _roomPassword = ""; 
+            }
+        }
+        else    // 꺼져 있으면 = "";
+        {
+        Debug.Log("//#10 토글 꺼져 있네");
+
+            _roomPassword = "";
+        }
+        
 
         //로컬 플레이어의 이름을 설정
         PhotonNetwork.player.NickName = userId;     //userId.text;
@@ -686,20 +722,36 @@ SceneManager.UnloadSceneAsync("02. Room");
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.IsVisible = true;
-        roomOptions.MaxPlayers = 10;
+        
+        if(LobbyManager.playSingleGame)
+            roomOptions.MaxPlayers = 1;
+        else
+            roomOptions.MaxPlayers = 4;
 
         //생성할 룸의 조건 설정 2 (객체 생성과 동시에 멤버변수 초기화)
         //RoomOptions roomOptions = new RoomOptions() { IsOpen=true, IsVisible=true, MaxPlayers=50 };
+
+// #10-1
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()  //#각종 방 설정 의미
+        {
+            {"password", _roomPassword}
+            //,{"RoomOpenSettings", }
+        };
+
+        roomOptions.CustomRoomPropertiesForLobby = new string[] //# 로비에서 표시되는 방의 정보 의미
+        {
+            "password",
+        };
 
         //지정한 조건에 맞는 룸 생성 함수 
         PhotonNetwork.CreateRoom(_roomName, roomOptions, TypedLobby.Default);
     }
 
     //생성된 룸 목록이 변경됐을 때 호출되는 콜백 함수 (최초 룸 접속시 호출) (UI 버전에서 사용)
-    void OnReceivedRoomListUpdate()
+    public void OnReceivedRoomListUpdate()  //BtnMultiPlay에서 사용하기 위함
     {
-        if(LobbyManager.playSingleGame) //#10-1 싱글 플레이라면, 다른 플레이어가 들어올 수 있는 버튼 만들지 않도록.
-            return;
+        // if(LobbyManager.playSingleGame) //#10-1 싱글 플레이라면, 다른 플레이어가 들어올 수 있는 버튼 만들지 않도록.
+        //     return;
 
         // 포톤 클라우드 서버에서는 룸 목록의 변경이 발생하면 클라이언트로 룸 목록을 재전송하기
         // 때문에 밑에 로직이 없으면 다른 클라이언트에서 룸을 나갈때마다 룸 목록이 쌓인다.
@@ -722,7 +774,7 @@ SceneManager.UnloadSceneAsync("02. Room");
         //GetRoomList 함수는 RoomInfo 클래스 타입의 배열을 반환
         foreach(RoomInfo _room in PhotonNetwork.GetRoomList())
         {
-            Debug.Log("//#6-4 방 이름을 이걸로 해서 만들어 : " + _room.name);
+            // Debug.Log("//#6-4 방 이름을 이걸로 해서 만들어 : " + _room.name);
             //RoomItem 프리팹을 동적으로 생성 하자
             GameObject room = (GameObject)Instantiate(roomItem);
             //생성한 RoomItem 프리팹의 Parent를 지정    //# 지금까지 하던 함수 말고 이렇게도 Parent 지정이 가능하구나~
@@ -744,25 +796,33 @@ SceneManager.UnloadSceneAsync("02. Room");
             roomData.roomName = _room.Name;
             roomData.connectPlayer = _room.PlayerCount;
             roomData.maxPlayers = _room.MaxPlayers;
+//#10-1 해쉬
+            roomData.myRoomHashT = _room.CustomProperties;
+            string hashPassword = (string)roomData.myRoomHashT["password"];
+            if(hashPassword == "")  
+            {
+                roomData.SetSecretImage(false);
+            }
+            else
+            {
+                roomData.SetSecretImage(true);
+            }
 
             //텍스트 정보를 표시 
             roomData.DisplayRoomData();
-
 //#19 버튼과 동적으로 연결
             //RoomItem의  Button 컴포넌트에 클릭 이벤트를 동적으로 연결 
-            if(roomData != null)
-                Debug.Log("//#6 roomData는 null이 아님");
-
+            // if(roomData != null)
+            //     Debug.Log("//#6 roomData는 null이 아님");
 //#6-1 오류 잡기 잠깐 주석 - 원인 해결 - 버튼이 한 단계 아래에 연결되어 있었음
             Transform buttonTransform = roomData.transform.GetChild(0); // 0번째 자식 오브젝트의 Transform 컴포넌트 가져오기
+            buttonTransform.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { OnClickRoomItem(roomData.roomName, roomData); Debug.Log("Room Click " + roomData.roomName); });
 
-            buttonTransform.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { OnClickRoomItem(roomData.roomName); Debug.Log("Room Click " + roomData.roomName); });
-
-            UnityEngine.UI.Button button = buttonTransform.GetComponent<UnityEngine.UI.Button>();
-            if(button != null)
-                Debug.Log("//#6 button은 null이 아님");
-            else
-                Debug.Log("//#6 Button은 null임");
+            // UnityEngine.UI.Button button = buttonTransform.GetComponent<UnityEngine.UI.Button>();
+            // if(button != null)
+            //     Debug.Log("//#6 button은 null이 아님");
+            // else
+            //     Debug.Log("//#6 Button은 null임");
             /*
              * delegate (인자) { 실행코드 };  => 인자는 생략 가능하다
              * delegate (room.name) { OnClickRoomItem( room.name ); Debug.Log("Room Click " + room.name); };
@@ -773,6 +833,9 @@ SceneManager.UnloadSceneAsync("02. Room");
             scrollContents.GetComponent<GridLayoutGroup>().constraintCount = ++rowCount;
             //스크롤 영역의 높이를 증가시키자
             scrollContents.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 20);
+
+//#10-1 용훈님 과거 파일 OnClickRoomItem 이라는 별도의 함수 만들어서 호출함
+            OnShowRoomItem(roomData);
         }
 
     }   
@@ -792,13 +855,37 @@ SceneManager.UnloadSceneAsync("02. Room");
      * 설명하고 있으나, 네트워크 환경에 따라서 오차가 있을 수 있다. 따라서 실시간으로 룸 정보가 갱신되지
      * 않는다는 것을 기억하라.
      */
-
-    //RoomItem이 클릭되면 호출될 이벤트 연결 함수 (UI 버전에서 사용)
-    void OnClickRoomItem(string roomName)
+    void OnShowRoomItem(RoomData _roomData) //#10-1 =======================================
     {
+        // 방의 정보 보여주는 코드
+    }
+    
+    //RoomItem이 클릭되면 호출될 이벤트 연결 함수 (UI 버전에서 사용)
+    void OnClickRoomItem(string roomName, RoomData _data)   // 각 ImgRoomItem의 비밀번호 Ok 버튼에 연결하기
+    {
+//#10-1 비밀번호 있는 방일 때, 비밀번호 맞추면 그때 JOIN 하도록
+        targetRoom = _data;
+        targetHash = _data.myRoomHashT;
+
+        Debug.Log("//#10 방 클릭");
+        
+        if((string)targetHash["password"] != "")    // 비밀번호가 존재할 때
+        {
+            Debug.Log("//#10 비밀번호 존재");
+            
+            if(!targetRoom.CheckPassword()) //(비밀번호가 같지 않다면)
+            {
+                Debug.Log("//#10 비밀번호 달라");
+                return;
+            }
+            Debug.Log("//#10 비밀번호 같아");
+        }
+        //존재하지 않는다면, 그냥 바로 입장
+        
         //로컬 플레이어의 이름을 설정
         PhotonNetwork.player.NickName = userId; //userId.text;
 
+        Debug.Log("//#10 조인할래ㅠㅠ");
         //플레이어 이름을 저장
         //PlayerPrefs.SetString( "USER_ID", userId.text );
 

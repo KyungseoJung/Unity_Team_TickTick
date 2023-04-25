@@ -61,8 +61,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public Toggle[] tgOpenOption;   
     public Text hostOptExplain;     // 호스트 옵션 설명 텍스트
     public Text[] loadMInfoName;      //#9-4  플레이어 이름 //[0]부터 : txtPlayerName, txtIslandName
-
-// '멀티 플레이' 화면 ======================
+    public GameObject inputFieldPassWord;   //#10-1  '비밀방' 토글(tgHostOption[3]) 체크 되어있을 때에만 활성화 되도록
+// 임시 버튼 ======================
     [Header("다음 씬 넘어가기 임시 버튼")]
     [Space(10)]
     public Button btnGoNextScene;
@@ -211,6 +211,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         multiScreen[1].SetActive(false);    // pnlMulti 비활성화 (마지막으로 끄기~)
         multiScreen[0].SetActive(true);     // pnlPlayerList 활성화  (켜두고)
         multiGame.SetActive(false);
+        inputFieldPassWord.SetActive(false);    //비밀번호 누르는 (inputFieldPassWord) 비활성화
 
         lobby.SetActive(true);
 
@@ -451,15 +452,19 @@ public class LobbyManager : MonoBehaviour   //#1-1
         {
             case 0 : 
                 hostOptExplain.text = "친구만~~ 설명내용";
+                inputFieldPassWord.SetActive(false);
                 break;
             case 1 :
                 hostOptExplain.text = "초대만~~ 설명내용";
+                inputFieldPassWord.SetActive(false);
                 break;
             case 2 :
                 hostOptExplain.text = "공개~~ 설명내용";
+                inputFieldPassWord.SetActive(false);
                 break;
             case 3 : 
-                hostOptExplain.text = "LAN~~ 설명내용";
+                hostOptExplain.text = "비밀방 //LAN~~ 설명내용";
+                inputFieldPassWord.SetActive(true);
                 break;
             default : 
                 break;
