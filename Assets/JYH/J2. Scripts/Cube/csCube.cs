@@ -32,7 +32,10 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
     public void SetObj(Enum_CubeState state, int val=0, Enum_ObjectGrowthLevel gl = Enum_ObjectGrowthLevel.ZERO)
     {
-        StartCoroutine(CreateObj(state, val, gl));
+        if (!cubeInfo.type.Equals(Enum_CubeType.WATER))
+        {
+            StartCoroutine(CreateObj(state, val, gl));
+        }
     }
 
     IEnumerator CreateObj(Enum_CubeState state, int val, Enum_ObjectGrowthLevel gl)
