@@ -109,12 +109,12 @@ public class csPhotonGame : Photon.MonoBehaviour
                         if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null && i == 27)
                         {
                             GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (pos.y + (i - y)) * 0.5f, pos.z), Quaternion.identity);
-                            worldBlock[x, y, z] = new Block(Enum_CubeType.WATER, true, tmpObj);
+                            worldBlock[x, y, z] = new Block(Enum_CubeType.WATER, true, tmpObj,true);
                             tmpObj.GetComponent<csCube>().SetCube(worldBlock[x, y, z]);
                         }
                         else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null)
                         {
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null);
+                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null,false);
                         }
                     }
                     //Debug.Log(1111);                    
@@ -236,7 +236,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
             else
             {
-                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.GRASS, v, null);
+                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.GRASS, v, null, false);
             }
         }
         else if (y > 5)
@@ -249,7 +249,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
             else
             {
-                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.SOIL, v, null);
+                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.SOIL, v, null, false);
             }
         }
         else if (y >= 0)
@@ -262,7 +262,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
             else
             {
-                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.STON, v, null);
+                worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.STON, v, null, false);
             }
         }
     }
