@@ -298,15 +298,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5053981575348401784}
     m_Modifications:
-    - target: {fileID: 7112043620007332321, guid: c77c2aa0382c6d549a4ac22f25f67d97,
+    - target: {fileID: -4370532654108734827, guid: c77c2aa0382c6d549a4ac22f25f67d97,
         type: 3}
-      propertyPath: rotateSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7112043620007332321, guid: c77c2aa0382c6d549a4ac22f25f67d97,
-        type: 3}
-      propertyPath: directionChangeInterval
-      value: 3
+      propertyPath: ObservedComponents.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7294059537172008404, guid: c77c2aa0382c6d549a4ac22f25f67d97,
         type: 3}
@@ -368,7 +363,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: 4 Magpie
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8630109368203013337, guid: c77c2aa0382c6d549a4ac22f25f67d97, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c77c2aa0382c6d549a4ac22f25f67d97, type: 3}
 --- !u!4 &2529595789085560665 stripped
 Transform:

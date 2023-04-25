@@ -98,11 +98,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3 Crocodile
       objectReference: {fileID: 0}
-    - target: {fileID: 8851120999681772496, guid: 57deac5745087f044aae4ef79f5f99f3,
-        type: 3}
-      propertyPath: directionChangeInterval
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57deac5745087f044aae4ef79f5f99f3, type: 3}
 --- !u!4 &5798996942033309646 stripped
