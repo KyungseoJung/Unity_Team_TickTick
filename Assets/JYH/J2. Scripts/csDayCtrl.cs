@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class csDayCtrl : MonoBehaviour
+public class csDayCtrl : Photon.MonoBehaviour, IPunObservable
 {
     [Header("[라이트 컬러 값]")]
     [SerializeField]
@@ -14,13 +14,13 @@ public class csDayCtrl : MonoBehaviour
     float skyOffSetVal = 0;
 
     [Header("[스카이돔 해=0, 달, 별]")]
-    public GameObject[] skyObj= new GameObject[3];
+    public GameObject[] skyObj = new GameObject[3];
     bool skyObjActive = true;
 
     private void Start()
     {
         skyObj[0].SetActive(true);
-        for (int i=1;i< skyObj.Length; i++)
+        for (int i = 1; i < skyObj.Length; i++)
         {
             skyObj[i].SetActive(false);
         }
@@ -43,7 +43,7 @@ public class csDayCtrl : MonoBehaviour
             {
                 skyOffSetVal = 0f;
 
-                csLevelManager.Ins.NextDay();
+                GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().NextDay();
             }
 
             //스카이박스 머테리얼 설정
@@ -53,7 +53,8 @@ public class csDayCtrl : MonoBehaviour
             //환경광 색갈 설정
             float tmpVal = 0f;
 
-            if (skyOffSetVal<=0.5f) {
+            if (skyOffSetVal <= 0.5f)
+            {
                 tmpVal = 1f - skyOffSetVal;
                 dayLight.color = new Color(tmpVal, tmpVal, tmpVal, 1f);//0f~1f : 0~255
             }
@@ -64,14 +65,14 @@ public class csDayCtrl : MonoBehaviour
 
 
             //해 달 별 오브젝트 설정
-            if (skyObjActive && (skyOffSetVal<0.3f || skyOffSetVal > 0.7f))
+            if (skyObjActive && (skyOffSetVal < 0.3f || skyOffSetVal > 0.7f))
             {
                 skyObjActive = false;
                 skyObj[0].SetActive(true);
                 skyObj[1].SetActive(false);
                 skyObj[2].SetActive(false);
             }
-            else if(!skyObjActive && (skyOffSetVal >= 0.3f && skyOffSetVal <= 0.7f))
+            else if (!skyObjActive && (skyOffSetVal >= 0.3f && skyOffSetVal <= 0.7f))
             {
                 skyObjActive = true;
                 skyObj[0].SetActive(false);
@@ -93,6 +94,18 @@ public class csDayCtrl : MonoBehaviour
     public void SetDaySkyOffSet(float val)
     {
         //Debug.Log(val);
-        skyOffSet.mainTextureOffset = new Vector2(val,0);
+        skyOffSet.mainTextureOffset = new Vector2(val, 0);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(skyOffSetVal);
+        }
+        else
+        {
+            skyOffSetVal = (float)stream.ReceiveNext();
+        }
     }
 }

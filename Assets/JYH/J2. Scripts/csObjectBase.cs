@@ -235,5 +235,6 @@ namespace JinscObjectBase
 
         public virtual void GrowthDay() { }
         public virtual void GrowthRain() { }
+        public virtual void SetGrowthLevel(Enum_ObjectGrowthLevel gl) { }
     }
 }

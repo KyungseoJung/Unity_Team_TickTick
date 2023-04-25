@@ -13,6 +13,6 @@ public class LevelManager : MonoBehaviour
         _oMgr.PlayBackground(stage);
 
         //플레이어 없어서 ui창 생성된 뒤 레벨매니저의 인벤토리 연결
-        csLevelManager.Ins.tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
     }
 }

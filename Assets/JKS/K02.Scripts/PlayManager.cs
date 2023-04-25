@@ -37,10 +37,17 @@ public class PlayManager : MonoBehaviour
 
 		// 씬을 비동기방식으로 추가하자.
 		//AsyncOperation async = Application.LoadLevelAdditiveAsync ("scStage1");
-		AsyncOperation async = SceneManager.LoadSceneAsync("MainGame", LoadSceneMode.Additive);
-		
+		//AsyncOperation async = SceneManager.LoadSceneAsync("MainGame", LoadSceneMode.Additive);
 
-        proScale = imgLoadProgress.rectTransform.localScale;
+		PhotonNetwork.isMessageQueueRunning = false;        //#19 잠시 네트워크 끊기
+		//백그라운드로 씬 로딩
+		AsyncOperation async = SceneManager.LoadSceneAsync("MainGame");
+
+		//문제있다....
+		//AsyncOperation async = PhotonNetwork.LoadLevelAsync("MainGame");
+		//PhotonNetwork.automaticallySyncScene = true; 
+
+		proScale = imgLoadProgress.rectTransform.localScale;
 
 		dogPos = dogAnchoredPos;        // 개 이동 시작 위치
 
@@ -62,9 +69,7 @@ public class PlayManager : MonoBehaviour
 			yield return true;
 		}
 
-		SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
-		SceneManager.LoadScene("addMain", LoadSceneMode.Additive);
-		SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);
+		
 
 		//@로딩 다 마친 후(while 루프문 나온 후니까)
 		proScale.x = 1f;

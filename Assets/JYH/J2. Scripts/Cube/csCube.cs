@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TeamInterface;
+using JinscObjectBase;
 
 public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 {
     [HideInInspector]
     public Block cubeInfo;
+
     Enum_CubeState cubeState;
 
     public GameObject highlighter;
@@ -28,82 +30,61 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
         cubeInfo = cube;
     }
 
-    public void SetObj()
+    public void SetObj(Enum_CubeState state, int val=0, Enum_ObjectGrowthLevel gl = Enum_ObjectGrowthLevel.ZERO)
     {
-        if (cubeState.Equals(Enum_CubeType.WATER))
-        {
-            return;
-        }
-
-        if (cubeInfo.obj.transform.position.y < 13.5f)
-        {
-            return;
-        }
-        else
-        {
-            StartCoroutine(InsObj((Enum_CubeState)Random.Range(0, 100)));
-        }
-    }
-    public void SetObj(Enum_CubeState state)
-    {
-        StartCoroutine(CreateObj(state));
+        StartCoroutine(CreateObj(state, val, gl));
     }
 
-    IEnumerator CreateObj(Enum_CubeState state)
+    IEnumerator CreateObj(Enum_CubeState state, int val, Enum_ObjectGrowthLevel gl)
     {
         if (childObj == null)
         {
             switch (state)
             {
                 case Enum_CubeState.FIELD:
+                    cubeState = Enum_CubeState.FIELD;
                     childObj = Instantiate(csLevelManager.Ins.field, new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
-            }
-        }
-            yield return null;
-    }
-
-    IEnumerator InsObj(Enum_CubeState cs)
-    {
-        if (childObj == null)
-        {
-            switch (cs)
-            {
                 case Enum_CubeState.GRASS1:
-                    childObj = Instantiate(csLevelManager.Ins.fieldObj[Random.Range(0, 3)], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
+                    cubeState = Enum_CubeState.GRASS1;
+                    childObj = Instantiate(csLevelManager.Ins.fieldObj[val], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
                 case Enum_CubeState.TREE1:
-                    childObj = Instantiate(csLevelManager.Ins.fieldObj[Random.Range(15, 27)], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
+                    cubeState = Enum_CubeState.TREE1;
+                    childObj = Instantiate(csLevelManager.Ins.fieldObj[val], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
                 case Enum_CubeState.TREE2:
-                    childObj = Instantiate(csLevelManager.Ins.fieldObj[Random.Range(22, 27)], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
+                    cubeState = Enum_CubeState.TREE2;
+                    childObj = Instantiate(csLevelManager.Ins.fieldObj[val], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
                 case Enum_CubeState.GRASS2:
-                    childObj = Instantiate(csLevelManager.Ins.fieldObj[Random.Range(0, 15)], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
+                    cubeState = Enum_CubeState.GRASS2;
+                    childObj = Instantiate(csLevelManager.Ins.fieldObj[val], new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
                 case Enum_CubeState.ROCK1:
-                    childObj = Instantiate(csLevelManager.Ins.fieldObj[Random.Range(27, 35)], new Vector3(transform.position.x, transform.position.y + 0.35f, transform.position.z), Quaternion.identity);
+                    cubeState = Enum_CubeState.ROCK1;
+                    childObj = Instantiate(csLevelManager.Ins.fieldObj[val], new Vector3(transform.position.x, transform.position.y + 0.35f, transform.position.z), Quaternion.identity);
                     childObj.transform.SetParent(transform);
+                    childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
                     break;
             }
-        }        
-
-        if (childObj != null)
-        {
-            childObj.transform.SetParent(transform);
         }
-
         yield return null;
     }
 
@@ -148,6 +129,16 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                 tmp.SetHpDamaged(dmg, useItemType);
             }           
         }
+    }
+
+    public void DelayDestroy()
+    {
+        Invoke("DestroyObj", 0.3f);
+    }
+
+    public void DestroyObj()
+    {
+        Destroy(gameObject);
     }
 
 }

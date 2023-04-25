@@ -6,18 +6,15 @@ using TeamInterface;
 
 public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBackFct
 {
-
-    [SerializeField]
-    float hp = 0;
-    public float Hp { get { return hp; } set { hp = value; } }
+    public float Hp { get { return energy; } set { energy = value; } }
 
     [SerializeField]
      float stamina = 0;
     public float Stamina { get { return stamina; } set { stamina = value; } }
-    public float maxHP = 0;
+    public float maxHP = 5;
     public float attackRange = 2f;      // 일정 범위
-    public float energy = 100f;         // 에너지 초기값
-    public float damagePerHit = 10f;    // 공격 데미지
+    public float energy = 5f;         // 에너지 초기값
+    public float damagePerHit = 1f;    // 공격 데미지
     
 
     private Animator animator;
@@ -27,22 +24,24 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
     public float haBarAddY;
     HPBar hpBar;
     //EnemyAttack enemyAttack = new EnemyAttack();
+
+    public bool isAttackNow = false;
     
     public virtual void Awake()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-    
-         animator = GetComponent<Animator>();
+
+        Debug.Assert(animator);
 
         if (hpBarObj != null)
         {
             hpBar = hpBarObj.GetComponent<HPBar>();
 
-            hpBarObj.transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y + haBarAddY, transform.parent.position.z);
+            hpBarObj.transform.position = new Vector3(transform.position.x, transform.position.y + haBarAddY, transform.position.z);
             hpBarObj.transform.localScale = new Vector3(0.08f, 0.01f, 1f);
 
             hpBarObj.SetActive(false);
@@ -50,9 +49,10 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
         }
     }
 
-    private void OnColliderEnter(Collider other)
+
+    public void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player" &&!isAttackNow)
         {
             float distance = Vector3.Distance(transform.position, other.transform.position);
             if (distance <= attackRange)
@@ -60,47 +60,55 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
                 // 플레이어가 일정 범위 내에 있을 때 공격 애니메이션 실행
                 animator.SetTrigger("Attack");
                 net_Aim = 1;
+
+                isAttackNow = true;
+                Invoke("ReSetAttackNow", 0.2f);
                 // 플레이어 캐릭터의 TakeDamage 함수 호출
-                other.GetComponent<PlayerController>().TakeDamage(damagePerHit);
+                //other.gameObject.GetComponent<PlayerController>().TakeDamage(damagePerHit);
             }
         }
+        else if(other.gameObject.tag == "PlayerWeapon")
+        {
+            //SetHpDamaged(dmg,useItemType);
+        }
     }
-    
-    
 
-    public void TakeDamage(float damage)
+    void ReSetAttackNow()
     {
-        energy -= damage;
+        isAttackNow = false;
+    }
+
+
+    private void Update()
+    {
         if (energy <= 0)
         {
             // 에너지가 없으면 사망 애니메이션 실행
             animator.SetTrigger("Die");
-            net_Aim =2;
+            net_Aim = 2;
             // 이후, 다른 액션을 막기 위해 스크립트를 비활성화
             enabled = false;
         }
-        else
-        {
-            // 피격 애니메이션 실행
-            animator.SetTrigger("Stunned");
-            net_Aim = 3;
-        }
     }
-     public float HpFill()
-        {
-            return Hp / maxHP;
-        }
 
-        public void SetHpDamaged(float dmg,Enum_PlayerUseItemType useItemType){
-            switch(useItemType){
-                case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
-                hp-=dmg;
-                break;
-                default:
-                hp-=1;
-                break;
-            }
+     public float HpFill()
+     {
+         return Hp / maxHP;
+     }
+
+     public void SetHpDamaged(float dmg,Enum_PlayerUseItemType useItemType)
+    {
+        switch(useItemType){
+            case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
+            energy -= dmg;
+            break;
+            default:
+            energy -= 1;
+            break;
         }
+        animator.SetTrigger("Stunned");
+        net_Aim = 3;
+    }
    
       
         //PhotonView 컴포넌트를 할당할 레퍼런스 

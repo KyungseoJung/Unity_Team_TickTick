@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class csGenericSingleton<T> : MonoBehaviour where T: csGenericSingleton<T>
+//public class csGenericSingleton<T> : UnityEngine.MonoBehaviour where T : csGenericSingleton<T>
 {
     private static T ins = null;
     public static T Ins

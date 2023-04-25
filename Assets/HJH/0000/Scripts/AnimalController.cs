@@ -23,24 +23,27 @@ private void Start()
 
 private void Update()
 {
-    // 방향 변경 주기마다 새로운 이동 방향 설정
-    directionChangeTimer += Time.deltaTime;
-    if (directionChangeTimer >= directionChangeInterval)
-    {
-        moveDirection = GetRandomDirection();
-        directionChangeTimer = 0f;
-    }
+        if (!isAttackNow)
+        {
+            // 방향 변경 주기마다 새로운 이동 방향 설정
+            directionChangeTimer += Time.deltaTime;
+            if (directionChangeTimer >= directionChangeInterval)
+            {
+                moveDirection = GetRandomDirection();
+                directionChangeTimer = 0f;
+            }
 
-    // 현재 이동 방향으로 이동
-    transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            // 현재 이동 방향으로 이동
+            transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-    // 현재 이동 방향으로 회전
-    Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            // 현재 이동 방향으로 회전
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
-    // 회전 방향으로 동물의 모습도 회전
-    float rotationAngle = Vector3.SignedAngle(Vector3.forward, moveDirection, Vector3.up);
-    transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+            // 회전 방향으로 동물의 모습도 회전
+            float rotationAngle = Vector3.SignedAngle(Vector3.forward, moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+        }
 }
 
 private Vector3 GetRandomDirection()

@@ -2,23 +2,63 @@
 //using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace TeamInterface
 {
+    [Serializable]
+    public class MapDataClass
+    {
+        public int widthX;
+        public int widthZ;
+        public int height;
+        public float waveLength;// 파장
+        public float amplitude;//진폭 최대높이
+        public float groundHeightOffset;//기준높이
+
+        public MapDataClass(int x=64, int y=64, int z=64, float w=50f, float a=5f, float o=20f)
+        {
+            widthX = x;
+            height = y;
+            widthZ = z;
+            waveLength = w;
+            amplitude = a;
+            groundHeightOffset = o;
+        }
+
+        public MapDataClass(MapDataClass mdc)
+        {
+            widthX = mdc.widthX;
+            height = mdc.height;
+            widthZ = mdc.widthZ;
+            waveLength = mdc.waveLength;
+            amplitude = mdc.amplitude;
+            groundHeightOffset = mdc.groundHeightOffset;
+        }
+    }
+
+    [Serializable]
     public class Block
     {
         public Enum_CubeType type;//어떤블럭이냐
         public bool vis;//보여주냐 안보여주냐
         public GameObject obj;
         public bool top;
-        public bool haveChild = false;
+        public bool haveChild;
+        public Enum_CubeState childState;
+        public int childNum;
+        public Enum_ObjectGrowthLevel childGrowth;
 
-        public Block(Enum_CubeType t, bool v, GameObject obj, bool top)
+        public Block(Enum_CubeType t, bool v, GameObject obj, bool top = true, bool child = false, Enum_CubeState state = Enum_CubeState.NONE, int num=0, Enum_ObjectGrowthLevel gl = Enum_ObjectGrowthLevel.ZERO)
         {
             type = t;
             vis = v;
             this.obj = obj;
             this.top = top;
+            haveChild = child;
+            childState = state;
+            childNum = num;
+            childGrowth = gl;
         }
     }
 
