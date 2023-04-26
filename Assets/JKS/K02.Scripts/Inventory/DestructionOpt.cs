@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class DestructionOpt : MonoBehaviour     //#5-1
+public class DestructionOpt : csGenericSingleton<DestructionOpt>     //#5-1
 {
-    static public DestructionOpt instance;    // 1개의 슬롯에만 해당되도록
+    // static public DestructionOpt instance;    // 1개의 슬롯에만 해당되도록
     
     [HideInInspector]
     public Slot changeOptSlot;           // Slot 스크립트에서 instance로 지정함
@@ -13,10 +13,19 @@ public class DestructionOpt : MonoBehaviour     //#5-1
                                         //#7-1 퀵슬롯으로 이동할 슬롯
     public GameObject btnQuickSlot;     //btnQuickSlot 버튼 //Inventory 스크립트를 포함한 오브젝트의 QuickToInven 함수 연결
     public GameObject btnInvenSlot;       //btnInvenSlot 버튼 //Inventory 스크립트를 포함한 오브젝트의 InvenToQuick 함수 연결
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+    }
+    
 // '파기하기' 이미지
     void Start()
     {
-        instance = this;
 
         if(this.gameObject.activeSelf)  //처음엔 창 닫힌채로 시작되도록
             OpenDestrucionOpt(false);

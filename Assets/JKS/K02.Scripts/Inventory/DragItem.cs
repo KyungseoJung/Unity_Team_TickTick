@@ -5,17 +5,20 @@ using UnityEngine;
 
 using UnityEngine.UI;           //#2-2
 
-public class DragItem : MonoBehaviour   //#2-2 인벤토리 드래그 앤 드롭 구현
+public class DragItem : csGenericSingleton<DragItem>   //#2-2 인벤토리 드래그 앤 드롭 구현
 {
-    static public DragItem instance;
     public Slot dragStartSlot;           // 플레이 중 (각 Slot 스크립트에서) 할당될 예정(드래그가 발생할 때)
 
     [SerializeField]
     private Image ImgItem;          // dragItem 본인의 이미지 컴포넌트 (드래그 대상이 되는 슬롯의 Sprite 이미지가 할당될 얘정)
 
-    void Start()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
+    }
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
     }
 
     public void DragSetImage(Image _ImgItem)

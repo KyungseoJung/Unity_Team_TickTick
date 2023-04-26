@@ -9,7 +9,7 @@ public class DropItemZone : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)          // 아이템을 땅에 놓기
     {
         //Debug.Log("드롭1");
-        if(DragItem.instance.dragStartSlot != null)
+        if(DragItem.Ins.dragStartSlot != null)
         {
             GameObject[] tmpPlayer = GameObject.FindGameObjectsWithTag("Player");
 
@@ -22,7 +22,7 @@ public class DropItemZone : MonoBehaviour, IDropHandler
                 if (tmpPV != null && tmpPV.isMine)
                 {
                     //Debug.Log("드롭2");
-                    DragItem.instance.dragStartSlot.DropItemOnGround(obj.GetComponent<PlayerCtrl>().dropItemPos);    // 플레이어 위치 넣기
+                    DragItem.Ins.dragStartSlot.DropItemOnGround(obj.GetComponent<PlayerCtrl>().dropItemPos);    // 플레이어 위치 넣기
                 }
                 else
                 {

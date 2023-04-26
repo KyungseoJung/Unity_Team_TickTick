@@ -33,9 +33,28 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     {
         inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
         inventory = inventoryObject.GetComponent<Inventory>();
-        
     }
 
+    void Start()
+    {
+        if(mySlotNumber == 0)   //#11-2 처음 시작할 때, 퀵슬롯 하이라이트가 0번째 슬롯에 가 있도록
+        {
+            SelectSlot.Ins.nowUsingSlot = this;
+            //SelectSlot.Ins.transform.position = this.transform.position;   //eventData.position;  마우스 위치에 맞추지 말고, 슬롯의 정중앙에 맞추기
+            SelectSlot.Ins.ShowHighLight(true);
+
+            Debug.Log("//#11-2 1111 첫 번째 하이라이트 위치 : " + this.transform.position);
+        }  
+    }
+
+
+    void Update()
+    {
+        if(mySlotNumber==0)
+        {
+            Debug.Log("//#11-2 첫 번째 하이라이트 1 : " + this.transform.position);
+        }
+    }
 
     // 아이템 이미지 투명도 조절 목적
     private void SetAlpha(float _alpha)
@@ -99,9 +118,9 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     {
         if(item != null)
         {
-            DragItem.instance.dragStartSlot = this;  // 이 아이템을 드래그 앤 드롭할 거다
-            DragItem.instance.DragSetImage(ImgSlotItem);
-            DragItem.instance.transform.position = eventData.position;  // DragItem의 이미지를 끌고 다녀
+            DragItem.Ins.dragStartSlot = this;  // 이 아이템을 드래그 앤 드롭할 거다
+            DragItem.Ins.DragSetImage(ImgSlotItem);
+            DragItem.Ins.transform.position = eventData.position;  // DragItem의 이미지를 끌고 다녀
 
            // Debug.Log("dragStart");
         }
@@ -111,7 +130,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     {
         if (item != null)
         {
-            DragItem.instance.transform.position = eventData.position;
+            DragItem.Ins.transform.position = eventData.position;
 
             //Debug.Log(103);
         }
@@ -120,8 +139,8 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     public void OnEndDrag(PointerEventData eventData)   // (D&D 가장 마짐가에 호출됨. OnDrop보다 나중 호출) 드래그 끝날 때 호출되는 이벤트 함수
     {      
 
-        DragItem.instance.SetAlpha(0);          // 드래그 앤 드롭 색깔 투명하게
-        DragItem.instance.dragStartSlot = null;      //드래그 앤 드롭 끝~!
+        DragItem.Ins.SetAlpha(0);          // 드래그 앤 드롭 색깔 투명하게
+        DragItem.Ins.dragStartSlot = null;      //드래그 앤 드롭 끝~!
         //Debug.Log(107);        
         // inventory.ChangeSlotData(mySlotNumber, itemTotalSum, item.ItemType);    //#9-3 질문 /A/ 저도 이거 무슨 생각하면서 넣었는지 모르겠어요..ㅠ 있으면 잘되지만 에러나고 없으면 잘되고 에러안나서 주석함
     }
@@ -130,7 +149,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     {
         //Debug.Log(106);
         // 나한테 뭔가 드롭된 그 무언가가 null이 아니면
-        if (DragItem.instance.dragStartSlot != null)
+        if (DragItem.Ins.dragStartSlot != null)
         {
             ChangeSlotItem();
 
@@ -156,15 +175,15 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         Item originItem = item;                   // 이동 후의 위치에 있던 아이템의 복사본 만들어놓기 
         int originItemTotalSum = itemTotalSum;
 
-        Item dragItem = DragItem.instance.dragStartSlot.item; // 드래그 하고 있는 아이템의 정보를 넣기
-        int dragItemTotalSum = DragItem.instance.dragStartSlot.itemTotalSum;
+        Item dragItem = DragItem.Ins.dragStartSlot.item; // 드래그 하고 있는 아이템의 정보를 넣기
+        int dragItemTotalSum = DragItem.Ins.dragStartSlot.itemTotalSum;
         
         AddSlot(dragItem, dragItemTotalSum);        // D&D 을 마지막으로 실행한 슬롯의 AddSlot이 실행돼
 
         if(originItem != null)   //이동 후의 위치에 무언가가(originItem) 있었다면, 바꿔치기 (드래그 시작 위치에 originItem 갖다놓아)
-            DragItem.instance.dragStartSlot.AddSlot(originItem, originItemTotalSum);
+            DragItem.Ins.dragStartSlot.AddSlot(originItem, originItemTotalSum);
         else    // 이동 후 위치에 아무것도 없었다면, 그냥 추가만~ // 드래그 시작 위치에 그냥 Remove 실행
-            DragItem.instance.dragStartSlot.RemoveSlot();
+            DragItem.Ins.dragStartSlot.RemoveSlot();
 
        // Debug.Log(101);
     }
@@ -180,6 +199,14 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        //#11-2 퀵슬롯에 마우스 좌클릭을 했다면, selectSlot 지정하기 + 하이라이트 효과
+        if((mySlotNumber<4) && /*(item!= null) &&*/ (eventData.button == PointerEventData.InputButton.Left))    //퀵슬롯 && 비어있지 않음 && 마우스 좌클릭
+        {
+            SelectSlot.Ins.nowUsingSlot = this;
+            SelectSlot.Ins.transform.position = this.transform.position;   //eventData.position;  마우스 위치에 맞추지 말고, 슬롯의 정중앙에 맞추기
+            SelectSlot.Ins.ShowHighLight(true);    // 하이라이트 보여주기 - 항상 띄워져 있으니까 필요 X
+        }
+        
         if((item != null) && (eventData.button == PointerEventData.InputButton.Right))  // 아이템이 있는 슬롯에 && 우측 마우스 클릭했을 때
         {
             Vector2 finalPos = eventData.position;
@@ -200,20 +227,20 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
             }
             
 
-            DestructionOpt.instance.transform.position = finalPos;    // '파기하기' 창이 마우스 위치한 곳에 나타나도록
-            DestructionOpt.instance.changeOptSlot = this;             //# 7-1 뭔가 변화를 줄(파기하기 or 퀵슬롯에) 슬롯 선택
+            DestructionOpt.Ins.transform.position = finalPos;    // '파기하기' 창이 마우스 위치한 곳에 나타나도록
+            DestructionOpt.Ins.changeOptSlot = this;             //# 7-1 뭔가 변화를 줄(파기하기 or 퀵슬롯에) 슬롯 선택
             
             if(mySlotNumber<4)  //#7-1 만약 퀵슬롯에서 우클릭을 한 거라면
             {
-                DestructionOpt.instance.OpenDestrucionOpt(true, false, true); //'퀵 슬롯' 버튼 닫고, 인벤토리 이동 버튼 활성화
+                DestructionOpt.Ins.OpenDestrucionOpt(true, false, true); //'퀵 슬롯' 버튼 닫고, 인벤토리 이동 버튼 활성화
                 return;
             }
             else if(mySlotNumber>=4)    //#9-2 인벤토리 슬롯에서 우클릭을 한 거라면
-                DestructionOpt.instance.OpenDestrucionOpt(true, true, false);
+                DestructionOpt.Ins.OpenDestrucionOpt(true, true, false);
         }
         else    // ??? // 아이템이 없는 곳에 or 좌측 마우스 클릭하면 창 닫히도록
         {
-            DestructionOpt.instance.OpenDestrucionOpt(false);
+            DestructionOpt.Ins.OpenDestrucionOpt(false);
         }
     }
 

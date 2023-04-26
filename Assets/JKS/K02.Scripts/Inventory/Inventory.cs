@@ -407,7 +407,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void DestroyItemAtAll()  //#5-1 아이템 파기하기  // btnDestruction 버튼에 연결
     {
-        DestructionOpt.instance.RemoveItem();
+        DestructionOpt.Ins.RemoveItem();
     }
 
     public void InvenToQuick(/*Item _item, int _count=1*/)   //#7-1 퀵슬롯으로 아이템 이동   //btnQuickSlot 버튼에 연결
@@ -421,10 +421,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
             if(itemInventory[0, j].Equals(Enum_DropItemType.NONE))
             {
                 // 퀵슬롯으로 이동
-                Item _tempQuickItem = DestructionOpt.instance.changeOptSlot.item;
-                int _tempQuickCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
+                Item _tempQuickItem = DestructionOpt.Ins.changeOptSlot.item;
+                int _tempQuickCount = DestructionOpt.Ins.changeOptSlot.itemTotalSum;
 
-                DestructionOpt.instance.RemoveItem();   //기존 위치의 Slot은 Remove
+                DestructionOpt.Ins.RemoveItem();   //기존 위치의 Slot은 Remove
 
                 slots[0+j].AddSlot(_tempQuickItem, _tempQuickCount);  //이동 후 위치의 Slot(0+j)에는 Add  // 그러면 Slot의 AddSlot 스크립트에서 자동으로 배열에도 업데이트 해줌
 
@@ -444,10 +444,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
             {
                 if(itemInventory[i, j].Equals(Enum_DropItemType.NONE))
                 {
-                    Item _tempInvenItem = DestructionOpt.instance.changeOptSlot.item;
-                    int _tempInvenCount = DestructionOpt.instance.changeOptSlot.itemTotalSum;
+                    Item _tempInvenItem = DestructionOpt.Ins.changeOptSlot.item;
+                    int _tempInvenCount = DestructionOpt.Ins.changeOptSlot.itemTotalSum;
 
-                    DestructionOpt.instance.RemoveItem();
+                    DestructionOpt.Ins.RemoveItem();
 
                     slots[col*i + j].AddSlot(_tempInvenItem, _tempInvenCount);
 
