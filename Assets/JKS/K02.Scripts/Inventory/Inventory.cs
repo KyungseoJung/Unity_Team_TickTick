@@ -31,6 +31,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
     private Slot[] previousSlots;
     // [SerializeField]
     // private Slot[] sortSlots;       //#9-2 정렬할 슬롯들
+    [SerializeField]
+    private GameObject toolTip;         // 툴팁 창 (활성화/ 비활성화)
+    [SerializeField]
+    private GameObject destructionOpt;  // 슬롯 조정 버튼 창 (활성화/ 비활성화)
 
     [Header("테스트 목적 아이템 추가")]
     [Space(10)]
@@ -111,6 +115,12 @@ public class Inventory : MonoBehaviour, IInventoryBase
             ImgInventory.SetActive(inventoryOpen);
             SortingButtonsObj.SetActive(inventoryOpen); //#4-3
             DropItemZone.SetActive(inventoryOpen);  //#4-3
+
+            if(!inventoryOpen)//#11-1 만약 인벤토리를 닫는 거라면 - toolTip, destructionOpt 창도 비활성화 시키기
+            {
+                toolTip.SetActive(false);
+                destructionOpt.SetActive(false);
+            }
         }
     }
 

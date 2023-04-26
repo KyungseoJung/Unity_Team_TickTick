@@ -258,6 +258,18 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
          scrollContents.GetComponent<RectTransform>().pivot = new Vector2(0.0f, 1.0f);  //# 피봇 동적 조작 가능
     }
 
+    void Start()
+    {
+        roomName.onValueChanged.AddListener(OnInputRoomNameChange);
+    }
+
+    void OnInputRoomNameChange(string _input)
+    {
+        if(_input.Length > 3)
+        {
+            roomName.text = _input.Substring(0,3);      // 3글자 넘어가도 값이 바뀌지 않도록
+        }
+    }
     /*
      * 포톤은 로비 기반으로 서버가 이루어져 있음 따라서 연결은 로비로 연결되는 것임
      * 로비에서 방을 만들거나, 특정 방에 연결하거나, 랜덤으로 열결하게 됨
@@ -680,11 +692,24 @@ SceneManager.UnloadSceneAsync("02. Room");
         PhotonNetwork.JoinRandomRoom();
     }
 
-    //Make Room 버튼 클릭 시 호출될 함수 (UI 버전에서 사용) //#10-1 b tnHostGameStart 버튼과 연결
+    //Make Room 버튼 클릭 시 호출될 함수 (UI 버전에서 사용) //#10-1 btnHostGameStart 버튼과 연결  
     public void OnClickCreateRoom()
     {
         Debug.Log("//#10 호스트 게임 클릭");
-
+        
+//#11-1 방 이름 중복 방지
+// 방 리스트 받아오기
+        RoomInfo[] roomList = PhotonNetwork.GetRoomList();
+        
+        foreach(RoomInfo room in roomList)
+        {
+            if(room.Name == roomName.text)   //방 리스트들 속 room.Name 과 내가 적은 방 이름(roomName)이 같은 것이 있다면
+            {
+                Debug.Log("방 이름 중복. 리턴");
+                roomName.text = ""; //다시 적도록 텍스트창도 초기화
+                return;
+            }
+        }        
         string _roomName = roomName.text;
         string _roomPassword = createRoomPassWord.text;   //#10-1 패스워드 
         
@@ -748,10 +773,12 @@ SceneManager.UnloadSceneAsync("02. Room");
     }
 
     //생성된 룸 목록이 변경됐을 때 호출되는 콜백 함수 (최초 룸 접속시 호출) (UI 버전에서 사용)
-    public void OnReceivedRoomListUpdate()  //BtnMultiPlay에서 사용하기 위함
+    private void OnReceivedRoomListUpdate()  //BtnMultiPlay에서 사용하기 위함 -> 연결 해제함
     {
         // if(LobbyManager.playSingleGame) //#10-1 싱글 플레이라면, 다른 플레이어가 들어올 수 있는 버튼 만들지 않도록.
         //     return;
+
+
 
         // 포톤 클라우드 서버에서는 룸 목록의 변경이 발생하면 클라이언트로 룸 목록을 재전송하기
         // 때문에 밑에 로직이 없으면 다른 클라이언트에서 룸을 나갈때마다 룸 목록이 쌓인다.
@@ -774,6 +801,7 @@ SceneManager.UnloadSceneAsync("02. Room");
         //GetRoomList 함수는 RoomInfo 클래스 타입의 배열을 반환
         foreach(RoomInfo _room in PhotonNetwork.GetRoomList())
         {
+            Debug.Log("//#11-1 방 생성");
             // Debug.Log("//#6-4 방 이름을 이걸로 해서 만들어 : " + _room.name);
             //RoomItem 프리팹을 동적으로 생성 하자
             GameObject room = (GameObject)Instantiate(roomItem);

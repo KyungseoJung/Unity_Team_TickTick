@@ -4058,6 +4058,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e571183782c012a48beca31982aff30c, type: 3}
+--- !u!1 &1181538910230402512 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1181538909948504447, guid: e571183782c012a48beca31982aff30c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1181538910230402511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3193752352589042260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5454,6 +5460,8 @@ MonoBehaviour:
   - {fileID: 342741137}
   - {fileID: 1590213389}
   - {fileID: 1741174596}
+  toolTip: {fileID: 1181538910230402512}
+  destructionOpt: {fileID: 1092665715}
   objFruit: {fileID: 1278894859}
   objSton: {fileID: 1097488104}
   objWood: {fileID: 1857568280}

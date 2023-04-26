@@ -54,10 +54,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
     [Header("멀티 플레이 화면")]
     [Space(10)]
     public Button[] multiGameBtns;   // '멀티 플레이' 화면 내 버튼 배열
-    //0부터 순서대로 : btnStart, btnDestroy, btnHostGame, btnOpenGames, btnConnect
+    //0부터 순서대로 : btnStart, btnDestroy, btnHostGame, btnOpenGames, // btnConnect
     public GameObject[] multiScreen;       
     // 0부터 순서대로 : (pnlPlayerList 오브젝트), (pnlMulti 오브젝트), (HostGame 오브젝트), (OpenGames 오브젝트)
-    public Toggle[] tgHostOption;
+    public Toggle[] tgHostOption;   // 방 선택 옵션 토글    [0]부터 : tgPublic, tgInviteOnly, tgPublic, tgPrivate
     public Toggle[] tgOpenOption;   
     public Text hostOptExplain;     // 호스트 옵션 설명 텍스트
     public Text[] loadMInfoName;      //#9-4  플레이어 이름 //[0]부터 : txtPlayerName, txtIslandName
@@ -111,7 +111,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         multiGameBtns[1].onClick.AddListener(OnClickDestroyData);
         multiGameBtns[2].onClick.AddListener(OnClickHostGame);
         multiGameBtns[3].onClick.AddListener(OnClickOpenGame);
-        multiGameBtns[4].onClick.AddListener(OnClickLANGame);
+        // multiGameBtns[4].onClick.AddListener(OnClickLANGame);
 
         for(int i=0; i<tgHostOption.Length ; i++)
         {
@@ -142,7 +142,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
         yield return new WaitForSeconds(0.5f);
     }
-// #9-1 Input Field 글자수 제한
+// #9-1 Input Field 글자 수 제한
     void OnInputChange1(string _input1)
     {
         if(_input1.Length > 3)
@@ -425,10 +425,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
         multiScreen[2].SetActive(false);
         multiScreen[3].SetActive(true);
     }
-    void OnClickLANGame()
-    {
-        //LAN 게임 창 열기
-    }
+    // void OnClickLANGame()
+    // {
+    //     //LAN 게임 창 열기
+    // }
 
     //토글 =====================
     void OnClickTgHost(int index)   
@@ -451,7 +451,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         switch (index)
         {
             case 0 : 
-                hostOptExplain.text = "친구만~~ 설명내용";
+                hostOptExplain.text = "공개방입니다.";
                 inputFieldPassWord.SetActive(false);
                 break;
             case 1 :
@@ -463,7 +463,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
                 inputFieldPassWord.SetActive(false);
                 break;
             case 3 : 
-                hostOptExplain.text = "비밀방 //LAN~~ 설명내용";
+                hostOptExplain.text = "비밀방입니다. 설정할 비밀번호를 입력하세요.";
                 inputFieldPassWord.SetActive(true);
                 break;
             default : 
