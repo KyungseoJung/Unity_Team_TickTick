@@ -1729,12 +1729,6 @@ MonoBehaviour:
   m_SynchronizeParameters:
   - Type: 9
     SynchronizeType: 2
-    Name: Jump
-  - Type: 9
-    SynchronizeType: 2
-    Name: Bark
-  - Type: 9
-    SynchronizeType: 2
     Name: Die
   - Type: 9
     SynchronizeType: 2

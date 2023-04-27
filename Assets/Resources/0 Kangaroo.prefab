@@ -1754,12 +1754,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Stunned
-  - Type: 1
-    SynchronizeType: 0
-    Name: Walk
-  - Type: 9
-    SynchronizeType: 0
-    Name: Jump
   - Type: 9
     SynchronizeType: 0
     Name: Die

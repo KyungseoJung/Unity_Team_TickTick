@@ -1110,9 +1110,6 @@ MonoBehaviour:
   m_SynchronizeParameters:
   - Type: 9
     SynchronizeType: 2
-    Name: Jump
-  - Type: 9
-    SynchronizeType: 2
     Name: Die
   - Type: 9
     SynchronizeType: 2
@@ -1120,9 +1117,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Stunned
-  - Type: 1
-    SynchronizeType: 2
-    Name: isWalking
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

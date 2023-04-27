@@ -60,6 +60,7 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
                 // 플레이어가 일정 범위 내에 있을 때 공격 애니메이션 실행
                 animator.SetTrigger("Attack");
                 net_Aim = 1;
+                animator.SetBool("Walk", false);
 
                 isAttackNow = true;
                 Invoke("ReSetAttackNow", 0.2f);
