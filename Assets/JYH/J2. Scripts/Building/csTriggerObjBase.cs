@@ -20,6 +20,7 @@ public class csTriggerObjBase : MonoBehaviour
             _TOB.Invoke("EnableIsUse", 2f);
             Invoke("EnableIsUse", 2f);
 
+            other.GetComponent<csPhotonGame>().InTheBuilding();
             other.transform.position = childPos.position;
         }
     }

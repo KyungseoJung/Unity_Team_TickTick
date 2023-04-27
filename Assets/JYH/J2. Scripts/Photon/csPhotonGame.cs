@@ -33,6 +33,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     bool isReady = false;
     bool isBuild=false;//애는 각자가지고있어야함 **
     bool inTheBuilding=false;//건물 안에 들어가면 활성화   
+    bool isCreateFurniture = false;
 
     [Header("대충 플레이어가 들고있을 변수")]
     [HideInInspector]
@@ -328,6 +329,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
     }
+
     void GrowthTimeCheck()//타이머
     {
         pV.RPC("RPCGrowthTimeCheck", PhotonTargets.All, null);
@@ -396,8 +398,19 @@ public class csPhotonGame : Photon.MonoBehaviour
         yield return null;
     }
 
+    public void InTheBuilding()
+    {
+        inTheBuilding = !inTheBuilding;
+
+        if (inTheBuilding)//건물에 있으면 하우징용 변수 활성화
+        {
+            isCreateFurniture = true;
+        }
+    }
+
     private void Update()
     {
+        //맵 로드 안됬으면 아무것도 안한다
         if (!isReady)
         {
             return;
@@ -410,6 +423,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
+        //블록 하이라이트 활성화/비활성화
         if (!isBuild && Physics.Raycast(ray, out hit, rayCastRange))
         {
             if (hit.transform.root.tag == "Block")
@@ -435,13 +449,24 @@ public class csPhotonGame : Photon.MonoBehaviour
         //    isBuild = true;//빌드모드 시작
         //}
 
-        if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && isBuild)//빌드모드 끝
+        if ((!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && isBuild) || !inTheBuilding)//빌드모드 끝
         {
-            bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            if (bluePrint != null)
+            {
+                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            }
             isBuild = false;
+        }   
+        else if ((!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && inTheBuilding) || !isBuild)//빌드모드 끝
+        {
+            if (bluePrint != null)
+            {
+                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            }
+            inTheBuilding = false;
         }
 
-        if (isBuild)//빌드모드일 때 미리보기 그려주기
+        if (isBuild && !inTheBuilding && bluePrint != null)//빌드모드일 때 미리보기 그려주기
         {
             if (Physics.Raycast(ray, out hit, rayCastRange))
             {
@@ -536,12 +561,64 @@ public class csPhotonGame : Photon.MonoBehaviour
                 }
             }
         }
+        else if (isCreateFurniture && bluePrint!=null)
+        {
+            if (Physics.Raycast(ray, out hit, rayCastRange))
+            {
+                if (hit.transform.tag == "HouseBlock")
+                {
+                    if (oldBlock != null)
+                    {
+                        oldBlock.OffHighlighter();
+                        oldBlock = null;
+                    }
 
-        if (actionNow && Input.GetMouseButtonDown(1))
+                    Vector3 blockPos = hit.transform.position;
+                    IPreViewBase tmpPreView = bluePrint.GetComponent<IPreViewBase>();
+
+                    if (tmpPreView == null)
+                    {
+                        return;
+                    }
+
+                    tmpPreView.ShowPreView(blockPos, true);
+                }
+                else if (hit.transform.parent.tag == "HouseBlock")
+                {
+                    if (oldBlock != null)
+                    {
+                        oldBlock.OffHighlighter();
+                        oldBlock = null;
+                    }
+
+                    Vector3 blockPos = hit.transform.root.position;
+                    IPreViewBase tmpPreView = bluePrint.GetComponent<IPreViewBase>();
+
+                    if (tmpPreView == null)
+                    {
+                        return;
+                    }
+
+                    tmpPreView.ShowPreView(blockPos, true);
+                }
+            }
+        }
+
+        if (actionNow && Input.GetMouseButtonDown(1) && !inTheBuilding)
         {
             StartCoroutine(PlayerUseItem(UseItemType));
         }
+        else if (actionNow && isCreateFurniture && Input.GetMouseButtonDown(1) && !isBuild && UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT));
+        {//가구배치중일때
+            if (bluePrint != null)
+            {
+                UseItemType = Enum_PlayerUseItemType.HAND;//여기도 바꿔야함#####
+                bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
+                isCreateFurniture = false;
+            }
+        }
 
+            //// 여기서부터 안쓰일 예정
         if (actionNow && Input.GetKeyDown(KeyCode.Q))
         {
 
@@ -610,7 +687,8 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
-    public void SetPlayerUseUtem(Enum_PlayerUseItemType type)
+
+    public void SetPlayerUseUtem(Enum_PlayerUseItemType type)//인벤토리 슬룻에 들어있는걸 들었다고 친다
     {
         switch (type)
         {
@@ -623,7 +701,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
-    public void SetBluePrintItme(Enum_PreViewType type)
+    public void SetBluePrintItme(Enum_PreViewType type)//인벤토리에 청사진이 들어있으면 어떤 청사진인지 알려준다
     {
         if (isBuild && bluePrint!=null)
         {
@@ -637,21 +715,20 @@ public class csPhotonGame : Photon.MonoBehaviour
         {
             case Enum_PreViewType.FIRE:
                 bluePrint = bluePrintObj[0];
+                isBuild = true;//빌드모드 시작
                 break;
             case Enum_PreViewType.TENT:
                 bluePrint = bluePrintObj[1];
+                isBuild = true;//빌드모드 시작
                 break;
             case Enum_PreViewType.HOUSE_CHAIR:
                 bluePrint = bluePrintObj[2];
+                isCreateFurniture = true;//빌드모드 시작
                 break;
             case Enum_PreViewType.HOUSE_TABLE:
                 bluePrint = bluePrintObj[3];
+                isCreateFurniture = true;//빌드모드 시작
                 break;
-        }
-
-        if (bluePrint != null)
-        {
-            isBuild = true;//빌드모드 시작
         }
     }
 
@@ -692,7 +769,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 ActionSHOVEL();
                 break;
             case Enum_PlayerUseItemType.BLUEPRINT://청사진
-                UseItemType = Enum_PlayerUseItemType.HAND;
+                UseItemType = Enum_PlayerUseItemType.HAND;//여기도 바꿔야함#####
                 bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
                 isBuild = false;
                 break;

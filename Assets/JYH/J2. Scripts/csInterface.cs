@@ -63,14 +63,14 @@ namespace TeamInterface
     }
 
     public enum Enum_ObjectType { NONE=0, GRASS, TREE, ROCK, FLOWER, FIELD}//필드에 생성되는 오브젝트
-    public enum Enum_PreViewType { NONE=0, FIRE, TENT, HOUSE_CHAIR, HOUSE_TABLE };//청사진 미리보기 종류
+    public enum Enum_PreViewType { NONE=0, FIRE, TENT, HOUSE_CHAIR, HOUSE_TABLE, WORKBENCH };//청사진 미리보기 종류
     public enum Enum_CubeType { DARKSOIL= 0, STON, GRASS, SOIL, SEND, WATER }//흙 물 돌 이런 큐브 종류
     public enum Enum_CubeState { NONE = 0 , GRASS1, GRASS2, TREE1, TREE2, ROCK1, FIELD };//큐브 위에 생성되어있는 자식 오브젝트 종류
     public enum Enum_AnimState { IDLE=0, JUMP,WALK, ATTACK, TRACE, DIE};//에너미나 플레이어 애니메이션 상태 안쓰는 듯
     public enum Enum_DropItemType { NONE=0, STON,WOOD, FRUIT, CARROT,//떨어질 수 있고 인벤토리와 호환되는 아이템 종류. 포톤 뷰 있음. 인벤토리 참조용 견본에는 스크립트빼고 다날리기
-                                SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE, HOUSE_CHAIR, HOUSE_TABLE };
-                              //미구현,미구현,미구현,미구현,오브젝트x,안씀        ,미구현        ,구현             ,구현               ,오브젝트x    ,오브젝트x
-    public enum Enum_PlayerUseItemType { HAND=0, BLUEPRINT, SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE, BLUEPRINTCHAIR, BLUEPRINTTABLE };
+                                SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE, HOUSE_CHAIR, HOUSE_TABLE, BLUEPRINTWORKBENCH };
+                              //미구현,미구현,미구현,미구현,오브젝트x,안씀        ,미구현        ,구현             ,구현               ,오브젝트x    ,오브젝트x, 
+    public enum Enum_PlayerUseItemType { HAND=0, BLUEPRINT, SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE, BLUEPRINTCHAIR, BLUEPRINTTABLE, BLUEPRINTWORKBENCH };
     //플레이어가 들고있는 아이템 종류  ,      ,안씀     ,       ,       ,       ,       ,       ,안씀         ,미구현        ,               ,                       ,               ,
     public enum Enum_ObjectGrowthLevel { ZERO =0, ONE, TWO, THREE, FOUR, FIVE};//성장단계 2~3 오브젝트별로 열매 맺히는 최종진화
 
