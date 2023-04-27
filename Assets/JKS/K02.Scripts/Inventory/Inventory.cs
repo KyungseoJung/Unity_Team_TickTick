@@ -41,6 +41,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public GameObject objFruit;
     public GameObject objSton;
     public GameObject objWood;
+    public GameObject objCarrot;
     public GameObject equipment1;
 
     [Header("정렬 임시 버튼")]
@@ -143,6 +144,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
                     break;
                 case Enum_DropItemType.WOOD:
                     _item = objWood.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.CARROT:
+                    _item = objCarrot.GetComponent<Item>();
                     break;
                 case Enum_DropItemType.PLAYERWEAPONAXE1:
                     Debug.Log("아이템에 웨폰 연결해줘야함");

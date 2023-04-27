@@ -59,6 +59,10 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("UI 관련")]
     public Text timeText;
 
+    [Header("디버그 관련")]
+    public GameObject debugBtn;
+    public bool isDebugMode = false;
+
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
@@ -82,7 +86,11 @@ public class csPhotonGame : Photon.MonoBehaviour
             dayCtrl = PhotonNetwork.InstantiateSceneObject("SkyDome", new Vector3(mapData.widthX * 2, mapData.height - 134f, mapData.widthZ * 2), Quaternion.identity, 0, null).GetComponent<csDayCtrl>();
 
             InvokeRepeating("GrowthTimeCheck", 0f, 0.2f);//타이머시작
-        }         
+        }
+        else if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
+        {
+            debugBtn.SetActive(false);
+        }
     }
 
     IEnumerator InitMapData()
@@ -157,6 +165,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         if (PhotonNetwork.isMasterClient)
         {
             Debug.Log("방장용 플레이어스폰");
+
             yield return EnemySpawn();
         }
         else
@@ -231,6 +240,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         else
         {
             PhotonNetwork.LeaveRoom(true);
+            //SceneManager.LoadScene("scLobby0");
         }
     }
 
@@ -246,12 +256,15 @@ public class csPhotonGame : Photon.MonoBehaviour
     public void DestroyRoom()
     {
         PhotonNetwork.LeaveRoom(true);
+        
     }
 
 
     void OnLeftRoom()
     {
         //포톤 방나감 콜백 대충 여기서 세이브
+
+       SceneManager.LoadScene("scLobby0");
     }
 
     void OnPhotonPlayerConnected()

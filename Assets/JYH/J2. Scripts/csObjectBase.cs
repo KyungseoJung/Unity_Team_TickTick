@@ -38,9 +38,11 @@ namespace JinscObjectBase
 
         bool isDamaged = false;
 
+        public PhotonView pV;
+
         public virtual void Awake()
         {
-            
+            pV = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<PhotonView>();
         }
 
         public virtual void Start()
@@ -158,9 +160,14 @@ namespace JinscObjectBase
                 {
                     for (int i = 0; i < dropItems.Length; i++)
                     {
-                        GameObject tmp = Instantiate(dropItems[i], new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), Quaternion.identity);
-                        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * (Random.Range(2, 5) * 5000f));
-                        tmp.transform.SetParent(null);
+                        if (!PhotonNetwork.isMasterClient)
+                        {
+                            pV.RPC("CreateObjRPC", PhotonTargets.MasterClient, i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
+                        }
+                        else
+                        {
+                            CreateObjRPC(i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
+                        }
                         //Debug.Log("drop");
 
                         //사운드 재생?
@@ -178,6 +185,14 @@ namespace JinscObjectBase
 
             gameObject.SetActive(false);
             Invoke("DelObj", 0.5f);
+        }
+
+        [PunRPC]
+        public void CreateObjRPC(int i, Vector3 pos)
+        {
+            GameObject tmp = PhotonNetwork.InstantiateSceneObject(dropItems[i].name, pos, Quaternion.identity, 0, null);
+            tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * (Random.Range(2, 5) * 5000f));
+            tmp.transform.SetParent(null);
         }
 
         void DelObj()

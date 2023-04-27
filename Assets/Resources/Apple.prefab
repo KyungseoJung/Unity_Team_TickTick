@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -8313236811861557021}
   - component: {fileID: 8227473625587234}
   - component: {fileID: 5831157331765589820}
+  - component: {fileID: -7429686351064719504}
   m_Layer: 9
   m_Name: Apple
   m_TagString: Item
@@ -100,6 +101,33 @@ MonoBehaviour:
   itemImage: {fileID: 7559300755958231685, guid: 0b0a926c3e6932648883cd2c3cfc3e07,
     type: 3}
   itemPrefab: {fileID: 1076815607729153978}
+--- !u!114 &-7429686351064719504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076815607729153978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 1
+  ObservedComponents:
+  - {fileID: 412728883372801280}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1 &1334952401471401315
 GameObject:
   m_ObjectHideFlags: 0
