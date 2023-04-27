@@ -945,7 +945,7 @@ MonoBehaviour:
   oldTime: 
   tPlayer: {fileID: 0}
   UseItemType: 0
-  bluePrint: {fileID: 1085364587873100860}
+  bluePrint: {fileID: 0}
   bluePrintObj:
   - {fileID: 1085364587873100860}
   - {fileID: 1383154516668326033}
