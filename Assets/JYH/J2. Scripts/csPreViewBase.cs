@@ -29,16 +29,16 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     public Enum_PreViewType PreViewType { get { return preViewType; } set { preViewType = value; } }
 
     [SerializeField]
-    GameObject preViewObj;
+    protected GameObject preViewObj;
     [SerializeField]
-    GameObject buildObj;
+    protected GameObject buildObj;
     public GameObject PreViewObj { get { return preViewObj; } set { preViewObj = value; } }
     public GameObject BuildObj { get { return buildObj; } set { buildObj = value; } }
 
     [SerializeField]
-    Material preViewGreen;
+    protected Material preViewGreen;
     [SerializeField]
-    Material preViewRed;
+    protected Material preViewRed;
     public Material PreViewGreen { get { return preViewGreen; } set { preViewGreen = value; } }
     public Material PreViewRed { get { return preViewRed; } set { preViewRed = value; } }
 
@@ -62,7 +62,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
         switch (preViewType)
         {
             case Enum_PreViewType.FIRE:
-                yVal = 0.7f;
+                yVal = 0.6f;
                 break;
             case Enum_PreViewType.TENT:
                 yVal =0.3f;
@@ -79,7 +79,6 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     }
     public virtual void Update()
     {
-
         Collider[] colHit = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y+(sizeY/2), transform.position.z), this.transform.localScale / 2, Quaternion.identity, layer);
 
         if (colHit.Length != 0 || !groundCheck)
@@ -95,15 +94,21 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
 
         if (showPreViewCheck)
         {
-            if (canBuild)
-            {
-                preViewObj.GetComponent<MeshRenderer>().material = preViewGreen;
-            }
-            else
-            {
-                preViewObj.GetComponent<MeshRenderer>().material = preViewRed;
-            }
+            ChangeMat(canBuild);
+
             this.transform.position = targetPos;
+        }
+    }
+
+    public virtual void ChangeMat(bool canBuild)
+    {
+        if (canBuild)
+        {
+            preViewObj.GetComponent<MeshRenderer>().material = preViewGreen;
+        }
+        else
+        {
+            preViewObj.GetComponent<MeshRenderer>().material = preViewRed;
         }
     }
 
@@ -111,8 +116,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     {
         if (canBuild)
         {
-            Instantiate(buildObj, transform).transform.SetParent(null);      
-           
+            Instantiate(buildObj, transform).transform.SetParent(null);                 
         }
 
         HiedPreView();

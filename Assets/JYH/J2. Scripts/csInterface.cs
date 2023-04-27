@@ -70,7 +70,8 @@ namespace TeamInterface
     public enum Enum_DropItemType { NONE=0, STON,WOOD, FRUIT, CARROT,
                                 SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE };
     public enum Enum_PlayerUseItemType { HAND=0, BLUEPRINT, SHOVEL, AXE, PICKAXE, HOE, BLOCKSOIL, BLOCKWATER, PLAYERWEAPONAXE1, BLUEPRINTTENT, BLUEPRINTWATCHFIRE };
-    public enum Enum_ObjectGrowthLevel { ZERO =0, ONE, TWO, THREE, FOUR, FIVE}
+    public enum Enum_ObjectGrowthLevel { ZERO =0, ONE, TWO, THREE, FOUR, FIVE};
+    public enum Enum_BluePrintType { FIRE=0,TENT, HOUSE_CHAIR, HOUSE_TABLE};
 
     public interface IPreViewBase
     {

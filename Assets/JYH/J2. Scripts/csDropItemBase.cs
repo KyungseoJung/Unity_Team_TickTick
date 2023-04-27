@@ -15,7 +15,7 @@ public class csDropItemBase : Item
 
     PhotonView pV;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (!isTemp)
         {
@@ -23,7 +23,7 @@ public class csDropItemBase : Item
         }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (!isTemp)
         {

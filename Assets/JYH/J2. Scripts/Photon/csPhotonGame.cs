@@ -38,7 +38,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     [HideInInspector]
     public Inventory tPlayer;
     public Enum_PlayerUseItemType UseItemType;
-    public GameObject bluePrint;
+    public GameObject bluePrint=null;
+    public GameObject[] bluePrintObj;
     bool actionNow = true;//지금 뭐 동작중인지 체크
     public float rayCastRange = 15f;
 
@@ -423,10 +424,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
-        if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
-        {
-            isBuild = true;//빌드모드 시작
-        }
+        //if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
+        //{
+        //    isBuild = true;//빌드모드 시작
+        //}
 
         if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && isBuild)//빌드모드 끝
         {
@@ -600,6 +601,30 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
 
             Debug.Log("EEEEEEEEE" + UseItemType);
+        }
+    }
+
+    public void SetBluePrintItme(Enum_BluePrintType type)
+    {
+        switch (type)
+        {
+            case Enum_BluePrintType.FIRE:
+                bluePrint = bluePrintObj[0];
+                break;
+            case Enum_BluePrintType.TENT:
+                bluePrint = bluePrintObj[1];
+                break;
+            case Enum_BluePrintType.HOUSE_CHAIR:
+                bluePrint = bluePrintObj[2];
+                break;
+            case Enum_BluePrintType.HOUSE_TABLE:
+                bluePrint = bluePrintObj[3];
+                break;
+        }
+
+        if (bluePrint != null)
+        {
+            isBuild = true;//빌드모드 시작
         }
     }
 
