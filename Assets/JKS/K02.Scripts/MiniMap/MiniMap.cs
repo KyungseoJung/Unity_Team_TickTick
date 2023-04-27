@@ -10,10 +10,12 @@ public enum MAP_TYPE {GROUND = 1, TREE, PLAYER, /*FOOD,*/ GOAL};
 public static class MiniMapConstants
 {
     // 맵의 폭, 길이 
-    public const int MAP_WIDTH = 100; //40;
-    public const int MAP_HEIGHT = 100;  //20;
-    public const int MINIMAP_WIDTH = 64 *3;  //1600;  //280;   //그림 약간 튀어나와서 300-20
-    public const int MINIMAP_HEIGHT = 64 *3;  //900;  //180; //그림이 약간 튀어나오길래.. 200-20
+    public const int MAP_WIDTH = 64;    //갈 수 있는 거리는 0~63.9까지니까..? //100; //40;    //#11-3 더 멀~리 찍히도록 *10씩
+    public const int MAP_HEIGHT = 64;   //  100;  //20;
+    public const int MINIMAP_WIDTH = 300;   //64 *3;  //1600;  //280;   //그림 약간 튀어나와서 300-20
+    public const int MINIMAP_HEIGHT = 300;  //64 *3;  //900;  //180; //그림이 약간 튀어나오길래.. 200-20
+
+    public const int SIZEUP = 5;   
 }
 
 public class MiniMap : MonoBehaviour    //@16 미니맵
@@ -65,24 +67,34 @@ Vector2 positionOnRawImage;
 GameObject minimapObject;
 Image minimapImage;
 
+//#11-1 플레이어 좌표 기준으로 미니맵 통째로 움직이기
+public Transform playerTransform;   //테스트용 public 잠깐만
+
+
+
     void Awake()    
     {
         minimapRawImage = GameObject.Find("miniMapRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
     }
 
     void Start()
     {
+        //#11-3 미니맵 박스 위치 맞춰주기
+        minimapRawImage.rectTransform.anchoredPosition = new Vector2(-150f, -150f);  //#11-3 미니맵 중심을 좌측 하단으로 맞춰주기
+        minimapRawImage.rectTransform.sizeDelta = new Vector2(600*MiniMapConstants.SIZEUP, 600*MiniMapConstants.SIZEUP);    //#11-3 위치 및 크기 맞춰주기 위함 (캔버스 상에서 부모 크기가 300임)
+                        //거기에 중심을 좌측 하단으로 했으므로 크기 *2, 더 크게 보기 위해 *10씩 -> 300 * 2 * 10
+/*
 //@16-1 Ground, Wall 좌표 가져와서 List에 넣기 - 하나하나씩 그리기 위한 용도
         // List<Vector3> groundPositions = GetPositionsOnLayer(GROUND_LAYER_NAME);
-        // List<Vector3> wallPositions = GetPositionsOnLayer(WALL_LAYER_NAME);
-        
+        // List<Vector3> wallPositions = GetPositionsOnLayer(WALL_LAYER_NAME);    
 //미니맵으로 그릴 좌표들을 List에 추가 - 한번에 그리기 위한 용도
         // List<Vector3> minimapPositions = new List<Vector3>();
         // minimapPositions.AddRange(groundPositions);
         // minimapPositions.AddRange(wallPositions);
-
 // positions 리스트에 저장된 좌표 이용해서 UI이미지 생성
-
+*/
 
 // @16-3 정의
     groundPositions = new List<Vector3>();
@@ -125,9 +137,13 @@ Image minimapImage;
     MakeMinimap(treePositions, MAP_TYPE.TREE);
     // MakeMinimap(playerPositions, MAP_TYPE.PLAYER);
     // MakeMinimap(goalPositions, MAP_TYPE.GOAL);
-
     }
-
+    
+    void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
+    {
+        minimapRawImage.rectTransform.anchoredPosition = new Vector2(/*-70f(미세조정용) */ -1500/64 * playerTransform.position.x,   //(-150f(중점좌표 중 X)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_WIDTH) *  (6000/2 - 300)
+                                                                     /*-70f(미세조정용) */ -1500/64 * playerTransform.position.z);  // (-150f(중점좌표 중 Y)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_HEIGHT) * 6000/2 - 300
+    }
 
 
 //태그를 이용해 특정 오브젝트의 위치 가져오기
@@ -188,7 +204,7 @@ Image minimapImage;
     private void MakeMinimap(List<Vector3> positions, MAP_TYPE _mapType)
     {
         // 미니맵 이미지 생성 - 크기 맞춰서
-        minimapTexture = new Texture2D(MiniMapConstants.MINIMAP_WIDTH, MiniMapConstants.MINIMAP_HEIGHT);
+        minimapTexture = new Texture2D(MiniMapConstants.MINIMAP_WIDTH * MiniMapConstants.SIZEUP, MiniMapConstants.MINIMAP_HEIGHT * MiniMapConstants.SIZEUP);
 
         //스프라이트 이미지 생성
         spriteToUse = null;  //typeofImage에 따라 사용할 이미지 딱 1개 정해두기 - swtich 문 계속 탈 필요 없이
@@ -204,23 +220,14 @@ Image minimapImage;
                     spriteToUse = treeSpriteImg;
                     enumObjectName = "TreeMini";
                     break;
-
-                // case MAP_TYPE.PLAYER : 
-                //     spriteToUse = playerSpriteImg;
-                //     enumObjectName = "PlayerMini";
-                //     break;
-
-                // case MAP_TYPE.GOAL : 
-                //     spriteToUse  = goalSpriteImg;
-                //     enumObjectName = "GoalMini";
-                //     break;
             }
 
         foreach(Vector3 position in positions)  //하나하나 position 값을 가져와서 자식 만들고, 이미지 넣어주기, 캔버스 내 위치로 잡아주기
         {
-            // 월드좌표를 RawImage 상에서의 좌표로 변환 표현
-            positionOnRawImage = new Vector2(position.x / MiniMapConstants.MAP_WIDTH * MiniMapConstants.MINIMAP_WIDTH, 
-                                                position.z /* position.y*/ / MiniMapConstants.MAP_HEIGHT * MiniMapConstants.MINIMAP_HEIGHT);
+            // 월드좌표를 RawImage 상에서의 좌표로 변환 표현 
+            positionOnRawImage = new Vector2((position.x / MiniMapConstants.MAP_WIDTH) * MiniMapConstants.MINIMAP_WIDTH * MiniMapConstants.SIZEUP ,    //#11-3 10배 더 멀리   
+                                                                                            // +20(플레이어와의 위치 미세 조정 필요 - 플레이어는 0.0으로 표시하는 게 아니라, 캔버스 박스의 중심에 나타내야 하니까)     
+                                                (position.z /* position.y*/ / MiniMapConstants.MAP_HEIGHT) * MiniMapConstants.MINIMAP_HEIGHT * MiniMapConstants.SIZEUP);  //#11-3 10배 더 멀리    
 
             //UI 이미지 생성 - 자식 오브젝트로 넣고 이미지도 각각 갖도록(이름은 Layer의 이름대로 정해서 만들어)
             minimapObject = new GameObject(enumObjectName); // typeofImage라는 string의 이름을 가진 게임오브젝트를 자식들로 생성
@@ -238,7 +245,7 @@ Image minimapImage;
             {
                 Debug.Log("미니맵 RectTransform이 null임");
             }
-            minimapRectT.sizeDelta = new Vector2(10f, 10f);
+            minimapRectT.sizeDelta = new Vector2(50f, 50f);   //(10f, 10f);   //#11-1 더 크~게 찍히도록 *10씩 (절대적인 크기는 아님. 원하는 대로 변경해도 돼)
 
         }
         minimapTexture.Apply(); // 위에서 생성된 미니맵 이미지를 렌더 텍스쳐인 minimapTexture에 적용.

@@ -47,15 +47,6 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         }  
     }
 
-
-    void Update()
-    {
-        if(mySlotNumber==0)
-        {
-            Debug.Log("//#11-2 첫 번째 하이라이트 1 : " + this.transform.position);
-        }
-    }
-
     // 아이템 이미지 투명도 조절 목적
     private void SetAlpha(float _alpha)
     {
