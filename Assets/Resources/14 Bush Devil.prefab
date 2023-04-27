@@ -1409,7 +1409,7 @@ MonoBehaviour:
   synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
+  ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 7205053205904904890}
   - {fileID: -8048041598179907212}
