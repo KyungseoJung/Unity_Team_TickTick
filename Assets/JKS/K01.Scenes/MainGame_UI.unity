@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 106665199}
   - component: {fileID: 106665198}
   m_Layer: 5
-  m_Name: btnSizeUp
+  m_Name: btnZoomIn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -405,7 +405,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 687003939}
-        m_MethodName: ChangeMinimapSize
+        m_MethodName: ChangeMinimapZoom
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 117257412}
   - component: {fileID: 117257411}
   m_Layer: 5
-  m_Name: btnSizeDown
+  m_Name: btnZoomOut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 687003939}
-        m_MethodName: ChangeMinimapSize
+        m_MethodName: ChangeMinimapZoom
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1558,7 +1558,9 @@ MonoBehaviour:
   mapType: 0
   groundSpriteImg: {fileID: 21300000, guid: 64b313687a6af734f837e8ad5153b891, type: 3}
   treeSpriteImg: {fileID: 21300000, guid: 913a3af2991b9ea41b529c59ec6fb478, type: 3}
-  btnSizeChange: []
+  btnSizeChange:
+  - {fileID: 117257409}
+  - {fileID: 106665196}
 --- !u!1001 &831980380
 PrefabInstance:
   m_ObjectHideFlags: 0

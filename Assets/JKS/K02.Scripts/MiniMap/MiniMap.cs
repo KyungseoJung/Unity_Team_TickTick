@@ -18,7 +18,7 @@ public static class MiniMapConstants
 
 public class MiniMap : MonoBehaviour    //@16 미니맵
 {
-    private int mapSize = 5;      //const 빼 - 확대 축소 기능 위해서
+    private int mapSize = 5;      //const 빼 - 확대 축소 기능 위해서 (5이면 더 멀리서 보는 효과, 10이면 더 확대하는 효과)
 
     public MAP_TYPE mapType;    //어떤 오브젝트를 미니맵으로 그릴 거냐
     string enumObjectName;      // 자식으로 새롭게 만들 오브젝트의 이름
@@ -61,6 +61,9 @@ Vector2 positionOnRawImage;
 GameObject minimapObject;
 Image minimapImage;
 
+List<MiniMapObjData> zoomOutMiniMap= new List<MiniMapObjData>();    //#11-3 용훈님 추가
+List<MiniMapObjData> zoomInMiniMap= new List<MiniMapObjData>();
+
 //#11-1 플레이어 좌표 기준으로 미니맵 통째로 움직이기
 Transform playerTransform;   //테스트용 public 잠깐만
 public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
@@ -75,8 +78,8 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
     void Start()
     {
-        btnSizeChange[0].SetActive(true);   // btnSizeDown 켜두고
-        btnSizeChange[1].SetActive(false);  // btnSizeUp 꺼두기
+        btnSizeChange[0].SetActive(false);   // btnSizeDown 켜두고
+        btnSizeChange[1].SetActive(true);  // btnSizeUp 꺼두기
 
         setMinimapPos();    //미니맵 박스 위치 맞춰주기
 
@@ -185,7 +188,21 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     // }
 
 
-
+    public void RemoveObj(int x, int z)
+    {
+        for(int i=0;i<zoomOutMiniMap.Count;i++)
+        {
+            if(zoomOutMiniMap[i].GetX == x)
+            {
+                if(zoomOutMiniMap[i].GetZ==z){
+                    zoomOutMiniMap.RemoveAt(i);
+                    zoomInMiniMap.RemoveAt(i);  //오브젝트 아예 지워
+                    break;
+                }
+            }
+        }
+        
+    }
 
     private void MakeMinimap(List<Vector3> positions, MAP_TYPE _mapType)
     {
@@ -218,6 +235,12 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
             
             minimapObject.transform.SetParent(minimapRawImage.transform, false);
             minimapImage = minimapObject.AddComponent<Image>();   // 하나하나 이미지를 넣어
+
+            minimapObject.AddComponent<MiniMapObjData>().SetData((int)position.x, (int)position.z);
+
+            zoomOutMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
+            zoomInMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
+
             //자식들 - 이미지를 올바르게 연결해서 만들어
             minimapImage.sprite = spriteToUse;
 
@@ -229,17 +252,19 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
             {
                 Debug.Log("미니맵 RectTransform이 null임");
             }
-            minimapRectT.sizeDelta = new Vector2(50f, 50f);   //(10f, 10f);   //#11-1 더 크~게 찍히도록 *10씩 (절대적인 크기는 아님. 원하는 대로 변경해도 돼)
+            minimapRectT.sizeDelta = new Vector2(mapSize * 10f, mapSize * 10f);   //(10f, 10f);   //#11-1 더 크~게 찍히도록 *10씩 (절대적인 크기는 아님. 원하는 대로 변경해도 돼)
 
         }
         minimapTexture.Apply(); // 위에서 생성된 미니맵 이미지를 렌더 텍스쳐인 minimapTexture에 적용.
         minimapRawImage.texture = minimapTexture;   //부모인 minimapRawImage에 minimapTexture를 알맞게 지정(연결)
     }
 
-    public void ChangeMinimapSize(bool sizeup)    //미니맵 확대(true)/ 축소(false)
+    public void ChangeMinimapZoom(bool zoomIn)    //미니맵 확대(true)/ 축소(false)
     {
-        if(sizeup && (mapSize != 10))       //확대하고자 한다면
+
+        if(zoomIn && (mapSize != 10))       //확대하고자 한다면
         {
+            Debug.Log("확대하기");
             btnSizeChange[1].SetActive(false);
             btnSizeChange[0].SetActive(true);
 
@@ -247,8 +272,9 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
             setMinimapPos();
             MakeMinimap(treePositions, MAP_TYPE.TREE);
         }
-        if(!sizeup && (mapSize != 5))       //축소하고자 한다면
+        if(!zoomIn && (mapSize != 5))       //축소하고자 한다면
         {
+            Debug.Log("축소하기");
             btnSizeChange[0].SetActive(false);
             btnSizeChange[1].SetActive(true);
 
