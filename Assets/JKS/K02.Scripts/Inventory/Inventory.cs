@@ -43,6 +43,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public GameObject objWood;
     public GameObject objCarrot;
     public GameObject equipment1;
+    public GameObject blueprint_BONFIRE;
+    public GameObject blueprint_TENT;
+    public GameObject blueprint_CHAIR;
+    public GameObject blueprint_TABLE;
+    public GameObject blueprint_WORKBENCH;
 
     [Header("정렬 임시 버튼")]
     [Space(10)]
@@ -86,19 +91,53 @@ public class Inventory : MonoBehaviour, IInventoryBase
         // 테스트용 아이템 줍기 =========================
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("1 클릭");
-            CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
+            //Debug.Log("1 클릭");
+
+            switch (UnityEngine.Random.Range(0, 4))//아이템 랜덤획득
+            {
+                case 0://과일
+                    CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
+                    break;
+                case 1://돌
+                    CollectItem(objSton.GetComponent<Item>().ItemType, objSton.GetComponent<Item>());
+                    break;
+                case 2://나무
+                    CollectItem(objWood.GetComponent<Item>().ItemType, objWood.GetComponent<Item>());
+                    break;
+                case 3://당근
+                    CollectItem(objCarrot.GetComponent<Item>().ItemType, objCarrot.GetComponent<Item>());
+                    break;
+            }
+            //CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("2 클릭");
-            CollectItem(objSton.GetComponent<Item>().ItemType, objSton.GetComponent<Item>());
+            //Debug.Log("2 클릭");
+            switch (UnityEngine.Random.Range(0, 5))//청사진 랜덤획득
+            {
+                case 0://모닥불
+                    CollectItem(blueprint_BONFIRE.GetComponent<Item>().ItemType, blueprint_BONFIRE.GetComponent<Item>());
+                    break;
+                case 1:
+                    CollectItem(blueprint_TENT.GetComponent<Item>().ItemType, blueprint_TENT.GetComponent<Item>());
+                    break;
+                case 2:
+                    CollectItem(blueprint_CHAIR.GetComponent<Item>().ItemType, blueprint_CHAIR.GetComponent<Item>());
+                    break;
+                case 3:
+                    CollectItem(blueprint_TABLE.GetComponent<Item>().ItemType, blueprint_TABLE.GetComponent<Item>());
+                    break;
+                case 4:
+                    CollectItem(blueprint_WORKBENCH.GetComponent<Item>().ItemType, blueprint_WORKBENCH.GetComponent<Item>());
+                    break;
+            }
+            //CollectItem(objSton.GetComponent<Item>().ItemType, objSton.GetComponent<Item>());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Debug.Log("3 클릭");
+            Debug.Log("3 클릭");//장비류 랜덤생성하는거 어떨지
             CollectItem(objWood.GetComponent<Item>().ItemType, objWood.GetComponent<Item>());
         }
 
@@ -166,11 +205,23 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 case Enum_DropItemType.BLOCKSOIL:
                     Debug.Log("땅");
                     break;
-                case Enum_DropItemType.BLUEPRINTTENT:
-                    Debug.Log("탠트 청사진");
-                    break;
+                //case Enum_DropItemType.BLUEPRINTTENT:
+                //    Debug.Log("탠트 청사진");
+                //    break;
                 case Enum_DropItemType.BLUEPRINTWATCHFIRE:
-                    Debug.Log("모닥불 청사진");
+                    _item = blueprint_BONFIRE.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.BLUEPRINTTENT:
+                    _item = blueprint_TENT.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.HOUSE_CHAIR:
+                    _item = blueprint_CHAIR.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.HOUSE_TABLE:
+                    _item = blueprint_TABLE.GetComponent<Item>();
+                    break;
+                case Enum_DropItemType.BLUEPRINTWORKBENCH:
+                    _item = blueprint_WORKBENCH.GetComponent<Item>();
                     break;
                 default:
                     Debug.Log("무슨아이템인지 모르겠음");
@@ -178,7 +229,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
             }
         }
 
-        if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)) // SWORD 외의 아이템을 collect 했을 때
+        if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)&& !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWATCHFIRE) 
+            && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTTENT) && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_CHAIR) 
+            && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_TABLE) && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWORKBENCH)) // SWORD 외의 아이템을 collect 했을 때
         {
             //for (int i = 0; i < slots.Length; i++)  //획득한 아이템이 슬롯에 이미 있는 아이템인가 확인
             //{
@@ -210,7 +263,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
             }            
         }
-        else if (_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)) // sword를 collect 했을 때
+        else
         {
             tmpCheck = false;
             _count = 1;
