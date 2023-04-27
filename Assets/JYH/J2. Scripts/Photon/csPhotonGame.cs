@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon;
 using Photon.Realtime;
@@ -54,6 +55,9 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("스폰 관련")]
     public GameObject enemySpawn;
     public int enemySpawnCount;
+
+    [Header("UI 관련")]
+    public Text timeText;
 
     private void Awake()
     {
@@ -217,6 +221,49 @@ public class csPhotonGame : Photon.MonoBehaviour
         }       
     }
 
+    public void OnClickExitBtn()
+    {
+        //마스터가 나가면 방폭
+        if (PhotonNetwork.isMasterClient)
+        {
+            pV.RPC("DestroyRoomRPC", PhotonTargets.All, null);
+        }
+        else
+        {
+            PhotonNetwork.LeaveRoom(true);
+        }
+    }
+
+    [PunRPC]
+    public void DestroyRoomRPC()
+    {
+        StopAllCoroutines();
+        CancelInvoke();
+
+        Invoke("DestroyRoom", 1f);
+    }
+
+    public void DestroyRoom()
+    {
+        PhotonNetwork.LeaveRoom(true);
+    }
+
+
+    void OnLeftRoom()
+    {
+        //포톤 방나감 콜백 대충 여기서 세이브
+    }
+
+    void OnPhotonPlayerConnected()
+    {
+        // 다른 플레이어가 방에 접속했을 때 void OnPhotonPlayerConnected(PhotonPlayer newPlayer) { ... }
+    }
+    void OnPhotonPlayerDisconnected()
+    {
+        // 다른 플레이어가 방에서 접속 종료시 void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) { ... }
+    }
+
+
     [PunRPC]
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
     {
@@ -266,8 +313,6 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
     }
-
-
     void GrowthTimeCheck()//타이머
     {
         pV.RPC("RPCGrowthTimeCheck", PhotonTargets.All, null);
@@ -299,7 +344,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         //ui text에 넣을 수 있음
         //text_date.text = date;
         //text_time.text = time;
-
+        timeText.text = date + "\n" + time;
         //Debug.Log(string.Format("{0}\n{1}", date, time));
     }
 
