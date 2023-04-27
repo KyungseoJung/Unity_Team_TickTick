@@ -142,9 +142,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
+        SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트로 대체
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
-        SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트
+        
 
         PhotonNetwork.isMessageQueueRunning = true;
 
@@ -402,6 +403,11 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
+        if (!pV.isMine)
+        {
+            return;
+        }
+
         ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
         if (!isBuild && Physics.Raycast(ray, out hit, rayCastRange))
@@ -604,20 +610,41 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
-    public void SetBluePrintItme(Enum_BluePrintType type)
+    public void SetPlayerUseUtem(Enum_PlayerUseItemType type)
     {
         switch (type)
         {
-            case Enum_BluePrintType.FIRE:
+            case Enum_PlayerUseItemType.HOE:
+                UseItemType = Enum_PlayerUseItemType.HOE;
+                break;
+            default:
+                UseItemType = Enum_PlayerUseItemType.HAND;
+                break;
+        }
+    }
+
+    public void SetBluePrintItme(Enum_PreViewType type)
+    {
+        if (isBuild && bluePrint!=null)
+        {
+            bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            isBuild = false;
+        }
+
+        bluePrint = null;
+
+        switch (type)
+        {
+            case Enum_PreViewType.FIRE:
                 bluePrint = bluePrintObj[0];
                 break;
-            case Enum_BluePrintType.TENT:
+            case Enum_PreViewType.TENT:
                 bluePrint = bluePrintObj[1];
                 break;
-            case Enum_BluePrintType.HOUSE_CHAIR:
+            case Enum_PreViewType.HOUSE_CHAIR:
                 bluePrint = bluePrintObj[2];
                 break;
-            case Enum_BluePrintType.HOUSE_TABLE:
+            case Enum_PreViewType.HOUSE_TABLE:
                 bluePrint = bluePrintObj[3];
                 break;
         }

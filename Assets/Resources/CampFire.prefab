@@ -14556,6 +14556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 307421231172379895}
   - component: {fileID: 557593033}
+  - component: {fileID: 2698807398963582936}
   m_Layer: 0
   m_Name: CampFire
   m_TagString: Untagged
@@ -14592,6 +14593,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.18558562, z: 0.8}
   m_Center: {x: 0, y: -0.23220718, z: 0}
+--- !u!114 &2698807398963582936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085364588456787533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 1
+  ObservedComponents:
+  - {fileID: 307421231172379895}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1 &1087901533469771342
 GameObject:
   m_ObjectHideFlags: 0

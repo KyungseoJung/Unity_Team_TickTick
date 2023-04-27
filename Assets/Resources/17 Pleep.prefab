@@ -218,7 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   stamina: 0
   maxHP: 0
   attackRange: 2
@@ -226,6 +225,7 @@ MonoBehaviour:
   damagePerHit: 10
   hpBarObj: {fileID: 0}
   haBarAddY: 0
+  isAttackNow: 0
   moveSpeed: 0.7
   rotateSpeed: 0.5
   directionChangeInterval: 3
@@ -257,7 +257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   stamina: 0
   maxHP: 0
   attackRange: 2
@@ -265,6 +264,7 @@ MonoBehaviour:
   damagePerHit: 10
   hpBarObj: {fileID: 2378146059006845484}
   haBarAddY: 1.6
+  isAttackNow: 0
 --- !u!114 &9116269774928873989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
   synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
+  ownershipTransfer: 1
   ObservedComponents:
   - {fileID: 241414195949375245}
   - {fileID: 9134480988669916077}

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462978102698927233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.69, y: 0.614, z: -0.062}
+  m_LocalPosition: {x: -0.078, y: 0.281, z: -0.062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3367017420399214212}
@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 5215233187033158281}
   - component: {fileID: 959822348769257169}
   - component: {fileID: 5504168124183409521}
+  - component: {fileID: -1696231904697065626}
   m_Layer: 8
   m_Name: ForestTent
   m_TagString: Building
@@ -662,6 +663,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8b9a55850467546ac7fb8d123029ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1696231904697065626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215233187033158282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 1
+  ObservedComponents:
+  - {fileID: 9095972910122033305}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1 &5343513620629515965
 GameObject:
   m_ObjectHideFlags: 0
