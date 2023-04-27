@@ -21,9 +21,12 @@ public class csTree : csObjectBase, IGrowth
     [SerializeField]
     Renderer mesh;
 
+    public PhotonView pVPG;
+
     public override void Awake()
     {
         base.Awake();
+        pVPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<PhotonView>();
     }
 
     public override void Start()
@@ -85,11 +88,24 @@ public class csTree : csObjectBase, IGrowth
 
         for (int i = 0; i < Random.Range(1, 3); i++)
         {
-            GameObject tmp = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z), Quaternion.identity);
-            tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
-            tmp.transform.SetParent(null);
+            if (!PhotonNetwork.isMasterClient)
+            {
+                pV.RPC("CreateObjRPC", PhotonTargets.MasterClient, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z));
+            }
+            else
+            {
+                CreateObjRPC(i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
+            }
         }
 
         yield return null;
+    }
+
+    [PunRPC]
+    public void CreateTreeRPC( Vector3 pos)
+    {
+        GameObject tmp = PhotonNetwork.InstantiateSceneObject(dropItem.name, pos, Quaternion.identity, 0, null);
+        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
+        tmp.transform.SetParent(null);
     }
 }

@@ -22,9 +22,12 @@ public class csField : csObjectBase, IGrowth
     [SerializeField]
     Enum_ObjectGrowthLevel growthLevel;//성장단계표현
 
+    public PhotonView pVPG;
+
     public override void Awake()
     {
         base.Awake();
+        pVPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<PhotonView>();
     }
 
     public override void Start()
@@ -74,11 +77,24 @@ public class csField : csObjectBase, IGrowth
 
     IEnumerator DropItem()
     {
-        GameObject tmp = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z), Quaternion.identity);
-        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
-        tmp.transform.SetParent(null);
+        if (!PhotonNetwork.isMasterClient)
+        {
+            pV.RPC("CreateFieldRPC", PhotonTargets.MasterClient, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z));
+        }
+        else
+        {
+            CreateFieldRPC(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
+        }
 
         yield return null;
+    }
+
+    [PunRPC]
+    public void CreateFieldRPC(Vector3 pos)
+    {
+        GameObject tmp = PhotonNetwork.InstantiateSceneObject(dropItem.name, pos, Quaternion.identity, 0, null);
+        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
+        tmp.transform.SetParent(null);
     }
 
     public override void GrowthDay()//시간에 따른 흐름마다 일어나는 일
@@ -107,4 +123,5 @@ public class csField : csObjectBase, IGrowth
             }           
         }
      }
+
 }

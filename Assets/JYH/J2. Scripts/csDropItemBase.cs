@@ -11,8 +11,24 @@ public class csDropItemBase : Item
 
     bool isRoot =false;
 
+    public bool isTemp = false;
+
+    PhotonView pV;
+
+    private void Awake()
+    {
+        if (!isTemp)
+        {
+            pV = GetComponent<PhotonView>();
+        }
+    }
+
     private void Start()
     {
+        if (!isTemp)
+        {
+            Debug.Assert(pV);
+        }
         isRoot = false;
     }
 
@@ -20,7 +36,7 @@ public class csDropItemBase : Item
     {
         //Debug.Log(col.transform.tag);
 
-        if(col.transform.tag == "Player" && !isRoot)
+        if(!isTemp && col.transform.tag == "Player" && !isRoot)
         {
             isRoot = true; 
             //Debug.Log("타긴하니");
@@ -33,14 +49,30 @@ public class csDropItemBase : Item
 
     IEnumerator DelObj()
     {
-        //플레이어가 없어서 임시로 레벨메니저에서 처리함
+        //플레이어가 없어서 임시로 메니저에서 처리함
         GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().tPlayer.CollectItem(ItemType);
 
         yield return new WaitForSeconds(0.1f);
 
         //gameObject.SetActive(false);
 
-        Destroy(gameObject);
+        if (!PhotonNetwork.isMasterClient)
+        {
+            pV.RPC("DestroyObjRPC", PhotonTargets.MasterClient, null);
+        }
+        else
+        {
+            DestroyObjRPC();
+        }
 
+        //Destroy(gameObject);
+    }
+
+    [PunRPC]
+    public void DestroyObjRPC()
+    {
+        // PhotonView의 소유권을 변경합니다.
+        pV.TransferOwnership(PhotonNetwork.masterClient);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
