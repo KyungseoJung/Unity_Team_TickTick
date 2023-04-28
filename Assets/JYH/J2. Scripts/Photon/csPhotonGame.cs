@@ -165,7 +165,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         yield return null;
 
-        PhotonNetwork.Instantiate("Player", new Vector3(30, 30, 30), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("PlayerTest", new Vector3(30, 30, 30), Quaternion.identity, 0);
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
     }

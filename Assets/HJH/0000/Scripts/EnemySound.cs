@@ -6,20 +6,20 @@ public class EnemySound : MonoBehaviour
     public AudioClip enemySound; // 적 음성 오디오 클립
 
     //private AudioSource audioSource; // AudioSource 컴포넌트
-    private GameObject player; // 플레이어 객체
+    //private GameObject player; // 플레이어 객체
 
-    void Start()
-    {
-        //audioSource = GetComponent<AudioSource>();
-        //audioSource.enabled = false;
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
+    //void Start()
+    //{
+    //    //audioSource = GetComponent<AudioSource>();
+    //    //audioSource.enabled = false;
+    //    player = GameObject.FindGameObjectWithTag("Player");
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            float distance = Vector3.Distance(player.transform.position, transform.position);
+            float distance = Vector3.Distance(collision.transform.position, transform.position);
             if (distance <= maxDistance)
             {
                 OptionManager.Ins.PlayEffect(transform.position, enemySound);

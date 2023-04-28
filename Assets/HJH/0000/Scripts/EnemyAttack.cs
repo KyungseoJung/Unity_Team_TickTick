@@ -73,34 +73,11 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
                 //other.gameObject.GetComponent<PlayerController>().TakeDamage(damagePerHit);
             }
         }
-        else if(other.gameObject.tag == "PlayerWeapon")
-        {
-            //SetHpDamaged(dmg,useItemType);
-        }
     }
 
     void ReSetAttackNow()
     {
         isAttackNow = false;
-    }
-
-
-    private void Update()
-    {
-        if (energy <= 0)
-        {
-            // 에너지가 없으면 사망 애니메이션 실행
-            animator.SetTrigger("Die");
-            net_Aim = 2;
-            // 이후, 다른 액션을 막기 위해 스크립트를 비활성화
-            enabled = false;
-        }
-        // if (isAttackNow && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        // {
-        //     isAttackNow = false;
-        //     animator.SetBool("Attack", false);
-        //     animator.SetBool("Walk", true);
-        // }
     }
 
      public float HpFill()
@@ -120,6 +97,15 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
         }
         animator.SetTrigger("Stunned");
         net_Aim = 3;
+
+        if (energy <= 0)
+        {
+            // 에너지가 없으면 사망 애니메이션 실행
+            animator.SetTrigger("Die");
+            net_Aim = 2;
+            // 이후, 다른 액션을 막기 위해 스크립트를 비활성화
+            enabled = false;
+        }
     }
    
       
