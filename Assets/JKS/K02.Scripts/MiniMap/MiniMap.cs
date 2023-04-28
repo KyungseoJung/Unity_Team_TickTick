@@ -78,12 +78,21 @@ List<MiniMapObjData> zoomInMiniMap= new List<MiniMapObjData>();
 Transform playerTransform;   //테스트용 public 잠깐만
 public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
+//#11-5 플레이어 회전에 따라 맵도 돌도록
+// RectTransform zoomInRectT;
+// RectTransform zoomOutRectT;
+
 
     void Awake()    
     {
         zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
         zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+    
+        //#11-5 플레이어 회전에 따라 맵도 돌도록
+        // zoomInRectT = zoomInRawObj.GetComponent<RectTransform>();
+        // zoomOutRectT = zoomOutRawObj.GetComponent<RectTransform>();
+
     }
 
     void Start()
@@ -145,14 +154,16 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
     {
         //#11-4 플레이어 바라보는 방향으로 맞추기
-
         // Quaternion arrowrotation = Quaternion.Euler(0, 0, playerTransform.rotation.y);
         // playerArrow.localRotation = arrowrotation;
-
         rotationAngle = -playerTransform.rotation.eulerAngles.y;
         newRotation = new Vector3(0, 0, rotationAngle);
         playerArrow.eulerAngles = newRotation;
 
+        //#11-5 플레이어 회전에 따라 지도도 회전하도록
+        // zoomInRectT.eulerAngles = newRotation;
+        // zoomOutRectT.eulerAngles = newRotation;
+        
 
         zoomInRawImage.rectTransform.anchoredPosition = new Vector2(/*-70f(미세조정용) */ -(MiniMapConstants.MINIMAP_WIDTH * zoomInSize)/MiniMapConstants.MAP_WIDTH * playerTransform.position.x,   //(-150f(중점좌표 중 X)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_WIDTH) *  (6000/2 - 300)
                                                                      /*-70f(미세조정용) */ -(MiniMapConstants.MINIMAP_HEIGHT * zoomInSize)/MiniMapConstants.MAP_HEIGHT * playerTransform.position.z);  // (-150f(중점좌표 중 Y)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_HEIGHT) * 6000/2 - 300
