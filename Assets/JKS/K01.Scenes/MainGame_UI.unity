@@ -1627,8 +1627,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapType: 0
-  groundSpriteImg: {fileID: 21300000, guid: 64b313687a6af734f837e8ad5153b891, type: 3}
+  rockSpriteImg: {fileID: 21300000, guid: 4c694c9838f5872499f2abf60af4aaee, type: 3}
   treeSpriteImg: {fileID: 21300000, guid: 913a3af2991b9ea41b529c59ec6fb478, type: 3}
+  playerArrow: {fileID: 1268276146}
+  zoomInRawObj: {fileID: 1361217955}
+  zoomOutRawObj: {fileID: 686691078}
   btnSizeChange:
   - {fileID: 117257409}
   - {fileID: 106665196}
@@ -2945,7 +2948,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ee3814f1a9ecb5b4f82ad3bafedee680, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa5779252cec68447be6fe189c595a26, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
