@@ -655,12 +655,6 @@ public class csPhotonGame : Photon.MonoBehaviour
                     UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
                     break;
                 case Enum_PlayerUseItemType.BLOCKSOIL:
-                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
-                    break;
-                case Enum_PlayerUseItemType.BLUEPRINT:
-                    UseItemType = Enum_PlayerUseItemType.PLAYERWEAPONAXE1;
-                    break;
-                case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
                     UseItemType = Enum_PlayerUseItemType.HAND;
                     break;
             }
@@ -673,7 +667,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             switch (UseItemType)
             {
                 case Enum_PlayerUseItemType.HAND:
-                    UseItemType = Enum_PlayerUseItemType.PLAYERWEAPONAXE1;
+                    UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
                     break;
                 case Enum_PlayerUseItemType.AXE:
                     UseItemType = Enum_PlayerUseItemType.HAND;
@@ -689,12 +683,6 @@ public class csPhotonGame : Photon.MonoBehaviour
                     break;
                 case Enum_PlayerUseItemType.BLOCKSOIL:
                     UseItemType = Enum_PlayerUseItemType.HOE;
-                    break;
-                case Enum_PlayerUseItemType.BLUEPRINT:
-                    UseItemType = Enum_PlayerUseItemType.BLOCKSOIL;
-                    break;
-                case Enum_PlayerUseItemType.PLAYERWEAPONAXE1:
-                    UseItemType = Enum_PlayerUseItemType.BLUEPRINT;
                     break;
             }
 
@@ -862,9 +850,6 @@ public class csPhotonGame : Photon.MonoBehaviour
                 break;
             case Enum_PlayerUseItemType.BLOCKSOIL://흙 블럭
                 ActionAddBlock(Enum_CubeType.SOIL);
-                break;
-            case Enum_PlayerUseItemType.BLOCKWATER://물 블럭
-                ActionAddBlock(Enum_CubeType.WATER);
                 break;
         }
 
