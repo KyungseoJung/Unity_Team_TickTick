@@ -57,10 +57,15 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
             float distance = Vector3.Distance(transform.position, other.transform.position);
             if (distance <= attackRange)
             {
+                //isAttackNow = true;
+                //animator.SetBool("Walk", false);
+                //animator.SetBool("Attack", true);
+                
                 // 플레이어가 일정 범위 내에 있을 때 공격 애니메이션 실행
                 animator.SetTrigger("Attack");
-                net_Aim = 1;
                 animator.SetBool("Walk", false);
+                net_Aim = 1;
+                
 
                 isAttackNow = true;
                 Invoke("ReSetAttackNow", 0.2f);
@@ -90,6 +95,12 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
             // 이후, 다른 액션을 막기 위해 스크립트를 비활성화
             enabled = false;
         }
+        // if (isAttackNow && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        // {
+        //     isAttackNow = false;
+        //     animator.SetBool("Attack", false);
+        //     animator.SetBool("Walk", true);
+        // }
     }
 
      public float HpFill()

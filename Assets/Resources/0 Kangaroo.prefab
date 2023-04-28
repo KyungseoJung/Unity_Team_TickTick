@@ -1045,7 +1045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6731685094293318644}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: -0.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8481517819661649239}
@@ -1584,6 +1584,7 @@ GameObject:
   - component: {fileID: 7022772830945736919}
   - component: {fileID: 8384541896376726173}
   - component: {fileID: 762254000763326151}
+  - component: {fileID: 5035724703418626114}
   m_Layer: 0
   m_Name: 0 Kangaroo
   m_TagString: Enemy
@@ -1768,6 +1769,20 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &5035724703418626114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062106882702376202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49d056d0d58fb347926e10e8c78b453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 2
+  enemySound: {fileID: 8300000, guid: c8d74abb58e855d4d89eda1d560d60c1, type: 3}
 --- !u!1001 &5553227888962458930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1788,7 +1803,7 @@ PrefabInstance:
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.811385
+      value: 10.8
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}

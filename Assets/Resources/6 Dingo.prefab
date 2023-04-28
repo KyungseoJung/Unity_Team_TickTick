@@ -1561,6 +1561,7 @@ GameObject:
   - component: {fileID: 5951267174541246717}
   - component: {fileID: 7514674502930065003}
   - component: {fileID: -758685714827172551}
+  - component: {fileID: -2759121062425218874}
   m_Layer: 0
   m_Name: 6 Dingo
   m_TagString: Enemy
@@ -1744,6 +1745,20 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &-2759121062425218874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7255089740504479531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49d056d0d58fb347926e10e8c78b453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 2
+  enemySound: {fileID: 8300000, guid: 9328f59c91e22cf408d51038b952c208, type: 3}
 --- !u!1 &7285718289284322151
 GameObject:
   m_ObjectHideFlags: 0

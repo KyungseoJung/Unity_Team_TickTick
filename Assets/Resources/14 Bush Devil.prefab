@@ -1265,6 +1265,7 @@ GameObject:
   - component: {fileID: 5225947735899995259}
   - component: {fileID: 3603255364435539912}
   - component: {fileID: -8048041598179907212}
+  - component: {fileID: -213394765072464810}
   m_Layer: 0
   m_Name: 14 Bush Devil
   m_TagString: Enemy
@@ -1450,6 +1451,20 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &-213394765072464810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7545408561064445952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49d056d0d58fb347926e10e8c78b453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 2
+  enemySound: {fileID: 8300000, guid: 60080dee667cfa84bab686cc8ed1bd5a, type: 3}
 --- !u!1 &7668319335365160074
 GameObject:
   m_ObjectHideFlags: 0

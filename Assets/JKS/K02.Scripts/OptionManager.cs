@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 //현재 스크립트에서 넓게는 현재 게임오브젝트에서 반드시 필요로하는 컴포넌트를 Attribute로 명시하여 해당 컴포넌트의 자동 생성 및 삭제되는 것을 막는다.
 [RequireComponent(typeof(AudioSource))]
 
-public class OptionManager : MonoBehaviour
+public class OptionManager : csGenericSingleton<OptionManager>
 {
     //오디오 클립 저장 배열 선언
 	public AudioClip[] soundFile;
@@ -43,8 +43,10 @@ public class OptionManager : MonoBehaviour
 	public Slider slVolume;
 
 
-    void Awake()
+    protected override void Awake()
     {
+		base.Awake();
+		
         audio = GetComponent<AudioSource>();
 
         LoadData();

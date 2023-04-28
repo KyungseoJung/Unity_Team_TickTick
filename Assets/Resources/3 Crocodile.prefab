@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 539754752749388685}
   - component: {fileID: 5470184061694463747}
   - component: {fileID: -8881318315827414244}
+  - component: {fileID: 2304971366109672397}
   m_Layer: 0
   m_Name: 3 Crocodile
   m_TagString: Untagged
@@ -863,6 +864,20 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &2304971366109672397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313293320046351548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49d056d0d58fb347926e10e8c78b453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 2
+  enemySound: {fileID: 8300000, guid: 6f79058280be14f44af39f6a29e51839, type: 3}
 --- !u!1 &3593593927080664144
 GameObject:
   m_ObjectHideFlags: 0
