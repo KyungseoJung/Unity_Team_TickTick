@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamInterface;
+using UnityEngine.UI;
+
 
 
 
@@ -75,11 +77,22 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     //위치 정보를 송수신할 때 사용할 변수 선언 및 초기값 설정 
     [SerializeField]
     Vector3 cUrrPos;
-    public Vector3 currPos { get { return currPos; } set { currPos = value; } }
+    //private Vector3 currPos;
+    //public Vector3 CurrPos { get { return currPos; } set { currPos = value; } }
+
+    public Vector3 currPos {
+    get { return transform.position; }
+    set { transform.position = value; }
+}
 
     [SerializeField]
     Quaternion cUrrRot;
     public Quaternion currRot { get { return cUrrRot; } set { cUrrRot = value; } }
+
+    Rigidbody myRbody;
+    public Transform camPivot;
+    
+    //private bool isWriting;
     /// <summary>
     /// ///////////////////////////////////////////
     /// </summary>
@@ -93,21 +106,63 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     [SerializeField]
     private HPBar hpBar;
 
-
+    private Transform Tr; //자신의 트랜스폼 참조 변수
 
     float mouseX=0f;
     float mouseY=0f;
 
     private void Awake()
-    {        
+    {   
+
+        Tr = GetComponent<Transform>();  
         capsuleCollider = GetComponent<CapsuleCollider>();
         myRigid = GetComponent<Rigidbody>();
+        pV = GetComponent<PhotonView>();
+        anim = GetComponent<Animator>();
+        pv.ObservedComponents[0] = this;
+        pv.synchronization = ViewSynchronization.UnreliableOnChange;
+
+
+        if(pv.isMine) // PhotonNetwork.isMasterClient 마스터 클라이언트는 이런식 체크
+        {
+        //메인 카메라에 추가된 SmoothFollowCam 스크립트(컴포넌트)에 추적 대상을 연결 
+            //Camera.main.GetComponent<SmoothFollowCam>().target = camPivot;
+         }
+        else    //자신의 네트워크 객체가 아닐때...
+        {
+        //원격 네트워크 유저의 아바타는 물리력을 안받게 처리하고
+        //또한, 물리엔진으로 이동 처리하지 않고(Rigidbody로 이동 처리시...)
+        //실시간 위치값을 전송받아 처리 한다 그러므로 Rigidbody 컴포넌트의
+        //isKinematic 옵션을 체크해주자. 한마디로 물리엔진의 영향에서 벗어나게 하여
+        //불필요한 물리연산을 하지 않게 해주자...(만약 수십명의 플레이어가 접속 한다면???)
+
+        //원격 네트워크 플레이어의 아바타는 물리력을 이용하지 않음 
+        //(원래 게임이 이렇다는거다...우리건 안해도 체크 돼있음...)
+            myRbody.isKinematic = true;
+        }
+
+
+        currPos = Tr.position; 
+        currRot = Tr.rotation;
+
+        pv.viewID = PhotonNetwork.AllocateViewID();
+
     }
 
-    void Start()
-    {
+    IEnumerator Start()
+    {   
+        yield return new WaitForSeconds(5.0f);
+
+        //  if(pv.isMine)   //#20-1
+        // {
+        //     // 일정 간격으로 주변의 가장 가까운 Enemy를 찾는 코루틴 
+        //     StartCoroutine(this.TargetSetting());
+
+        // // // 가장 가까운 적을 찾아 발사...
+        //     StartCoroutine(this.ShotSetting());
+        // }
+
         // 컴포넌트 할당
-        
         theCamera = Camera.main;
 
         Debug.Assert(theCamera);
@@ -118,8 +173,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
        //originPosY = theCamera.transform.localPosition.y;
        // applyCrouchPosY = originPosY;
 
-        anim = GetComponent<Animator>();
-
+    
         theCamera.transform.SetParent(camPos);
         theCamera.transform.position = camPos.transform.position;
         theCamera.transform.localRotation = camPos.transform.localRotation;
@@ -129,15 +183,14 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         //Debug.Log(currentHP +"..."+ maxHP);
         //hpBar.SetMaxHealth(maxHP);
         //hpBar.UpdateHPBar(currentHP, maxHP);
+
+        //PhotonView pV = GetComponent<PhotonView>();
     }
 
     void Update()
     {
-
         //임시
         //hpBar.UpdateHPBar(currentHP, maxHP);
-
-
         IsGround();
         //TryJump();
         //TryRun();
@@ -146,7 +199,17 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         //CameraRotation();
         CharacterRotation();
 
-      
+        if(pv.isMine)
+        {
+            float _moveDirX = Input.GetAxisRaw("Horizontal");
+            float _moveDirZ = Input.GetAxisRaw("Vertical");
+
+             Vector3 _moveHorizontal = transform.right * _moveDirX;
+            Vector3 _moveVertical = transform.forward * _moveDirZ;
+            Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
+
+            transform.position += _velocity * Time.deltaTime;
+        }
         
     }
 
@@ -267,25 +330,10 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
 
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
 
-        // Animator 컴포넌트 가져오기
-        Animator animator = GetComponent<Animator>();
-
-
-        // if (_velocity.magnitude > 0)
-        // {
-        //     anim.SetBool("isWalk", true);
-        // }
-        // else
-        // {
-        //     anim.SetBool("isWalk", false);
-        // }
-
-
         anim.SetBool("isWalk", _velocity != Vector3.zero);
-        //anim.SetBool("isRun", isRun);
+     }
 
-        //_velocity != Vector3.zero)
-    }
+
 
     private void CameraRotation()
     {
@@ -361,6 +409,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     }
 
 
+
+
     /// <summary>
     /// ///////////////////
     /// 포톤추가
@@ -372,6 +422,21 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //...
+
+
+     if (stream.isWriting)
+    {
+        // 내가 보내는 경우 
+        stream.SendNext(Tr.position);
+        stream.SendNext(Tr.rotation);
+    }
+    else
+    {
+        // 다른 플레이어가 보내는 경우 
+        currPos = (Vector3)stream.ReceiveNext();
+        currRot = (Quaternion)stream.ReceiveNext();
+    }
+
     }
 
     // 네트워크 객체 생성 완료시 자동 호출되는 함수
