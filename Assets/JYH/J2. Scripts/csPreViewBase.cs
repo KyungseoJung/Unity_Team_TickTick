@@ -67,6 +67,15 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
             case Enum_PreViewType.TENT:
                 yVal =0.3f;
                 break;
+            case Enum_PreViewType.WORKBENCH:
+                yVal = 0.3f;
+                break;
+            case Enum_PreViewType.HOUSE_CHAIR:
+                yVal = 0.3f;
+                break;
+            case Enum_PreViewType.HOUSE_TABLE:
+                yVal = 0.3f;
+                break;
         }
         targetPos = new Vector3(pos.x, pos.y + yVal, pos.z);
         showPreViewCheck = true;
@@ -116,7 +125,8 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     {
         if (canBuild)
         {
-            Instantiate(buildObj, transform).transform.SetParent(null);                 
+            //Instantiate(buildObj, transform).transform.SetParent(null);
+            GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().CreateBluePrint(buildObj.name, transform.position);
         }
 
         HiedPreView();

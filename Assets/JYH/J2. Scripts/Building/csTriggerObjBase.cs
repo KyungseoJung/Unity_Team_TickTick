@@ -10,6 +10,8 @@ public class csTriggerObjBase : MonoBehaviour
 
     public bool isUse = false;
 
+    public bool isWorld = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player" && !isUse)
@@ -20,7 +22,9 @@ public class csTriggerObjBase : MonoBehaviour
             _TOB.Invoke("EnableIsUse", 2f);
             Invoke("EnableIsUse", 2f);
 
-            other.GetComponent<csPhotonGame>().InTheBuilding();
+            //other.GetComponent<csPhotonGame>().InTheBuilding();
+
+            GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().InTheBuilding(isWorld);
             other.transform.position = childPos.position;
         }
     }

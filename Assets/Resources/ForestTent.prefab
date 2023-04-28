@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7459470862147729926}
   - component: {fileID: 5928648653067351445}
   - component: {fileID: 2993918105387984538}
-  - component: {fileID: 7112422247951382087}
   - component: {fileID: 2323385610696984140}
   m_Layer: 8
   m_Name: Cube ground (9)
@@ -81,29 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &7112422247951382087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17600634020206764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &2323385610696984140
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -129,7 +105,6 @@ GameObject:
   - component: {fileID: 7880003120390116104}
   - component: {fileID: 4636687601163481592}
   - component: {fileID: 3425836351282907176}
-  - component: {fileID: 4476282666092844052}
   - component: {fileID: 2733510515085289993}
   m_Layer: 8
   m_Name: Cube ground (3)
@@ -199,29 +174,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4476282666092844052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434799828903132297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &2733510515085289993
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -356,7 +308,6 @@ GameObject:
   - component: {fileID: 2282602422856026741}
   - component: {fileID: 3786341728039356029}
   - component: {fileID: 6244698163069858662}
-  - component: {fileID: 5907811835542323836}
   - component: {fileID: 6599360104697720859}
   m_Layer: 8
   m_Name: Cube ground (22)
@@ -426,29 +377,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5907811835542323836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733489227610557123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6599360104697720859
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -474,7 +402,6 @@ GameObject:
   - component: {fileID: 2174402200645242948}
   - component: {fileID: 8691908933700062561}
   - component: {fileID: 7736540663514845217}
-  - component: {fileID: 5862429965134680113}
   - component: {fileID: 3358554780043677165}
   m_Layer: 8
   m_Name: Cube ground (25)
@@ -544,29 +471,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5862429965134680113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824288333127068132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &3358554780043677165
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -592,7 +496,6 @@ GameObject:
   - component: {fileID: 892176986530085246}
   - component: {fileID: 7300274071196154233}
   - component: {fileID: 6446098047228480220}
-  - component: {fileID: 9220264533633955016}
   - component: {fileID: 8558859153764084579}
   m_Layer: 8
   m_Name: Cube ground (17)
@@ -662,29 +565,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &9220264533633955016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089179303659033469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &8558859153764084579
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -710,7 +590,6 @@ GameObject:
   - component: {fileID: 3523267970494261321}
   - component: {fileID: 4980580725916028223}
   - component: {fileID: 3949973669732128428}
-  - component: {fileID: 4699184775273905803}
   - component: {fileID: 6877536832982033659}
   m_Layer: 8
   m_Name: Cube ground (2)
@@ -780,29 +659,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4699184775273905803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202493633371696007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6877536832982033659
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -828,7 +684,6 @@ GameObject:
   - component: {fileID: 7009712793293850014}
   - component: {fileID: 3716144560341347868}
   - component: {fileID: 4087747515241532489}
-  - component: {fileID: 3596581166707261996}
   - component: {fileID: 1432446255489827638}
   m_Layer: 8
   m_Name: Cube ground (14)
@@ -898,29 +753,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3596581166707261996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772942258946122843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &1432446255489827638
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -946,7 +778,6 @@ GameObject:
   - component: {fileID: 2892083517674656188}
   - component: {fileID: 546671258779970409}
   - component: {fileID: 3536614241943730949}
-  - component: {fileID: 8669625607850441550}
   - component: {fileID: 1589879618847350338}
   m_Layer: 8
   m_Name: Cube ground (8)
@@ -1016,29 +847,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8669625607850441550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805563875256832692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &1589879618847350338
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1064,7 +872,6 @@ GameObject:
   - component: {fileID: 1257753185474491288}
   - component: {fileID: 7384640273316741439}
   - component: {fileID: 5741566094570592239}
-  - component: {fileID: 6563683019075391434}
   - component: {fileID: 3228966412775820353}
   m_Layer: 8
   m_Name: Cube ground (12)
@@ -1134,29 +941,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6563683019075391434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975043470631579819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &3228966412775820353
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1182,7 +966,6 @@ GameObject:
   - component: {fileID: 2324860216839771737}
   - component: {fileID: 2324860216839771742}
   - component: {fileID: 2324860216839771743}
-  - component: {fileID: 5070856250630141533}
   - component: {fileID: 6353204459921614633}
   m_Layer: 8
   m_Name: Cube ground
@@ -1252,29 +1035,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5070856250630141533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2324860216839771741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6353204459921614633
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1300,7 +1060,6 @@ GameObject:
   - component: {fileID: 7502432325068241415}
   - component: {fileID: 8457125807667043867}
   - component: {fileID: 5017535926177533286}
-  - component: {fileID: 2823608386918531750}
   - component: {fileID: 7822738762808273471}
   m_Layer: 8
   m_Name: Cube ground (11)
@@ -1370,29 +1129,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2823608386918531750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3003168114034171248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7822738762808273471
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1448,7 +1184,6 @@ GameObject:
   - component: {fileID: 3878818709695841056}
   - component: {fileID: 4668594343986889763}
   - component: {fileID: 456886462826211960}
-  - component: {fileID: 2793909597200314526}
   - component: {fileID: 7834966603759906904}
   m_Layer: 8
   m_Name: Cube ground (20)
@@ -1518,29 +1253,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2793909597200314526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3496879337642456686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7834966603759906904
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1566,7 +1278,6 @@ GameObject:
   - component: {fileID: 5721272584532944410}
   - component: {fileID: 6027321212551180336}
   - component: {fileID: 1336399590432966821}
-  - component: {fileID: 2928890995092417603}
   - component: {fileID: 6401778400039501078}
   m_Layer: 8
   m_Name: Cube ground (1)
@@ -1636,29 +1347,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2928890995092417603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3823793884766118722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6401778400039501078
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1794,7 +1482,6 @@ GameObject:
   - component: {fileID: 243306067359521455}
   - component: {fileID: 5790763800993113686}
   - component: {fileID: 7852874006470934381}
-  - component: {fileID: 5215233187033158281}
   - component: {fileID: 959822348769257169}
   - component: {fileID: -1696231904697065626}
   m_Layer: 8
@@ -1813,7 +1500,7 @@ Transform:
   m_GameObject: {fileID: 5215233187033158282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.8, y: 4.8, z: 4.8}
   m_Children:
   - {fileID: 5486439562378229844}
   - {fileID: 3367017420399214212}
@@ -1907,22 +1594,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4068906824409325395, guid: 0e0b1e82d0bf8af44b4051774e572e8a, type: 3}
---- !u!54 &5215233187033158281
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215233187033158282}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!65 &959822348769257169
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1974,7 +1645,6 @@ GameObject:
   - component: {fileID: 6630614106187921379}
   - component: {fileID: 8896153706917617239}
   - component: {fileID: 6451320353190276114}
-  - component: {fileID: 1182125134650466102}
   - component: {fileID: 2200020537927050042}
   m_Layer: 8
   m_Name: Cube ground (15)
@@ -2044,29 +1714,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1182125134650466102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5315122938618825226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &2200020537927050042
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2171,7 +1818,6 @@ GameObject:
   - component: {fileID: 6459532381547727623}
   - component: {fileID: 1771578271792941251}
   - component: {fileID: 3543374645320006758}
-  - component: {fileID: 6306988806128825348}
   - component: {fileID: 7644504840531128846}
   m_Layer: 8
   m_Name: Cube ground (16)
@@ -2241,29 +1887,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6306988806128825348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438453476993154473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7644504840531128846
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2289,7 +1912,6 @@ GameObject:
   - component: {fileID: 6806629006759362594}
   - component: {fileID: 5612848426310571530}
   - component: {fileID: 4200261567982442207}
-  - component: {fileID: 639844013696848877}
   - component: {fileID: 7219312789611389836}
   m_Layer: 8
   m_Name: Cube ground (21)
@@ -2359,29 +1981,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &639844013696848877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6146054606286622510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7219312789611389836
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2407,7 +2006,6 @@ GameObject:
   - component: {fileID: 1427602908054225659}
   - component: {fileID: 1369308586920343673}
   - component: {fileID: 5372702218280864579}
-  - component: {fileID: 3573451050605039671}
   - component: {fileID: 1897862077508341787}
   m_Layer: 8
   m_Name: Cube ground (13)
@@ -2477,29 +2075,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3573451050605039671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6180654033258079157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &1897862077508341787
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2525,7 +2100,6 @@ GameObject:
   - component: {fileID: 3137171166346555727}
   - component: {fileID: 2390021007092669413}
   - component: {fileID: 961390803650012795}
-  - component: {fileID: 7226907624641755310}
   - component: {fileID: 7993143461219318584}
   m_Layer: 8
   m_Name: Cube ground (23)
@@ -2595,29 +2169,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &7226907624641755310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6247565687820271084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7993143461219318584
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2643,7 +2194,6 @@ GameObject:
   - component: {fileID: 2959349801024469399}
   - component: {fileID: 3104160300019427343}
   - component: {fileID: 897874256389673209}
-  - component: {fileID: 254310934524324189}
   - component: {fileID: 3573740501118820383}
   m_Layer: 8
   m_Name: Cube ground (24)
@@ -2713,29 +2263,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &254310934524324189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6472050027558982825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &3573740501118820383
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2840,7 +2367,6 @@ GameObject:
   - component: {fileID: 4586514850676139361}
   - component: {fileID: 6642932200165624699}
   - component: {fileID: 7087070978222785862}
-  - component: {fileID: 2729516505362406552}
   - component: {fileID: 9148973112745545023}
   m_Layer: 8
   m_Name: Cube ground (19)
@@ -2910,29 +2436,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2729516505362406552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6641105326436383364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &9148973112745545023
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3008,6 +2511,7 @@ MonoBehaviour:
   childPos: {fileID: 5489844790945483689}
   _TOB: {fileID: 8849047686639990728}
   isUse: 1
+  isWorld: 0
 --- !u!1 &6997121970956122190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,7 +2574,6 @@ GameObject:
   - component: {fileID: 5297175312997382211}
   - component: {fileID: 5396933297077856639}
   - component: {fileID: 241707665211926687}
-  - component: {fileID: 2333706861302856996}
   - component: {fileID: 5434654284598229605}
   m_Layer: 8
   m_Name: Cube ground (10)
@@ -3140,29 +2643,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2333706861302856996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7503509326841262302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &5434654284598229605
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3188,7 +2668,6 @@ GameObject:
   - component: {fileID: 4709274922683692543}
   - component: {fileID: 7141329053107081058}
   - component: {fileID: 7959306030812375574}
-  - component: {fileID: 744660465807112776}
   - component: {fileID: 5301503423434217720}
   m_Layer: 8
   m_Name: Cube ground (4)
@@ -3258,29 +2737,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &744660465807112776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7673477206226273832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &5301503423434217720
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3306,7 +2762,6 @@ GameObject:
   - component: {fileID: 609360897337427068}
   - component: {fileID: 1722367240978197851}
   - component: {fileID: 8937935901756517057}
-  - component: {fileID: 6791172149549962559}
   - component: {fileID: 946825215054152067}
   m_Layer: 8
   m_Name: Cube ground (7)
@@ -3376,29 +2831,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6791172149549962559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7796117859052773855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &946825215054152067
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3424,7 +2856,6 @@ GameObject:
   - component: {fileID: 3748464937722618512}
   - component: {fileID: 7351364368716836601}
   - component: {fileID: 3315859588246051272}
-  - component: {fileID: 9107421613977093607}
   - component: {fileID: 7222707117150323789}
   m_Layer: 8
   m_Name: Cube ground (18)
@@ -3494,29 +2925,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &9107421613977093607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7977037188211002404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &7222707117150323789
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3542,7 +2950,6 @@ GameObject:
   - component: {fileID: 3827819125233170994}
   - component: {fileID: 1472518087407065635}
   - component: {fileID: 6433105263457825687}
-  - component: {fileID: 4639337970144942624}
   - component: {fileID: 6451916825325765958}
   m_Layer: 8
   m_Name: Cube ground (6)
@@ -3612,29 +3019,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4639337970144942624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8613864212629753261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6451916825325765958
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3660,7 +3044,6 @@ GameObject:
   - component: {fileID: 8713378251211760089}
   - component: {fileID: 8661082062594916279}
   - component: {fileID: 5086026266895092051}
-  - component: {fileID: 3931591202323220415}
   - component: {fileID: 6301490148471714891}
   m_Layer: 8
   m_Name: Cube ground (5)
@@ -3730,29 +3113,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3931591202323220415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8805796305689595785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb940b4ad66084faaadae5fc9e6d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubeInfo:
-    type: 0
-    vis: 0
-    obj: {fileID: 0}
-    top: 0
-    haveChild: 0
-    childState: 0
-    childNum: 0
-    childGrowth: 0
-  highlighter: {fileID: 0}
-  childObj: {fileID: 0}
 --- !u!64 &6301490148471714891
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3907,3 +3267,4 @@ MonoBehaviour:
   childPos: {fileID: 6941663814157979592}
   _TOB: {fileID: 7436915892825132415}
   isUse: 0
+  isWorld: 1
