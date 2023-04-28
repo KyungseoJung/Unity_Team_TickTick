@@ -13,7 +13,7 @@ public class DropItemZone : MonoBehaviour, IDropHandler
         {
             GameObject[] tmpPlayer = GameObject.FindGameObjectsWithTag("Player");
 
-            Debug.Log(tmpPlayer.Length +"asdasdasd");
+            //Debug.Log(tmpPlayer.Length +"asdasdasd");
 
             foreach(GameObject obj in tmpPlayer)
             {
