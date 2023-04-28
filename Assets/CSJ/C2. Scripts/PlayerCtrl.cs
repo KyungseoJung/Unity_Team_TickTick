@@ -34,13 +34,13 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     //private float applyCrouchPosY;
 
     // 민감도
-    [SerializeField]
-    private float lookSensitivity;
+    //[SerializeField]
+    //private float lookSensitivity;
 
     // 카메라 한계
-    [SerializeField]
-    private float cameraRotationLimit;
-    private float currentCameraRotationX;
+    //[SerializeField]
+    //private float cameraRotationLimit;
+    //private float currentCameraRotationX;
 
     // 필요한 컴포넌트
     [SerializeField]
@@ -98,7 +98,7 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
     /// </summary>
     //bool isDie = false;
 
-    float damage;
+    //float damage;
 
      [SerializeField]
      public float maxHP;

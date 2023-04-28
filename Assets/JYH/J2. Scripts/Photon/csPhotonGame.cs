@@ -157,22 +157,18 @@ public class csPhotonGame : Photon.MonoBehaviour
             {
                 CreateBlockChild(pos);
             }
+
+            StartCoroutine(EnemySpawn());
         }
 
         isReady = true;
 
-        yield return EnemySpawn();
-    }
-
-    IEnumerator PlayerSpawn()
-    {
-        yield return EnemySpawn();
-
-        
-
         yield return null;
-    }
 
+        PhotonNetwork.Instantiate("Player", new Vector3(30, 30, 30), Quaternion.identity, 0);
+
+        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+    }
     IEnumerator EnemySpawn()
     {
         Debug.Log("애너미스폰");
@@ -190,11 +186,6 @@ public class csPhotonGame : Photon.MonoBehaviour
             enemySpawnCount++;
             //Debug.Log(enemySpawnCount);
         }
-
-        PhotonNetwork.Instantiate("Player", new Vector3(30, 30, 30), Quaternion.identity, 0);
-
-        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
-
         yield return null;
     }
 
