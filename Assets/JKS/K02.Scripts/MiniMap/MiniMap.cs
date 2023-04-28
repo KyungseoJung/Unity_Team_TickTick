@@ -18,7 +18,7 @@ public static class MiniMapConstants
 
 public class MiniMap : MonoBehaviour    //@16 미니맵
 {
-    private int mapSize = 5;      //const 빼 - 확대 축소 기능 위해서 (5이면 더 멀리서 보는 효과, 10이면 더 확대하는 효과)
+    private int mapSize;    // = 5;(Start에서 지정)      //const 빼 - 확대 축소 기능 위해서 (5이면 더 멀리서 보는 효과, 10이면 더 확대하는 효과)
 
     public MAP_TYPE mapType;    //어떤 오브젝트를 미니맵으로 그릴 거냐
     string enumObjectName;      // 자식으로 새롭게 만들 오브젝트의 이름
@@ -44,23 +44,23 @@ public class MiniMap : MonoBehaviour    //@16 미니맵
     // public Sprite goalSpriteImg;
 
 // 미니맵을 표시할 RawImage 오브젝트 - 나중에 오브젝트에 연결?
-    private RawImage minimapRawImage; //여기에 미니맵이 그려질 거야  //테스트용 public 선언
+    private RawImage zoomInRawImage; //여기에 미니맵이 그려질 거야  //테스트용 public 선언
+    private RawImage zoomOutRawImage; //여기에 미니맵이 그려질 거야  //테스트용 public 선언
 
 //@16-3 Start 반복문용
 Vector3 tilePosition;
-
 List<Vector3> positions;
 
 
 //@16-3 MakeMinimap 반복문용
 Texture2D minimapTexture;
-
 Sprite spriteToUse;
 
 Vector2 positionOnRawImage;
 GameObject minimapObject;
 Image minimapImage;
 
+//#11-3 맵에서 삭제하면 미니맵 오브젝트도 삭제되도록
 List<MiniMapObjData> zoomOutMiniMap= new List<MiniMapObjData>();    //#11-3 용훈님 추가
 List<MiniMapObjData> zoomInMiniMap= new List<MiniMapObjData>();
 
@@ -71,7 +71,8 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
     void Awake()    
     {
-        minimapRawImage = GameObject.Find("miniMapRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+        zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+        zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
     }
@@ -120,21 +121,23 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
     // 땅, 벽 타일맵의 위치 리스트를 미니맵에 그려주기
 //#11-3    MakeMinimap(groundPositions, MAP_TYPE.GROUND);
-    MakeMinimap(treePositions, MAP_TYPE.TREE);
 
+    MakeMinimap(treePositions, MAP_TYPE.TREE, true);    //zoomIn으로 한번 그려놓고
+    MakeMinimap(treePositions, MAP_TYPE.TREE, false);   //zoomOut으로 한번 그려놓기
+    mapSize = 5;
     }
     
     void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
     {
-        minimapRawImage.rectTransform.anchoredPosition = new Vector2(/*-70f(미세조정용) */ -(MiniMapConstants.MINIMAP_WIDTH * mapSize)/MiniMapConstants.MAP_WIDTH * playerTransform.position.x,   //(-150f(중점좌표 중 X)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_WIDTH) *  (6000/2 - 300)
+        zoomInRawImage.rectTransform.anchoredPosition = new Vector2(/*-70f(미세조정용) */ -(MiniMapConstants.MINIMAP_WIDTH * mapSize)/MiniMapConstants.MAP_WIDTH * playerTransform.position.x,   //(-150f(중점좌표 중 X)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_WIDTH) *  (6000/2 - 300)
                                                                      /*-70f(미세조정용) */ -(MiniMapConstants.MINIMAP_HEIGHT * mapSize)/MiniMapConstants.MAP_HEIGHT * playerTransform.position.z);  // (-150f(중점좌표 중 Y)+75f(중심에 맞추기 위해)) -((MINIMAP_WIDTH * SIZEUP)/MiniMapConstants.MAP_HEIGHT) * 6000/2 - 300
     }
 
     void setMinimapPos()
     {
         //#11-3 미니맵 박스 위치 맞춰주기
-        minimapRawImage.rectTransform.anchoredPosition = new Vector2(-150f, -150f);  //#11-3 미니맵 중심을 좌측 하단으로 맞춰주기
-        minimapRawImage.rectTransform.sizeDelta = new Vector2(600*mapSize, 600*mapSize);    //#11-3 위치 및 크기 맞춰주기 위함 (캔버스 상에서 부모 크기가 300임)
+        zoomInRawImage.rectTransform.anchoredPosition = new Vector2(-150f, -150f);  //#11-3 미니맵 중심을 좌측 하단으로 맞춰주기
+        zoomInRawImage.rectTransform.sizeDelta = new Vector2(600*mapSize, 600*mapSize);    //#11-3 위치 및 크기 맞춰주기 위함 (캔버스 상에서 부모 크기가 300임)
                         //거기에 중심을 좌측 하단으로 했으므로 크기 *2, 더 크게 보기 위해 *10씩 -> 300 * 2 * 10
     }
 
@@ -195,17 +198,24 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
             if(zoomOutMiniMap[i].GetX == x)
             {
                 if(zoomOutMiniMap[i].GetZ==z){
+                    Destroy( zoomOutMiniMap[i].gameObject);
+                    Destroy( zoomInMiniMap[i].gameObject);
+
                     zoomOutMiniMap.RemoveAt(i);
                     zoomInMiniMap.RemoveAt(i);  //오브젝트 아예 지워
                     break;
                 }
             }
         }
-        
     }
 
-    private void MakeMinimap(List<Vector3> positions, MAP_TYPE _mapType)
+    private void MakeMinimap(List<Vector3> positions, MAP_TYPE _mapType, bool _zoomIn)
     {
+        if(_zoomIn)         // 줌인 상태의 화면을 원하면 10으로 설정하고 만들기
+            mapSize = 10;
+        else                // 아니면 5로 설정하고 만들기
+            mapSize = 5;
+
         // 미니맵 이미지 생성 - 크기 맞춰서
         minimapTexture = new Texture2D(MiniMapConstants.MINIMAP_WIDTH * mapSize, MiniMapConstants.MINIMAP_HEIGHT * mapSize);
 
@@ -232,14 +242,21 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
             //UI 이미지 생성 - 자식 오브젝트로 넣고 이미지도 각각 갖도록(이름은 Layer의 이름대로 정해서 만들어)
             minimapObject = new GameObject(enumObjectName); // typeofImage라는 string의 이름을 가진 게임오브젝트를 자식들로 생성
-            
-            minimapObject.transform.SetParent(minimapRawImage.transform, false);
+
+            if(_zoomIn)
+                minimapObject.transform.SetParent(zoomInRawImage.transform, false);
+            else
+                minimapObject.transform.SetParent(zoomOutRawImage.transform, false);
+
+
             minimapImage = minimapObject.AddComponent<Image>();   // 하나하나 이미지를 넣어
 
             minimapObject.AddComponent<MiniMapObjData>().SetData((int)position.x, (int)position.z);
 
-            zoomOutMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
-            zoomInMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
+            if(_zoomIn)
+                zoomInMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
+            else    
+                zoomOutMiniMap.Add(minimapObject.GetComponent<MiniMapObjData>());
 
             //자식들 - 이미지를 올바르게 연결해서 만들어
             minimapImage.sprite = spriteToUse;
@@ -256,7 +273,11 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
         }
         minimapTexture.Apply(); // 위에서 생성된 미니맵 이미지를 렌더 텍스쳐인 minimapTexture에 적용.
-        minimapRawImage.texture = minimapTexture;   //부모인 minimapRawImage에 minimapTexture를 알맞게 지정(연결)
+        if(_zoomIn)
+            zoomInRawImage.texture = minimapTexture;   //부모인 zoomInRawImage에 minimapTexture를 알맞게 지정(연결)
+        else
+            zoomOutRawImage.texture = minimapTexture;   //#11-3 부모 따로 생기도록
+
     }
 
     public void ChangeMinimapZoom(bool zoomIn)    //미니맵 확대(true)/ 축소(false)
@@ -270,7 +291,8 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
             mapSize = 10;
             setMinimapPos();
-            MakeMinimap(treePositions, MAP_TYPE.TREE);
+        //    MakeMinimap(treePositions, MAP_TYPE.TREE);
+        // 부모 오브젝트를 활성화, 비활성화 하기
         }
         if(!zoomIn && (mapSize != 5))       //축소하고자 한다면
         {
@@ -280,7 +302,7 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
             mapSize = 5;
             setMinimapPos();
-            MakeMinimap(treePositions, MAP_TYPE.TREE);
+        //    MakeMinimap(treePositions, MAP_TYPE.TREE);
 
         }
         
