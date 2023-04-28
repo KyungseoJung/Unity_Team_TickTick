@@ -190,6 +190,10 @@ namespace JinscObjectBase
         [PunRPC]
         public void CreateObjRPC(int i, Vector3 pos)
         {
+            if(i>= dropItems.Length)
+            {
+                return;
+            }
             GameObject tmp = PhotonNetwork.InstantiateSceneObject(dropItems[i].name, pos, Quaternion.identity, 0, null);
             tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * (Random.Range(2, 5) * 5000f));
             tmp.transform.SetParent(null);
