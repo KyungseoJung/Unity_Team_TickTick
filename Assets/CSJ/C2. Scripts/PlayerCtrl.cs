@@ -201,8 +201,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
 
         if(pv.isMine)
         {
-            float _moveDirX = Input.GetAxisRaw("Horizontal");
-            float _moveDirZ = Input.GetAxisRaw("Vertical");
+            float _moveDirX = Input.GetAxisRaw("Horizontal") *0.5f;
+            float _moveDirZ = Input.GetAxisRaw("Vertical") * 0.5f;
 
              Vector3 _moveHorizontal = transform.right * _moveDirX;
             Vector3 _moveVertical = transform.forward * _moveDirZ;
@@ -358,8 +358,8 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
             return;
         }
 
-        mouseX += Input.GetAxis("Mouse X") * 5;
-        mouseY += Input.GetAxis("Mouse Y") * 5;
+        mouseX += Input.GetAxis("Mouse X") * 2;
+        mouseY += Input.GetAxis("Mouse Y") * 2;
         //transform.eulerAngles = new Vector3(-mouseY,mouseX, 0);
         transform.eulerAngles = new Vector3(0,mouseX, 0); // 캐릭터 좌우 회전
         theCamera.transform.eulerAngles = new Vector3(Mathf.Clamp((-mouseY), -35f, 50f), mouseX, 0);// 카메라 상하, 좌우 회전

@@ -1,145 +1,378 @@
 fileFormatVersion: 2
 guid: fba17ae7811464ab3bdb4504c8bd47ed
-timeCreated: 1454632295
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: BackPack
-    100002: Backpackroll_L_Joint
-    100004: Backpackroll_R_Joint
-    100006: Backpacktop_Joint
-    100008: Bagpack_Joint
-    100010: Cap_Joint
-    100012: Chestflap_Joint
-    100014: Clavicle_L_Joint
-    100016: Clavicle_R_Joint
-    100018: Elbow_L_Joint
-    100020: Elbow_R_Joint
-    100022: Hand_L_Joint
-    100024: Hand_R_Joint
-    100026: Head_Joint
-    100028: Heel_L_Joint
-    100030: Heel_R_Joint
-    100032: Hip_Joint
-    100034: Index_01_Joint
-    100036: Index_01_Joint 1
-    100038: Index_02_Joint
-    100040: Index_02_Joint 1
-    100042: Knee_L_Joint
-    100044: Knee_R_Joint
-    100046: Leg_L_Joint
-    100048: Leg_R_Joint
-    100050: Middle_01_Joint
-    100052: Middle_01_Joint 1
-    100054: Middle_02_Joint
-    100056: Middle_02_Joint 1
-    100058: Neck_Joint
-    100060: Pan_Joint
-    100062: Pink_01_Joint
-    100064: Pink_01_Joint 1
-    100066: Pink_02_Joint
-    100068: Pink_02_Joint 1
-    100070: Root_Joint
-    100072: Scout
-    100074: //RootNode
-    100076: Shoulder_L_Joint
-    100078: Shoulder_R_Joint
-    100080: Spine_1_Joint
-    100082: Spine_2_Joint
-    100084: Thumb_01_Joint
-    100086: Thumb_01_Joint 1
-    100088: Thumb_02_Joint
-    100090: Thumb_02_Joint 1
-    100092: Toe_L_Joint
-    100094: Toe_R_Joint
-    400000: BackPack
-    400002: Backpackroll_L_Joint
-    400004: Backpackroll_R_Joint
-    400006: Backpacktop_Joint
-    400008: Bagpack_Joint
-    400010: Cap_Joint
-    400012: Chestflap_Joint
-    400014: Clavicle_L_Joint
-    400016: Clavicle_R_Joint
-    400018: Elbow_L_Joint
-    400020: Elbow_R_Joint
-    400022: Hand_L_Joint
-    400024: Hand_R_Joint
-    400026: Head_Joint
-    400028: Heel_L_Joint
-    400030: Heel_R_Joint
-    400032: Hip_Joint
-    400034: Index_01_Joint
-    400036: Index_01_Joint 1
-    400038: Index_02_Joint
-    400040: Index_02_Joint 1
-    400042: Knee_L_Joint
-    400044: Knee_R_Joint
-    400046: Leg_L_Joint
-    400048: Leg_R_Joint
-    400050: Middle_01_Joint
-    400052: Middle_01_Joint 1
-    400054: Middle_02_Joint
-    400056: Middle_02_Joint 1
-    400058: Neck_Joint
-    400060: Pan_Joint
-    400062: Pink_01_Joint
-    400064: Pink_01_Joint 1
-    400066: Pink_02_Joint
-    400068: Pink_02_Joint 1
-    400070: Root_Joint
-    400072: Scout
-    400074: //RootNode
-    400076: Shoulder_L_Joint
-    400078: Shoulder_R_Joint
-    400080: Spine_1_Joint
-    400082: Spine_2_Joint
-    400084: Thumb_01_Joint
-    400086: Thumb_01_Joint 1
-    400088: Thumb_02_Joint
-    400090: Thumb_02_Joint 1
-    400092: Toe_L_Joint
-    400094: Toe_R_Joint
-    4300000: BackPack
-    4300002: Scout
-    9500000: //RootNode
-    13700000: BackPack
-    13700002: Scout
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: BackPack
+  - first:
+      1: 100002
+    second: Backpackroll_L_Joint
+  - first:
+      1: 100004
+    second: Backpackroll_R_Joint
+  - first:
+      1: 100006
+    second: Backpacktop_Joint
+  - first:
+      1: 100008
+    second: Bagpack_Joint
+  - first:
+      1: 100010
+    second: Cap_Joint
+  - first:
+      1: 100012
+    second: Chestflap_Joint
+  - first:
+      1: 100014
+    second: Clavicle_L_Joint
+  - first:
+      1: 100016
+    second: Clavicle_R_Joint
+  - first:
+      1: 100018
+    second: Elbow_L_Joint
+  - first:
+      1: 100020
+    second: Elbow_R_Joint
+  - first:
+      1: 100022
+    second: Hand_L_Joint
+  - first:
+      1: 100024
+    second: Hand_R_Joint
+  - first:
+      1: 100026
+    second: Head_Joint
+  - first:
+      1: 100028
+    second: Heel_L_Joint
+  - first:
+      1: 100030
+    second: Heel_R_Joint
+  - first:
+      1: 100032
+    second: Hip_Joint
+  - first:
+      1: 100034
+    second: Index_01_Joint
+  - first:
+      1: 100036
+    second: Index_01_Joint 1
+  - first:
+      1: 100038
+    second: Index_02_Joint
+  - first:
+      1: 100040
+    second: Index_02_Joint 1
+  - first:
+      1: 100042
+    second: Knee_L_Joint
+  - first:
+      1: 100044
+    second: Knee_R_Joint
+  - first:
+      1: 100046
+    second: Leg_L_Joint
+  - first:
+      1: 100048
+    second: Leg_R_Joint
+  - first:
+      1: 100050
+    second: Middle_01_Joint
+  - first:
+      1: 100052
+    second: Middle_01_Joint 1
+  - first:
+      1: 100054
+    second: Middle_02_Joint
+  - first:
+      1: 100056
+    second: Middle_02_Joint 1
+  - first:
+      1: 100058
+    second: Neck_Joint
+  - first:
+      1: 100060
+    second: Pan_Joint
+  - first:
+      1: 100062
+    second: Pink_01_Joint
+  - first:
+      1: 100064
+    second: Pink_01_Joint 1
+  - first:
+      1: 100066
+    second: Pink_02_Joint
+  - first:
+      1: 100068
+    second: Pink_02_Joint 1
+  - first:
+      1: 100070
+    second: Root_Joint
+  - first:
+      1: 100072
+    second: Scout
+  - first:
+      1: 100074
+    second: //RootNode
+  - first:
+      1: 100076
+    second: Shoulder_L_Joint
+  - first:
+      1: 100078
+    second: Shoulder_R_Joint
+  - first:
+      1: 100080
+    second: Spine_1_Joint
+  - first:
+      1: 100082
+    second: Spine_2_Joint
+  - first:
+      1: 100084
+    second: Thumb_01_Joint
+  - first:
+      1: 100086
+    second: Thumb_01_Joint 1
+  - first:
+      1: 100088
+    second: Thumb_02_Joint
+  - first:
+      1: 100090
+    second: Thumb_02_Joint 1
+  - first:
+      1: 100092
+    second: Toe_L_Joint
+  - first:
+      1: 100094
+    second: Toe_R_Joint
+  - first:
+      4: 400000
+    second: BackPack
+  - first:
+      4: 400002
+    second: Backpackroll_L_Joint
+  - first:
+      4: 400004
+    second: Backpackroll_R_Joint
+  - first:
+      4: 400006
+    second: Backpacktop_Joint
+  - first:
+      4: 400008
+    second: Bagpack_Joint
+  - first:
+      4: 400010
+    second: Cap_Joint
+  - first:
+      4: 400012
+    second: Chestflap_Joint
+  - first:
+      4: 400014
+    second: Clavicle_L_Joint
+  - first:
+      4: 400016
+    second: Clavicle_R_Joint
+  - first:
+      4: 400018
+    second: Elbow_L_Joint
+  - first:
+      4: 400020
+    second: Elbow_R_Joint
+  - first:
+      4: 400022
+    second: Hand_L_Joint
+  - first:
+      4: 400024
+    second: Hand_R_Joint
+  - first:
+      4: 400026
+    second: Head_Joint
+  - first:
+      4: 400028
+    second: Heel_L_Joint
+  - first:
+      4: 400030
+    second: Heel_R_Joint
+  - first:
+      4: 400032
+    second: Hip_Joint
+  - first:
+      4: 400034
+    second: Index_01_Joint
+  - first:
+      4: 400036
+    second: Index_01_Joint 1
+  - first:
+      4: 400038
+    second: Index_02_Joint
+  - first:
+      4: 400040
+    second: Index_02_Joint 1
+  - first:
+      4: 400042
+    second: Knee_L_Joint
+  - first:
+      4: 400044
+    second: Knee_R_Joint
+  - first:
+      4: 400046
+    second: Leg_L_Joint
+  - first:
+      4: 400048
+    second: Leg_R_Joint
+  - first:
+      4: 400050
+    second: Middle_01_Joint
+  - first:
+      4: 400052
+    second: Middle_01_Joint 1
+  - first:
+      4: 400054
+    second: Middle_02_Joint
+  - first:
+      4: 400056
+    second: Middle_02_Joint 1
+  - first:
+      4: 400058
+    second: Neck_Joint
+  - first:
+      4: 400060
+    second: Pan_Joint
+  - first:
+      4: 400062
+    second: Pink_01_Joint
+  - first:
+      4: 400064
+    second: Pink_01_Joint 1
+  - first:
+      4: 400066
+    second: Pink_02_Joint
+  - first:
+      4: 400068
+    second: Pink_02_Joint 1
+  - first:
+      4: 400070
+    second: Root_Joint
+  - first:
+      4: 400072
+    second: Scout
+  - first:
+      4: 400074
+    second: //RootNode
+  - first:
+      4: 400076
+    second: Shoulder_L_Joint
+  - first:
+      4: 400078
+    second: Shoulder_R_Joint
+  - first:
+      4: 400080
+    second: Spine_1_Joint
+  - first:
+      4: 400082
+    second: Spine_2_Joint
+  - first:
+      4: 400084
+    second: Thumb_01_Joint
+  - first:
+      4: 400086
+    second: Thumb_01_Joint 1
+  - first:
+      4: 400088
+    second: Thumb_02_Joint
+  - first:
+      4: 400090
+    second: Thumb_02_Joint 1
+  - first:
+      4: 400092
+    second: Toe_L_Joint
+  - first:
+      4: 400094
+    second: Toe_R_Joint
+  - first:
+      43: 4300000
+    second: BackPack
+  - first:
+      43: 4300002
+    second: Scout
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: BackPack
+  - first:
+      137: 13700002
+    second: Scout
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head
+    second: {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 2569669187b4243d49d20a1b912d4050, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: phong1
+    second: {fileID: 2100000, guid: 4ec81ba0404fb4bc3a788c1112ec698a, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -149,9 +382,14 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -161,11 +399,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.015
     rootMotionBoneName: 
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
