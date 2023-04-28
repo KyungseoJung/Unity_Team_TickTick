@@ -353,6 +353,11 @@ public class PlayerCtrl : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTh
         // myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
         //transform.Rotate(0, Input.GetAxis("Horizontal")*5, 0);
 
+        if (theCamera == null)
+        {
+            return;
+        }
+
         mouseX += Input.GetAxis("Mouse X") * 5;
         mouseY += Input.GetAxis("Mouse Y") * 5;
         //transform.eulerAngles = new Vector3(-mouseY,mouseX, 0);

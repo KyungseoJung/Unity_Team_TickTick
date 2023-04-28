@@ -144,8 +144,8 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트로 대체
-        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+        //SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트로 대체
+        
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
         
 
@@ -161,21 +161,16 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         isReady = true;
 
-        yield return PlayerSpawn();
+        yield return EnemySpawn();
     }
 
     IEnumerator PlayerSpawn()
     {
-        if (PhotonNetwork.isMasterClient)
-        {
-            Debug.Log("방장용 플레이어스폰");
+        yield return EnemySpawn();
 
-            yield return EnemySpawn();
-        }
-        else
-        {
-            yield return null;
-        }
+        
+
+        yield return null;
     }
 
     IEnumerator EnemySpawn()
@@ -195,6 +190,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             enemySpawnCount++;
             //Debug.Log(enemySpawnCount);
         }
+
+        PhotonNetwork.Instantiate("Player", new Vector3(30, 30, 30), Quaternion.identity, 0);
+
+        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
         yield return null;
     }
