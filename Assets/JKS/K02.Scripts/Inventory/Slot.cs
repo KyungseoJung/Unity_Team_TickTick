@@ -40,13 +40,17 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         if(mySlotNumber == 0)   //#11-2 처음 시작할 때, 퀵슬롯 하이라이트가 0번째 슬롯에 가 있도록
         {
             SelectSlot.Ins.nowUsingSlot = this;
-            //SelectSlot.Ins.transform.position = this.transform.position;   //eventData.position;  마우스 위치에 맞추지 말고, 슬롯의 정중앙에 맞추기
+            Invoke("SetPosSelectSlot", 1.0f);
             SelectSlot.Ins.ShowHighLight(true);
 
             Debug.Log("//#11-2 1111 첫 번째 하이라이트 위치 : " + this.transform.position);
         }  
     }
 
+    void SetPosSelectSlot() //#11-5 대비용 - 퀵슬롯 하이라이트 위치 맞추기
+    {
+        SelectSlot.Ins.transform.position = this.transform.position;   //eventData.position;  마우스 위치에 맞추지 말고, 슬롯의 정중앙에 맞추기
+    }
     // 아이템 이미지 투명도 조절 목적
     private void SetAlpha(float _alpha)
     {

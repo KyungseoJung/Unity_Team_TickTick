@@ -122,7 +122,7 @@ Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].
         playerInfo.playerName = "";     // 그냥 null로 저장하면 안돼. null 자체로 저장이 되어버림!
         playerInfo.islandName = "";
         playerInfo.clothesNum = 0;
-        playerInfo.clothesColor = HexToColor32("#FFFFFF");
+        playerInfo.clothesColor = HexToColor32("#FF5D5D");
 
         SaveJSONData();
     }
