@@ -22,7 +22,8 @@ public class DropItemZone : MonoBehaviour, IDropHandler
                 if (tmpPV != null && tmpPV.isMine)
                 {
                     //Debug.Log("드롭2");
-                    DragItem.Ins.dragStartSlot.DropItemOnGround(obj.GetComponent<PlayerCtrl>().dropItemPos);    // 플레이어 위치 넣기
+                    DragItem.Ins.dragStartSlot.DropItemOnGround(obj.GetComponent<PlayerCtrl1>().dropItemPos);    // 플레이어 위치 넣기
+                    break;
                 }
                 else
                 {
