@@ -93,7 +93,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 2.5, z: 1.5}
+  m_Size: {x: 0.8, y: 2.5, z: 0.8}
   m_Center: {x: 0.043442786, y: 1.4515458, z: -0.12025547}
 --- !u!114 &7583963464728883973
 MonoBehaviour:
@@ -119,6 +119,7 @@ MonoBehaviour:
   ObjType: 2
   hpBarObj: {fileID: 3420406535614374331}
   haBarAddY: 0.7
+  pV: {fileID: 0}
 --- !u!1001 &5217437263135029558
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -192,6 +192,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
+        if (!m_grid2D.isUiBlock)
+        {
+            return;
+        }
+
         if (!pv.isMine)
         {
             MoveAvarta();
@@ -207,7 +212,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
 
         //Move();
-        MoveBlock();
+        //MoveBlock();
 
 
         //CameraRotation();
@@ -223,6 +228,16 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //transform.position += _velocity * Time.deltaTime;
         
+    }
+
+    private void LateUpdate()
+    {
+        if (!m_grid2D.isUiBlock)
+        {
+            return;
+        }
+
+        MoveBlock();
     }
 
     // 지면 체크
@@ -505,19 +520,58 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     {
         if (m_path.Count > 0)
         {
-            Vector3 dir = m_path[0].transform.position - transform.position;
+            anim.SetBool("isWalk", true);
+            //Vector3 dir = m_path[0].transform.position - transform.position;
 
-            dir.Normalize();
+            //dir.Normalize();
 
-            transform.Translate(dir * Time.deltaTime * (applySpeed));
+            //transform.Translate(dir * Time.deltaTime * (applySpeed));
+
+            /*
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_path[0].transform.position.x, transform.position.y + 0.284f, m_path[0].transform.position.z), 0.1f);
 
             float distance = Vector3.Distance(new Vector3(m_path[0].transform.position.x,0, m_path[0].transform.position.z), new Vector3(transform.position.x,0, transform.position.z));
 
-            if (distance <= 0.1f)
+            if (distance <= 0.2f)
             {
-                transform.position = new Vector3(m_path[0].transform.position.x, transform.position.y+0.3f, m_path[0].transform.position.z);
+                transform.position = new Vector3(m_path[0].transform.position.x, transform.position.y, m_path[0].transform.position.z);
                 m_path.RemoveAt(0);
             }
+            */
+
+            /*
+            // 다음 목적지로 이동하기
+            Vector3 direction = (new Vector3(m_path[0].transform.position.x, transform.position.y + 0.284f, m_path[0].transform.position.z) - transform.position).normalized;
+            transform.position += direction * applySpeed * Time.fixedDeltaTime;
+
+            // 목적지에 도착했는지 검사하기
+            if (Vector3.Distance(new Vector3(m_path[0].transform.position.x, 0, m_path[0].transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) < 0.1f)
+            {
+                m_path.RemoveAt(0);
+            }
+            */
+
+
+            //// 다음 목적지로 이동하기
+            //Vector3 movement = transform.forward * applySpeed * Time.fixedDeltaTime;
+            //myRigid.MovePosition(myRigid.position + movement);
+
+            // 이동할 방향 벡터 구하기
+            Vector3 direction = (new Vector3(m_path[0].transform.position.x, transform.position.y + 0.01f, m_path[0].transform.position.z) - myRigid.position).normalized;
+
+            // Rigidbody의 이동 방향과 속력 설정하기
+            myRigid.MovePosition(myRigid.position + direction * applySpeed * Time.fixedDeltaTime);
+
+            // 목적지에 도착했는지 검사하기
+            if (Vector3.Distance(new Vector3(m_path[0].transform.position.x, 0.01f, m_path[0].transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) < 0.1f)
+            {
+                m_path.RemoveAt(0);
+            }
+
+        }
+        else
+        {
+            anim.SetBool("isWalk", false);
         }
     }
 
@@ -587,15 +641,15 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_grid2D.StartSetNode();
     }
 
-    public void Ready(Vector3 player, Vector3 target)
+    public void Ready(Vector3 player, Vector3 target)//시작 좌표와 목표 좌표를 전달 받는다 ^^3
     {
-        m_execute = true;
+        m_execute = true;//길찾기 시작했음 ^^4
 
-        m_openList.Clear();
+        m_openList.Clear();//열린 노드를 담은 리스트 초기화 ^^5
         m_closedList.Clear();
 
-        m_startNode = m_grid2D.FindNode(player);
-        m_targetNode = m_grid2D.FindNode(target);
+        m_startNode = m_grid2D.FindNode(new Vector3(Mathf.Round(player.x), player.y, Mathf.Round(player.z)));
+        m_targetNode = m_grid2D.FindNode(new Vector3(Mathf.Round(target.x), target.y, Mathf.Round(target.z)));
 
         m_targetNode.SetParent(null);
         m_startNode.SetParent(null);
@@ -606,11 +660,15 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_startNode.SetHCost(GetDistance(m_startNode, m_targetNode));
     }
 
-    public void FindPathCoroutine(Vector3 Target)
+    public void FindPathCoroutine(Vector3 Target)//target은 마우스 찍힌 타일의 좌표 ^^1
     {
-        if (!m_execute)//지금 길찾기 중이 아님
+        if (m_path.Count > 0)
         {
-            Ready(transform.position, Target);
+            m_path.Clear();
+        }
+        //if (!m_execute)//지금 길찾기 중이 아닌가?
+        {
+            Ready(transform.position, Target);//시작 좌표와 목표 좌표를 전해준다 ^^2
 
             StartCoroutine(IEStep());
         }

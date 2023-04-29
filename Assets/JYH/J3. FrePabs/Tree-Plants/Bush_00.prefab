@@ -114,6 +114,7 @@ MonoBehaviour:
   ObjType: 1
   hpBarObj: {fileID: 1289152187536955556}
   haBarAddY: 0.5
+  pV: {fileID: 0}
   haveGrowth: 0
   dropItem: {fileID: 1076815607729153978, guid: a27cf5eaf87564e4baeda921c1a772c7,
     type: 3}
@@ -122,6 +123,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9112d0478e2aad948bfe764a719dd414, type: 2}
   growthLevel: 0
   mesh: {fileID: 2383150}
+  pVPG: {fileID: 0}
 --- !u!1001 &8573810282335977513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,13 +138,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}

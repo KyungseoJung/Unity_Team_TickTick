@@ -62,6 +62,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     [Header("UI 관련")]
     public Text timeText;
+    public bool isUiBlock = false;
 
     [Header("디버그 관련")]
     public GameObject debugBtn;
@@ -499,8 +500,11 @@ public class csPhotonGame : Photon.MonoBehaviour
                     oldBlock.OnHighlighter();
                 }
 
-                Vector3 tmpPos = hit.transform.position;
-                targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
+                if (hit.transform.GetComponent<csCube>() !=null && (hit.transform.GetComponent<csCube>().childObj == null || hit.transform.GetComponent<csCube>().cubeInfo.type.Equals(Enum_CubeType.WATER)))
+                {
+                    Vector3 tmpPos = hit.transform.position;
+                    targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
+                }
             }
         }
 

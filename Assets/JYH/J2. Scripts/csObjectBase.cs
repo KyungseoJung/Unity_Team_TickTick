@@ -59,7 +59,7 @@ namespace JinscObjectBase
                 hpBar = hpBarObj.GetComponent<HPBar>();
 
                 hpBarObj.transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y + haBarAddY, transform.parent.position.z);
-                hpBarObj.transform.localScale = new Vector3(0.08f, 0.01f, 1f);
+                //hpBarObj.transform.localScale = new Vector3(0.08f, 0.01f, 1f);
 
                 hpBarObj.SetActive(false);
                 // hpBar.SetMaxHealth(maxHP);
@@ -182,7 +182,7 @@ namespace JinscObjectBase
             }
 
             transform.parent.GetComponent<ICubeInfo>().CubeInfo.haveChild = false;
-
+            transform.parent.GetComponent<csCube>().DestroyChild();
             gameObject.SetActive(false);
             Invoke("DelObj", 0.5f);
         }

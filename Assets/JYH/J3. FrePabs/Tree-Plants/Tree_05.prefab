@@ -93,7 +93,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 3, z: 1}
+  m_Size: {x: 0.8, y: 3, z: 0.8}
   m_Center: {x: 0.046338618, y: 2.0805023, z: 0.11617777}
 --- !u!114 &1963187069074196846
 MonoBehaviour:
@@ -117,6 +117,7 @@ MonoBehaviour:
   ObjType: 2
   hpBarObj: {fileID: 1919403940988621797}
   haBarAddY: 0.7
+  pV: {fileID: 0}
 --- !u!1001 &9060294276355197800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,13 +132,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
