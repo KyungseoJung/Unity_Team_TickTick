@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeInfo:
-    type: 0
+    type: 1
     vis: 0
     obj: {fileID: 0}
     top: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
     childState: 0
     childNum: 0
     childGrowth: 0
+  cubeState: 0
   highlighter: {fileID: 4555811016384146577}
   childObj: {fileID: 0}
 --- !u!64 &3351466913819689240

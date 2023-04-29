@@ -7,9 +7,10 @@ using JinscObjectBase;
 
 public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 {
-    [HideInInspector]
+    [SerializeField]
     public Block cubeInfo;
 
+    [SerializeField]
     Enum_CubeState cubeState;
 
     public GameObject highlighter;

@@ -124,8 +124,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                         if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null && i == 27)
                         {
                             GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (pos.y + (i - y)) * 0.5f, pos.z), Quaternion.identity);
-                            worldBlock[x, y, z] = new Block(Enum_CubeType.WATER, true, tmpObj,true);
-                            tmpObj.GetComponent<csCube>().SetCube(worldBlock[x, y, z]);
+                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj,true);
+                            tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z]);
                         }
                         else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null)
                         {
@@ -165,7 +165,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         yield return null;
 
-        PhotonNetwork.Instantiate("PlayerTest", new Vector3(30, 30, 30), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("Player1", new Vector3(30, 30, 30), Quaternion.identity, 0);
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
     }
@@ -837,7 +837,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             case Enum_PlayerUseItemType.BLUEPRINTCHAIR:
             case Enum_PlayerUseItemType.BLUEPRINTTABLE:
             case Enum_PlayerUseItemType.BLUEPRINTWORKBENCH:
-                bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
+                if (bluePrint != null)
+                {
+                    bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
+                }
                 break;
             case Enum_PlayerUseItemType.BLOCKSOIL://흙 블럭
                 ActionAddBlock(Enum_CubeType.SOIL);
@@ -957,7 +960,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
 
-                    int tmpY = (int)blockPos.y-1;
+                    int tmpY = (int)blockPos.y;
                     while (tmpY > 0)
                     {
                         if (worldBlock[(int)blockPos.x, tmpY, (int)blockPos.z] == null)
@@ -1040,23 +1043,23 @@ public class csPhotonGame : Photon.MonoBehaviour
             {
                 return;
             }
-
             
             oldBlock = null;
-
+            bool waterCheck = WaterCheck(blockPos);
             pV.RPC("ActionSHOVELRPC", PhotonTargets.All, blockPos);            
 
-            bool waterCheck = WaterCheck(blockPos);
-
+           
+            //Debug.Log(waterCheck+"무슨일이 일어나는거지");
             if (!waterCheck && ((int)blockPos.y - 1) > 0)
             {
-                //if (worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z] != null)
-                //{
-                //    worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z].top = true;//지운거 바로 아랫칸 탑으로
-                //}
+                if (worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z] != null)
+                {
+                    worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z].top = true;//지운거 바로 아랫칸 탑으로
+                }
             }
             else if (waterCheck)
             {
+                Debug.Log(blockPos);
                 CreateWaterAuto(blockPos);
             }
 
@@ -1101,11 +1104,6 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         Destroy(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj);
         worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = null;
-
-        if (worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z] != null)
-        {
-            worldBlock[(int)blockPos.x, (int)blockPos.y - 1, (int)blockPos.z].top = true;//지운거 바로 아랫칸 탑으로
-        }
     }
 
     void CreateWaterAuto(Vector3 blockPos)//근처 빈 공간 있으면 자동으로 물로 채우고 
@@ -1139,35 +1137,40 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     bool WaterCheck(Vector3 pos)
     {
-        //worldBlock[(int)pos.x, (int)pos.y +(i-y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
-
         if (pos.x - 1 > 0 && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
-            //Debug.Log(1);
+            Debug.Log(worldBlock[(int)pos.x-1, (int)pos.y, (int)pos.z ].type);
             return true;
         }
         else if (pos.x + 1 < mapData.widthX && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
-            //Debug.Log(2);
+            Debug.Log(worldBlock[(int)pos.x+1, (int)pos.y, (int)pos.z ].type);
             return true;
         }
         else if (pos.z - 1 > 0 && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type.Equals(Enum_CubeType.WATER))
         {
-            //Debug.Log(3);
+            Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type);
             return true;
         }
         else if (pos.z + 1 < mapData.widthZ && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type.Equals(Enum_CubeType.WATER))
         {
-            //Debug.Log(4);
+            Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type);
             return true;
         }
-
+        Debug.Log(55555555);
         return false;
     }
 
     [PunRPC]
     void DrawBlock(Vector3 blockPos)//블록 그리는 함수
     {
+        if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] == null)
+        {
+            //Debug.Log(1);
+            return;
+        }
+
+
         if (!worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].vis)
         {
             worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].vis = true;
@@ -1178,32 +1181,32 @@ public class csPhotonGame : Photon.MonoBehaviour
             {
                 case Enum_CubeType.DARKSOIL:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[0], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.DARKSOIL, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.DARKSOIL, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.STON:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[1], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.STON, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.STON, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.GRASS:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[2], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.GRASS, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.GRASS, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.SOIL:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[3], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SOIL, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SOIL, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.SEND:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[4], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SEND, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SEND, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.WATER:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
             }
@@ -1213,6 +1216,11 @@ public class csPhotonGame : Photon.MonoBehaviour
             if (tmpObj != null && worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj == null)
             {
                 worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj = tmpObj; 
+            }
+
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y+1, (int)blockPos.z] ==null)
+            {
+                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = true;
             }
         }
     }
