@@ -66,6 +66,12 @@ public class Inventory : MonoBehaviour, IInventoryBase
     [SerializeField]
     int col=4;
 
+//#11-6 인벤토리 아이템 저장 목적
+    private InventoryInfo invenInfo;
+//# CollectItem 함수 사용 목적
+    private Item _loadItem;     //JSON 데이터를 이용해서 가져올 Item 클래스 데이터 저장용
+    private Enum_DropItemType _loadItemType;    
+
     void Start()
     {
         //slots = gridInventory.GetComponentsInChildren<Slot>();
@@ -84,6 +90,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
         ImgInventory.SetActive(false);  //인벤토리는 비활성화 상태로 시작
         SortingButtonsObj.SetActive(false); //#4-3 비활성화 상태로 시작
         DropItemZone.SetActive(false);  //#4-3
+
+        InfoManager.Ins.LoadInvenJSONData();    //#11-6
+
     }
 
     void Update()
@@ -160,6 +169,129 @@ public class Inventory : MonoBehaviour, IInventoryBase
             {
                 toolTip.SetActive(false);
                 destructionOpt.SetActive(false);
+            }
+        }
+    }
+
+    public void SaveInvenData() //#11-6 게임 퇴장할 때, 인벤토리 데이터 저장하기 - 한번씩만 해야할 듯. 나중에 JSON끼리 꼬여버려서 데이터 축적 돼
+    {   
+        InfoManager.Ins.InitializeInvenJSONData();  //JSON 파일 싹 밀어버린 후
+
+        for(int i=0; i<row; i++)
+        {
+            for(int j=0; j<col; j++)
+            {
+                invenInfo = new InventoryInfo();
+                invenInfo.itemType = (int)itemInventory[i,j];
+                // Debug.Log("#11-6 아이템 정보 : " + invenInfo.itemType);
+
+                invenInfo.itemCount = itemInventoryCount[i,j];
+
+                InfoManager.Ins.SetInvenInfo(invenInfo);
+            }
+        }
+/*
+        InventoryInfo invenInfo = new InventoryInfo();
+        invenInfo.itemType = Enum_DropItemType.NONE;
+        invenInfo.itemCount = 0;
+*/        
+        InfoManager.Ins.SaveInvenJSONData();
+    }
+
+    public void LoadInvenData() //#11-6 게임 입장할 때, 인벤토리 데이터 저장하기
+    {
+        
+        for (int i = 0; i < row ; i++)
+            {
+                for (int j = 0; j < col ; j++)
+                {
+                // invenInfo = InfoManager.Ins.GetInvenInfo(i*col+j);
+                invenInfo = new InventoryInfo();
+
+                invenInfo.itemType = InfoManager.Ins.GetInvenInfo((col * i) + j).itemType;
+                invenInfo.itemCount = InfoManager.Ins.GetInvenInfo((col * i) + j).itemCount;
+
+                Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
+                Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
+                // 이건 애초에 저장하는 코드가 따로 있었잖아 -> ChangeSlotData 함수
+                /*
+                itemInventory[i,j] = invenInfo.itemType;
+                itemInventoryCount[i,j] = invenInfo.itemCount;
+                */
+
+                switch(invenInfo.itemType)
+                {
+                    case (int)Enum_DropItemType.NONE :
+                        _loadItemType = Enum_DropItemType.NONE;
+                        break;  //여기서 return; 하면 하나라도 비어있으면 로드 안되고 함수가 끝나겠지
+                    case (int)Enum_DropItemType.FRUIT :
+                        _loadItem = objFruit.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.FRUIT;
+                        break;
+                    case (int)Enum_DropItemType.STON:
+                        _loadItem = objSton.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.STON;
+                        break;
+                    case (int)Enum_DropItemType.WOOD:
+                        _loadItem = objWood.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.WOOD;
+                        break;
+                    case (int)Enum_DropItemType.CARROT:
+                        _loadItem = objCarrot.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.CARROT;
+                        break;
+                    case (int)Enum_DropItemType.PLAYERWEAPONAXE1:
+                        Debug.Log("아이템에 웨폰 연결해줘야함");
+                        break;
+                    case (int)Enum_DropItemType.SHOVEL:
+                        Debug.Log("삽");
+                        break;
+                    case (int)Enum_DropItemType.AXE:
+                        Debug.Log("도끼");
+                        break;
+                    case (int)Enum_DropItemType.PICKAXE:
+                        Debug.Log("곡괭이");
+                        break;
+                    case (int)Enum_DropItemType.HOE:
+                        Debug.Log("괭이");
+                        break;
+                    case (int)Enum_DropItemType.BLOCKSOIL:
+                        Debug.Log("땅");
+                        break;
+                    //case Enum_DropItemType.BLUEPRINTTENT:
+                    //    Debug.Log("탠트 청사진");
+                    //    break;
+                    case (int)Enum_DropItemType.BLUEPRINTWATCHFIRE:
+                        _loadItem = blueprint_BONFIRE.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.BLUEPRINTWATCHFIRE;
+                        break;
+                    case (int)Enum_DropItemType.BLUEPRINTTENT:
+                        _loadItem = blueprint_TENT.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.BLUEPRINTTENT;
+                        break;
+                    case (int)Enum_DropItemType.HOUSE_CHAIR:
+                        _loadItem = blueprint_CHAIR.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.HOUSE_CHAIR;
+                        break;
+                    case (int)Enum_DropItemType.HOUSE_TABLE:
+                        _loadItem = blueprint_TABLE.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.HOUSE_TABLE;
+                        break;
+                    case (int)Enum_DropItemType.BLUEPRINTWORKBENCH:
+                        _loadItem = blueprint_WORKBENCH.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.BLUEPRINTWORKBENCH;
+                        break;
+                    default:
+                        Debug.Log("무슨아이템인지 모르겠음");
+                        break;
+                }
+
+                Debug.Log("//#11-6 아이템 추가하기 시작 : _loadItemType : " + _loadItemType);
+                if(_loadItem != null)   //아이템이 없는 경우에는 그냥 AddSlot 안 타도록
+                {  
+                    //수집하는 원리의 함수를 이용해야 하니까, 위치 그대로는 못가져옴 - 일부러 앞으로 당겨서 넣는 것처럼 하자
+                    CollectItem(_loadItemType, _loadItem, invenInfo.itemCount);   //AddSlot 아님! Collect 하기
+                }
             }
         }
     }

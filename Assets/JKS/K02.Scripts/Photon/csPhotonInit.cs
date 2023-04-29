@@ -349,7 +349,8 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     string GetUserId()  // 이건 원래 있던 함수이고, 안에 내용을 JSON으로 가져오도록 하는 부분만 내가 수정한 것
     {
         //(참고) 구글플레이 연동시 구글 아이디로 유저 아이디 가져오자.
-        string userId = InfoManager.Info.playerName;    //PlayerPrefs.GetString("USER_ID");
+        // string userId = InfoManager.Info.playerName;    //PlayerPrefs.GetString("USER_ID");
+        string userId = InfoManager.Ins.playerName;    //PlayerPrefs.GetString("USER_ID"); //#11-6
         Debug.Log("아이디 확인1 : " + userId );
 
         //유저 아이디가 NULL일 경우 랜덤 아이디 생성 

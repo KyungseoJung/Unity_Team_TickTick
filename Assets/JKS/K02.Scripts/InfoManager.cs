@@ -5,6 +5,9 @@ using UnityEngine;
 using SimpleJSON;
 using System.IO;
 
+using TeamInterface;    //#11-6 인벤토리 데이터 저장하기 위함. Enum_DropItemType
+
+
 
 [System.Serializable]   
 public class PlayerInfo
@@ -15,39 +18,71 @@ public class PlayerInfo
     public Color32 clothesColor;   
 }
 
-public class InfoManager : MonoBehaviour        //#5-1 플레이어 정보 저장 싱글톤
+[System.Serializable]   
+public class InventoryInfo  //#11-6
+{
+    // public int itemIndex;       //n번째 슬롯
+    public int /* Enum_DropItemType */ itemType;
+    public int itemCount;           //개수
+}
+
+
+
+public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레이어 정보 저장 싱글톤
 {
     private PlayerInfo playerInfo;
+    private List<InventoryInfo> invenList;  //#11-6
+    private InventoryInfo invenInfo;        //#11-6
 
+    private InventoryInfo invenInfo2;       //#11-6 JSON데이터 로드용 - 이거 안 하면, 뭔가 꼬여서 초기화되어버림    
+    // public void Print()
+    // {
+    //     InventoryInfo abc = new InventoryInfo();
+    //     abc.itemType = Enum_DropItemType.NONE;
+    //     abc.itemCount = 0;
 
-    private static InfoManager info = null; //싱글톤 객체(인스턴스)
-    public static InfoManager Info          //싱글톤 프로퍼티
+    //     SetInvenInfo(0, abc);
+    // }
+    // private static InfoManager info = null; //싱글톤 객체(인스턴스)
+    // public static InfoManager Info          //싱글톤 프로퍼티
+    // {
+    //     get
+    //     {
+    //         if(info == null)
+    //         {
+    //             info = GameObject.FindObjectOfType(typeof(InfoManager)) as InfoManager; 
+    //                 //이런 타입을 가진 오브젝트가 있다면, 그 오브젝트를 InfoManager로서 객체화 해라
+    //             if(info == null)
+    //             {
+    //                 info = new GameObject("Singleton_InfoManager", typeof(InfoManager)).GetComponent<InfoManager>();
+    //                 DontDestroyOnLoad(info);
+    //             }
+    //         }
+    //         return info;
+    //     }
+    // }
+    
+//Start에 적으면 다른 것들보다 늦게 실행돼서 Null 에러 뜬다.
+    protected override void Awake()
     {
-        get
-        {
-            if(info == null)
-            {
-                info = GameObject.FindObjectOfType(typeof(InfoManager)) as InfoManager; 
-                    //이런 타입을 가진 오브젝트가 있다면, 그 오브젝트를 InfoManager로서 객체화 해라
-                if(info == null)
-                {
-                    info = new GameObject("Singleton_InfoManager", typeof(InfoManager)).GetComponent<InfoManager>();
-                    DontDestroyOnLoad(info);
-                }
-            }
-            return info;
-        }
-    }
+        base.Awake();
 
-    void Awake()    //Start에 적으면 다른 것들보다 늦게 실행돼서 Null 에러 뜬다.
-    {
         playerInfo = new PlayerInfo();
         // playerInfo.playerName = "";     //객체를 초기화 해줘야 null Reference 오류가 발생하지 않아
+        invenList = new List<InventoryInfo>();  //#11-6
+        invenInfo = new InventoryInfo();          //#11-6
+
 
         LoadJSONData();
 
-        Debug.Log("JSON 테스트용 : " + playerInfo.playerName);
+        // Debug.Log("JSON 테스트용 : " + playerInfo.playerName);
     }
+    
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+    }
+
     public string playerName
     {
         get { return playerInfo.playerName; }
@@ -70,6 +105,35 @@ public class InfoManager : MonoBehaviour        //#5-1 플레이어 정보 저�
         set {playerInfo.clothesColor = value; }
     }
 
+//#11-6 인벤토리 정보 ===============================
+    public InventoryInfo GetInvenInfo(int index)    //#11-6 인벤토리 정보
+    {
+        foreach(InventoryInfo aaa in invenList){
+            Debug.Log(aaa.itemCount+"////"+aaa.itemType);
+        }
+         Debug.Log("//#11-6 인벤토리 Get 카운트 : " +invenList.Count);
+         Debug.Log("//#11-6 인벤토리 Index 번호 : " + index);
+        if(index >= invenList.Count)
+        {
+            Debug.Log("//#11-6  인벤토리 인덱스 범위 초과");
+            return null;
+        }
+        Debug.Log("//#11-6 InfoManager 클래스의 List1 : " + invenList[index].itemType);
+        Debug.Log("//#11-6 InfoManager 클래스의 List2 : " + invenList[index].itemCount);
+        return invenList[index];
+    }
+
+    public void SetInvenInfo(/*int index,*/ InventoryInfo invenInfo)    //#11-6
+    {
+        // if(index >= invenList.Count)
+        // {
+        //     Debug.Log("//#11-6 인벤토리 인덱스 범위 초과");
+        //     return;
+        // }
+        // invenList[index] = invenInfo;
+        invenList.Add(invenInfo);
+    }
+
 
     public void LoadJSONData()     //JSON 데이터 로드하기(JSON 파일 -> 클래스로)
     {
@@ -88,15 +152,34 @@ public class InfoManager : MonoBehaviour        //#5-1 플레이어 정보 저�
         Color32 color = HexToColor32(hex);
         playerInfo.clothesColor = color;
 
-
-
-Debug.Log("플레이어 이름" + json["플레이어 이름"].ToString());
-Debug.Log("섬 이름" + json["섬 이름"].ToString());
-Debug.Log("옷 종류" + json["옷 종류"]);
-Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].Value );
+// Debug.Log("플레이어 이름" + json["플레이어 이름"].ToString());
+// Debug.Log("섬 이름" + json["섬 이름"].ToString());
+// Debug.Log("옷 종류" + json["옷 종류"]);
+// Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].Value );
 
     }
     
+    public void LoadInvenJSONData() //#11-6
+    {
+        invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
+
+        TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
+        string invenStrJsonData = invenJsonData.text;
+        var invenJson = JSON.Parse(invenStrJsonData);
+
+        for(int i=0; i<invenJson["인벤토리"].Count; i++)
+        {
+            invenInfo2 = new InventoryInfo();     
+            //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
+            //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
+            invenInfo2.itemType = /* (Enum_DropItemType)System.Enum.Parse
+                    (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
+            invenInfo2.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+
+            invenList.Add(invenInfo2);   //리스트에 객체 차곡차곡 저장
+        }
+
+    }
     public void SaveJSONData()  //데이터 저장. (클래스 -> JSON 파일)
     {
         //수정 및 업데이트 - JSON 파일에 저장하기
@@ -117,6 +200,28 @@ Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].
         System.IO.File.WriteAllText(Application.dataPath + "/Resources/player_info.json", jsonString);
     }
 
+    public void SaveInvenJSONData() //#11-6
+    {
+        JSONObject invenJson = new JSONObject();
+
+        //인벤토리 정보 ========================
+        JSONArray invenArray = new JSONArray();
+        foreach(InventoryInfo inven in invenList)
+        {
+            JSONObject invenObject = new JSONObject();
+            invenObject.Add("종류", inven.itemType); //.ToString()); // ENUM형을 문자열로 변환
+            invenObject.Add("개수", inven.itemCount);
+
+            invenArray.Add(invenObject);
+        }
+        invenJson.Add("인벤토리", invenArray);
+
+        // JSON 파일로 저장     ===========================
+        string invenJsonString = invenJson.ToString();
+        System.IO.File.WriteAllText(Application.dataPath + "/Resources/inventory_info.json", invenJsonString);
+        //# 이미 덮어쓰는 코드인가?
+    }
+
     public void InitializeJSONData()    //#9-1 JSON 데이터 초기화하기 - 모두 원래의 null 상태처럼
     {
         playerInfo.playerName = "";     // 그냥 null로 저장하면 안돼. null 자체로 저장이 되어버림!
@@ -125,6 +230,14 @@ Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].
         playerInfo.clothesColor = HexToColor32("#FF5D5D");
 
         SaveJSONData();
+    }
+
+    public void InitializeInvenJSONData()   //#11-6 인벤토리 JSON 데이터 초기화 하기
+    {
+        invenList.Clear();
+        invenInfo = new InventoryInfo();
+
+        SaveInvenJSONData();    //초기화 한 걸로 싹 넣기
     }
 
 

@@ -24,9 +24,11 @@ public class MiniMapCamera : MonoBehaviour  //#11-5
     
     void LateUpdate()
     {
-        minimapCameraPos = playerTransform.position;
-        minimapCameraPos.y = minimapCameraDist;
-
+        if(playerTransform != null)
+        {
+            minimapCameraPos = playerTransform.position;
+            minimapCameraPos.y = minimapCameraDist;
+        }
         // 계속 플레이어 머리 위에 따라다니도록
         transform.position = minimapCameraPos;
     }

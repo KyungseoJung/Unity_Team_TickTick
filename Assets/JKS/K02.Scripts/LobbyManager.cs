@@ -139,7 +139,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
     IEnumerator LoadJSONDataFct()
     {
         Debug.Log("//#4-2 JSON 불러옴");
-        InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
+        // InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
+        InfoManager.Ins.LoadJSONData();    //#11-6
         yield return new WaitForSeconds(0.5f);
     }
 // #9-1 Input Field 글자 수 제한
@@ -173,8 +174,11 @@ public class LobbyManager : MonoBehaviour   //#1-1
     void OnClickGoBack()
     {
         //#9-1 입력한 플레이어 정보 없으면 [게임 불러오기] 버튼 비활성화
-        string _playerName = InfoManager.Info.playerName.Trim('"');
-        string _islandName = InfoManager.Info.islandName.Trim('"');
+        // string _playerName = InfoManager.Info.playerName.Trim('"');
+        // string _islandName = InfoManager.Info.islandName.Trim('"');
+        string _playerName = InfoManager.Ins.playerName.Trim('"'); //#11-6
+        string _islandName = InfoManager.Ins.islandName.Trim('"');
+
 
         if(string.IsNullOrEmpty(_playerName) || string.IsNullOrEmpty(_islandName))    // 하나라도 값이 없으면
             inputAllInfo = false;
@@ -226,12 +230,15 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         //#9-1 [게임 불러오기 - 플레이어 박스에 데이터 연결, 저장하기]
         // InfoManager.Info.LoadJSONData();    // 데이터 가져오기
-        loadInfoName[0].text = InfoManager.Info.playerName.Trim('"');
-        loadInfoName[1].text = InfoManager.Info.islandName.Trim('"');
+        // loadInfoName[0].text = InfoManager.Info.playerName.Trim('"');   
+        // loadInfoName[1].text = InfoManager.Info.islandName.Trim('"');
+        loadInfoName[0].text = InfoManager.Ins.playerName.Trim('"');   //#11-6
+        loadInfoName[1].text = InfoManager.Ins.islandName.Trim('"');
 
-        Debug.Log("#9-1 플레이어 이름 : " +InfoManager.Info.playerName);
 
-        string name = InfoManager.Info.playerName.Trim('"');    //# 큰 따옴표를 제외한 문자열 부분만 가져오기
+        Debug.Log("#9-1 플레이어 이름 : " +InfoManager.Ins.playerName);        //#11-6
+
+        string name = InfoManager.Ins.playerName.Trim('"');    //# 큰 따옴표를 제외한 문자열 부분만 가져오기    //#11-6
                         // name = name.Substring(1, name.Length - 2);   //# 수정 확인 필요
         Debug.Log("#9-1 플레이어 이름 name : " + name);
 
@@ -254,10 +261,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
         goBackBtn.gameObject.SetActive(true);
 
         //#4-1 JSON 테스트용    //#4-4 나중에 주석 풀 것
-        int num = InfoManager.Info.clothesNum;
+        int num = InfoManager.Ins.clothesNum;   //#11-6
         playerClothes.sprite = newClothes[num].sprite;
 
-        playerClothes.color = InfoManager.Info.clothesColor;
+        playerClothes.color = InfoManager.Ins.clothesColor; //#11-6
 
     }
 
@@ -267,8 +274,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
         if(playSingleGame)          //#10-1 멀티플레이일 때에만, 다른 플레이어도 들어올 수 있는 방 IngRoomItem 만들기
             playSingleGame = false;
 
-        loadMInfoName[0].text = InfoManager.Info.playerName.Trim('"');
-        loadMInfoName[1].text = InfoManager.Info.islandName.Trim('"');
+        loadMInfoName[0].text = InfoManager.Ins.playerName.Trim('"');   //#11-6 
+        loadMInfoName[1].text = InfoManager.Ins.islandName.Trim('"');   //#11-6
 
         lobby.SetActive(false);
         multiGame.SetActive(true);
@@ -289,7 +296,10 @@ public class LobbyManager : MonoBehaviour   //#1-1
     void OnClickDestroyData()
     {
         //싱글 플레이 JSON 데이터 초기화하고, 다시 로비로 이동 
-        InfoManager.Info.InitializeJSONData();  
+        // InfoManager.Info.InitializeJSONData();   
+        InfoManager.Ins.InitializeJSONData();   //#11-6   
+
+
         OnClickGoBack();
     }
 
@@ -329,12 +339,12 @@ public class LobbyManager : MonoBehaviour   //#1-1
         //#4-4 나중에 주석 풀 것
         //역할 생성 
         //JSON 데이터 저장 - 플레이어 이름, 섬 이름, 옷 종류, 옷 색
-        InfoManager.Info.playerName = inputName.text;
-        InfoManager.Info.islandName = inputIslandName.text;
-        InfoManager.Info.clothesNum = clothesNum;           // 옷 종류는 옷 누를 때마다 들어가게 해서
+        InfoManager.Ins.playerName = inputName.text;    //#11-6
+        InfoManager.Ins.islandName = inputIslandName.text;  //#11-6
+        InfoManager.Ins.clothesNum = clothesNum;           // 옷 종류는 옷 누를 때마다 들어가게 해서    //#11-6
 
         clothesColor = playerClothes.color;                 //옷 색깔은 한번에 저장 가능하겠다~
-        InfoManager.Info.clothesColor = clothesColor;
+        InfoManager.Ins.clothesColor = clothesColor;        //#11-6
 
         //#9-1 하나라도 입력 안 하면, 확인 버튼 안 눌리도록 return
 //         Color _color = HexToColor32("#FFFFFF");
@@ -342,8 +352,8 @@ public class LobbyManager : MonoBehaviour   //#1-1
 // Debug.Log("그냥 백색 컬러 : " + _color);
 
 //#9-1 입력한 플레이어 정보 없으면 [게임 불러오기] 버튼 비활성화
-        _playerName = InfoManager.Info.playerName.Trim('"');
-        _islandName = InfoManager.Info.islandName.Trim('"');
+        _playerName = InfoManager.Ins.playerName.Trim('"'); //#11-6
+        _islandName = InfoManager.Ins.islandName.Trim('"'); //#11-6
 
         if(string.IsNullOrEmpty(_playerName) || string.IsNullOrEmpty(_islandName))    // 하나라도 값이 없으면
             inputAllInfo = false;
@@ -354,11 +364,11 @@ public class LobbyManager : MonoBehaviour   //#1-1
             return;
         
 // 입력한 데이터 있으면 통과~ JSON에 저장하고, 로비로 이동
-        InfoManager.Info.SaveJSONData();        //작성한 데이터를 JSON에 저장하기
+        InfoManager.Ins.SaveJSONData();        //작성한 데이터를 JSON에 저장하기    //#11-6
         inputName.text = null;                  
         inputIslandName.text = null;
 
-        Debug.Log("플레이어 이름 : " + InfoManager.Info.playerName);
+        Debug.Log("플레이어 이름 : " + InfoManager.Ins.playerName); //#11-6
 
         // StartCoroutine(LoadJSONDataFct());  // [새로운 게임 눌렀을 때 들어가지도록] - Save하고 바로 로드하니까 저장되기 전 값이 로드됨
 
