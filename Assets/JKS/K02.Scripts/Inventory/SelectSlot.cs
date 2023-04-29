@@ -90,6 +90,60 @@ public class SelectSlot : csGenericSingleton<SelectSlot> //#11-2
         return nowUsingSlot.item.ItemType;
     }
 
-
+    public void ReSetShowItem()
+    {
+        if (nowUsingSlot.item == null)
+        {
+            GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.HAND);
+        }
+        else
+        {
+            switch (nowUsingSlot.item.ItemType)
+            {
+                case Enum_DropItemType.BLUEPRINTWATCHFIRE://모닥불 도면
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetBluePrintItme(Enum_PreViewType.FIRE);
+                    break;
+                case Enum_DropItemType.BLUEPRINTTENT://텐트 도면
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetBluePrintItme(Enum_PreViewType.TENT);
+                    break;
+                case Enum_DropItemType.HOUSE_CHAIR://의자 도면
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetBluePrintItme(Enum_PreViewType.HOUSE_CHAIR);
+                    break;
+                case Enum_DropItemType.HOUSE_TABLE://책상 도면
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetBluePrintItme(Enum_PreViewType.HOUSE_TABLE);
+                    break;
+                case Enum_DropItemType.BLUEPRINTWORKBENCH://작업대 도면
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetBluePrintItme(Enum_PreViewType.WORKBENCH);
+                    break;
+                case Enum_DropItemType.HOE://괭이
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.HOE);
+                    break;
+                case Enum_DropItemType.AXE://도끼
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.AXE);
+                    break;
+                case Enum_DropItemType.PICKAXE://곡괭이
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.PICKAXE);
+                    break;
+                case Enum_DropItemType.SHOVEL://삽
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.SHOVEL);
+                    break;
+                case Enum_DropItemType.BLOCKSOIL://흙
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.BLOCKSOIL);
+                    break;
+                case Enum_DropItemType.FRUIT://사과
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerHand(Enum_DropItemType.FRUIT);
+                    break;
+                case Enum_DropItemType.STON://돌
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerHand(Enum_DropItemType.STON);
+                    break;
+                case Enum_DropItemType.WOOD://나무
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerHand(Enum_DropItemType.WOOD);
+                    break;
+                case Enum_DropItemType.CARROT://당근
+                    GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerHand(Enum_DropItemType.CARROT);
+                    break;
+            }
+        }
+    }
 
 }

@@ -229,10 +229,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
             }
         }
 
-        if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)&& !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWATCHFIRE) 
-            && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTTENT) && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_CHAIR) 
-            && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_TABLE) && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWORKBENCH)) // SWORD 외의 아이템을 collect 했을 때
-        {
+        //if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)&& !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWATCHFIRE) 
+        //    && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTTENT) && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_CHAIR) 
+        //    && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_TABLE) && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWORKBENCH)) // SWORD 외의 아이템을 collect 했을 때
+        //{
             //for (int i = 0; i < slots.Length; i++)  //획득한 아이템이 슬롯에 이미 있는 아이템인가 확인
             //{
             //    if (slots[i].item != null)   //비어있는 슬롯이 아니라면 (Null 에러 방지)
@@ -254,20 +254,23 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 {
                     if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
                     {
-                        //itemInventoryCount[i, j]+= _count;
-                        slots[(col*i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
-                        tmpCheck = true;
-                        //Debug.Log((i % row) + j);
-                        //Debug.Log("타긴하니2");
+                        if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ##
+                        {
+                            //itemInventoryCount[i, j]+= _count;
+                            slots[(col * i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
+                            tmpCheck = true;
+                            //Debug.Log((i % row) + j);
+                            //Debug.Log("타긴하니2");
+                        }
                     }
                 }
             }            
-        }
-        else
-        {
-            tmpCheck = false;
-            _count = 1;
-        }
+        //}
+        //else
+        //{
+        //    tmpCheck = false;
+        //    _count = 1;
+        //}
 
         if (!tmpCheck)
         {

@@ -50,7 +50,7 @@ public class csDropItemBase : Item
     IEnumerator DelObj()
     {
         //플레이어가 없어서 임시로 메니저에서 처리함
-        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().tPlayer.CollectItem(ItemType);
+        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().tPlayer.CollectItem(ItemType,null,count);
 
         yield return new WaitForSeconds(0.1f);
 

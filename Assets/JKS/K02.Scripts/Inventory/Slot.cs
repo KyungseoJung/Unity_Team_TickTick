@@ -93,6 +93,13 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
         if (itemTotalSum <=0)
             RemoveSlot();
+
+        //퀵슬룻이면 들고있는거 다시 설정 ##       
+        if(SelectSlot.Ins.nowUsingSlot.mySlotNumber == mySlotNumber)
+        {
+            SelectSlot.Ins.ReSetShowItem();
+        }
+        
     }
 
     // 해당 슬롯 하나 삭제
@@ -106,6 +113,12 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
         txtCount.text = itemTotalSum.ToString();    //#3-1 
         SetAlpha(0);    // 투명하게 보이도록
+
+        //퀵슬룻이면 들고있는거 다시 설정 ##       
+        if (SelectSlot.Ins.nowUsingSlot.mySlotNumber == mySlotNumber)
+        {
+            SelectSlot.Ins.ReSetShowItem();
+        }
     }
 
 //#2-2 드래그 앤 드롭 ===========================
@@ -185,11 +198,18 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
     public void DropItemOnGround(Transform dropPos) //#3-2
     {
-        Instantiate(item.itemPrefab, dropPos.position, Quaternion.identity);  //RemoveSlot에서 item이 null이 되기 전에~
+        //Instantiate(item.itemPrefab, dropPos.position, Quaternion.identity);  //RemoveSlot에서 item이 null이 되기 전에~
+        //포톤추가 ##
+
+        Debug.Log(itemTotalSum+"아이템드랍갯수");
+        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().DropItemCreate(item.itemPrefab.name,dropPos.position, itemTotalSum);
 
         RemoveSlot();       // 드래그 시작했던 아이템의 슬롯 위치를 지워
 
     }
+
+
+
 //#5-1 마우스 우클릭 - 파기하기 창 생성 ========================
 
     public void OnPointerClick(PointerEventData eventData)

@@ -53,7 +53,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     [Header("포톤 관련")]
     [SerializeField]
-    PhotonView pV;
+    public PhotonView pV;
 
     [Header("스폰 관련")]
     public GameObject enemySpawn;
@@ -437,6 +437,19 @@ public class csPhotonGame : Photon.MonoBehaviour
                 isBuild = true;//빌드모드 시작
             }
         }
+    }
+
+
+    public void DropItemCreate(string objName, Vector3 pos, int count)
+    {
+        pV.RPC("DropItemCreateRPC", PhotonTargets.MasterClient, objName, pos, count);
+    }
+    
+    [PunRPC]
+    public void DropItemCreateRPC(string objName, Vector3 pos, int count)
+    {
+        GameObject tmpObj = PhotonNetwork.InstantiateSceneObject(objName, pos, Quaternion.identity, 0, null);
+        tmpObj.GetComponent<Item>().count = count;
     }
 
     private void Update()

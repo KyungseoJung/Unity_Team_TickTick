@@ -129,6 +129,9 @@ MonoBehaviour:
   itemImage: {fileID: -1419030102174066312, guid: 0b0a926c3e6932648883cd2c3cfc3e07,
     type: 3}
   itemPrefab: {fileID: 7843345161292197713}
+  count: 1
+  maxCount: 999
+  isTemp: 0
 --- !u!114 &-6798757761937193578
 MonoBehaviour:
   m_ObjectHideFlags: 0
