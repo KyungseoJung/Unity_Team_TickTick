@@ -29,6 +29,11 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
     public void SetCube(Block cube)
     {
         cubeInfo = cube;
+
+        if (cubeInfo.top)
+        {
+            gameObject.AddComponent<Node>();
+        }
     }
 
     public void SetObj(Enum_CubeState state, int val=0, Enum_ObjectGrowthLevel gl = Enum_ObjectGrowthLevel.ZERO)

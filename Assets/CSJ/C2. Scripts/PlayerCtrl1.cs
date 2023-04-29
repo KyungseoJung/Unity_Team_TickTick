@@ -11,12 +11,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 {
     // 스피드 조정 변수
     [SerializeField]
-    private float walkSpeed;
+    private float applySpeed;
     //[SerializeField]
     //private float runSpeed;
     //[SerializeField]
     //private float crouchSpeed;
-    private float applySpeed;
 
     // 점프 정도
     //[SerializeField]
@@ -119,12 +118,15 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         myRigid = GetComponent<Rigidbody>();
         pV = GetComponent<PhotonView>();
         anim = GetComponent<Animator>();
+        m_grid2D = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+
         pv.ObservedComponents[0] = this;
         pv.synchronization = ViewSynchronization.UnreliableOnChange;
 
 
         if(pv.isMine) // PhotonNetwork.isMasterClient 마스터 클라이언트는 이런식 체크
         {
+            m_grid2D.myPlyerCtrl = this;
         //메인 카메라에 추가된 SmoothFollowCam 스크립트(컴포넌트)에 추적 대상을 연결 
             //Camera.main.GetComponent<SmoothFollowCam>().target = camPivot;
          }
@@ -150,7 +152,9 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     }
 
     IEnumerator Start()
-    {   
+    {
+        Debug.Assert(m_grid2D);
+
         yield return new WaitForSeconds(5.0f);
 
         //  if(pv.isMine)   //#20-1
@@ -174,8 +178,6 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             theCamera.transform.position = camPos.transform.position;
             theCamera.transform.localRotation = camPos.transform.localRotation;
         }
-        // 초기화
-        applySpeed = walkSpeed;
 
        //originPosY = theCamera.transform.localPosition.y;
        // applyCrouchPosY = originPosY;
@@ -202,19 +204,24 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //TryJump();
         //TryRun();
         //TryCrouch();
-        Move();
+
+
+        //Move();
+        MoveBlock();
+
+
         //CameraRotation();
         CharacterRotation();
 
        
-        float _moveDirX = Input.GetAxisRaw("Horizontal") *0.5f;
-        float _moveDirZ = Input.GetAxisRaw("Vertical") * 0.5f;
+        //float _moveDirX = Input.GetAxisRaw("Horizontal") *0.5f;
+        //float _moveDirZ = Input.GetAxisRaw("Vertical") * 0.5f;
 
-        Vector3 _moveHorizontal = transform.right * _moveDirX;
-        Vector3 _moveVertical = transform.forward * _moveDirZ;
-        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
+        //Vector3 _moveHorizontal = transform.right * _moveDirX;
+        //Vector3 _moveVertical = transform.forward * _moveDirZ;
+        //Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
 
-        transform.position += _velocity * Time.deltaTime;
+        //transform.position += _velocity * Time.deltaTime;
         
     }
 
@@ -408,7 +415,6 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     public void SetHpDamaged(float damage, Enum_PlayerUseItemType Type)
     {
-
         currentHP -= damage;
         if (currentHP < 0)
         {
@@ -419,14 +425,10 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         hpBar.UpdateHPBar(currentHP, maxHP);
     }
 
-
     public float HpFill()
     {
         return currentHP / maxHP;
     }
-
-
-
 
     /// <summary>
     /// ///////////////////
@@ -467,6 +469,246 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     ////////////////////////////////////
     ///
 
+    //A*
+    [Header("A* 관련-플레이어가 찾아갈 길")]
+    [SerializeField]
+    private List<Node> m_path = new List<Node>();
 
+    [Header("A* 관련-패스파인딩")]
+    public csPhotonGame m_grid2D;
+    public List<Node> m_closedList = new List<Node>();
+    public List<Node> m_openList = new List<Node>();
+    public Node m_currNode;
+    public Node m_startNode;
+    public Node m_targetNode;
+    public Node m_prevNode;
+    public List<Node> m_pathNode;
+    public List<Node> m_currNeighbours = new List<Node>();
+    public bool m_execute = false;
+
+    public void SetPath(List<Node> path)
+    {
+        if (path == null)
+        {
+            return;
+        }
+
+        m_path.Clear();
+
+        foreach (Node p in path)
+        {
+            m_path.Add(p);
+        }
+    }
+
+    public void MoveBlock()//목적지에 도착했을 때 다음 노드 탐색해야 함
+    {
+        if (m_path.Count > 0)
+        {
+            Vector3 dir = m_path[0].transform.position - transform.position;
+
+            dir.Normalize();
+
+            transform.Translate(dir * Time.deltaTime * (applySpeed));
+
+            float distance = Vector3.Distance(new Vector3(m_path[0].transform.position.x,0, m_path[0].transform.position.z), new Vector3(transform.position.x,0, transform.position.z));
+
+            if (distance <= 0.1f)
+            {
+                transform.position = new Vector3(m_path[0].transform.position.x, transform.position.y+0.3f, m_path[0].transform.position.z);
+                m_path.RemoveAt(0);
+            }
+        }
+    }
+
+    ///패스파인딩
+    public int GetDistance(Node a, Node b)
+    {
+        int x = Mathf.Abs(a.Col - b.Col);
+        int y = Mathf.Abs(a.Row - b.Row);
+
+        return 14 * Mathf.Min(x, y) + 10 * Mathf.Abs(x - y);
+    }
+
+    public List<Node> RetracePath(Node currNode)
+    {
+        List<Node> nodes = new List<Node>();
+
+        while (currNode != null)
+        {
+            nodes.Add(currNode);
+            currNode = currNode.Parent;
+        }
+
+        nodes.Reverse();
+
+        return nodes;
+    }
+
+    public void ResetNode()
+    {
+        m_currNode = null;
+        m_startNode = null;
+        m_targetNode = null;
+        m_prevNode = null;
+
+        m_pathNode.Clear();
+        m_currNeighbours.Clear();
+        m_openList.Clear();
+        m_closedList.Clear();
+
+        m_grid2D.ResetNode();
+    }
+
+    public void ResetNode2()
+    {
+        m_currNode = null;
+        m_startNode = null;
+        m_targetNode = null;
+        m_prevNode = null;
+
+        if (m_pathNode != null && m_pathNode.Count > 0)
+        {
+            m_pathNode.Clear();
+        }
+        if (m_currNeighbours.Count > 0)
+        {
+            m_currNeighbours.Clear();
+        }
+        if (m_openList.Count > 0)
+        {
+            m_openList.Clear();
+        }
+        if (m_closedList.Count > 0)
+        {
+            m_closedList.Clear();
+        }
+
+        m_grid2D.StartSetNode();
+    }
+
+    public void Ready(Vector3 player, Vector3 target)
+    {
+        m_execute = true;
+
+        m_openList.Clear();
+        m_closedList.Clear();
+
+        m_startNode = m_grid2D.FindNode(player);
+        m_targetNode = m_grid2D.FindNode(target);
+
+        m_targetNode.SetParent(null);
+        m_startNode.SetParent(null);
+
+        m_currNode = m_startNode;
+
+        m_startNode.SetGCost(0);
+        m_startNode.SetHCost(GetDistance(m_startNode, m_targetNode));
+    }
+
+    public void FindPathCoroutine(Vector3 Target)
+    {
+        if (!m_execute)//지금 길찾기 중이 아님
+        {
+            Ready(transform.position, Target);
+
+            StartCoroutine(IEStep());
+        }
+        //길찾기중일때 경로가 수정되면 바뀌어야 함
+    }
+
+    public IEnumerator IEStep()
+    {
+        Node[] neighbours = m_grid2D.Neighbours(m_currNode);
+
+        m_currNeighbours.Clear();
+
+        m_currNeighbours.AddRange(neighbours);
+
+        for (int i = 0; i < neighbours.Length; ++i)
+        {
+            if (m_closedList.Contains(neighbours[i]))
+            {
+                continue;
+            }
+
+            if (neighbours[i].NType == NodeType.Water || neighbours[i].NType == NodeType.Obstacle)
+            {
+                continue;
+            }
+
+            int gCost = m_currNode.GCost + GetDistance(neighbours[i], m_currNode);
+
+            if (m_openList.Contains(neighbours[i]) == false || gCost < neighbours[i].GCost)
+            {
+                int hCost = GetDistance(neighbours[i], m_targetNode);
+
+                neighbours[i].SetGCost(gCost);
+                neighbours[i].SetHCost(hCost);
+                neighbours[i].SetParent(m_currNode);
+
+                if (!m_openList.Contains(neighbours[i]))
+                {
+                    m_openList.Add(neighbours[i]);
+                }
+            }
+        }
+
+        m_closedList.Add(m_currNode);
+
+        if (m_openList.Contains(m_currNode))
+        {
+            m_openList.Remove(m_currNode);
+        }
+
+        if (m_openList.Count > 0)
+        {
+            m_openList.Sort(delegate (Node x, Node y)
+            {
+                if (x.FCost < y.FCost)
+                {
+                    return -1;
+                }
+                else if (x.FCost > y.FCost)
+                {
+                    return 1;
+                }
+                else if (x.FCost == y.FCost)
+                {
+                    if (x.HCost < y.HCost)
+                    {
+                        return -1;
+                    }
+                    else if (x.HCost > y.HCost)
+                    {
+                        return 1;
+                    }
+                }
+                return 0;
+            });
+
+            if (m_currNode != null)
+            {
+                m_prevNode = m_currNode;
+            }
+
+            m_currNode = m_openList[0];
+        }
+
+        yield return null;
+
+        if (m_currNode == m_targetNode)
+        {
+            List<Node> nodes = RetracePath(m_currNode);
+            m_pathNode = nodes;
+            m_execute = false;
+            
+            SetPath(m_pathNode);
+        }
+        else
+        {
+            StartCoroutine(IEStep());
+        }
+    }
 }
 

@@ -552,10 +552,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 1.8800006
+  m_Radius: 0.40000004
+  m_Height: 1.9370747
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8918555, z: 0}
+  m_Center: {x: 0, y: 0.86331844, z: 0}
 --- !u!54 &3130501843124288609
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f41b98b47fb7f40aca9aa1d98e2fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
+  applySpeed: 3
   theCamera: {fileID: 0}
   camPos: {fileID: 8179478331773180700}
   dropItemPos: {fileID: 8179478332881732464}
@@ -749,8 +749,19 @@ MonoBehaviour:
   cUrrPos: {x: 0, y: 0, z: 0}
   cUrrRot: {x: 0, y: 0, z: 0, w: 0}
   camPivot: {fileID: 0}
-  maxHP: 0
+  maxHP: 1000
   hpBar: {fileID: 8179478331711236534}
+  m_path: []
+  m_grid2D: {fileID: 0}
+  m_closedList: []
+  m_openList: []
+  m_currNode: {fileID: 0}
+  m_startNode: {fileID: 0}
+  m_targetNode: {fileID: 0}
+  m_prevNode: {fileID: 0}
+  m_pathNode: []
+  m_currNeighbours: []
+  m_execute: 0
 --- !u!1 &3130501843124288931
 GameObject:
   m_ObjectHideFlags: 0

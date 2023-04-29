@@ -44,6 +44,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     public GameObject[] bluePrintObj;
     bool actionNow = true;//지금 뭐 동작중인지 체크
     public float rayCastRange = 15f;
+    public PlayerCtrl1 myPlyerCtrl;
 
     [Header("레이 케스팅용")]
     [SerializeField]
@@ -98,6 +99,8 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     IEnumerator InitMapData()
     {
+        m_nodeArr = new Node[mapData.widthX, mapData.widthZ];
+
         worldBlock = new Block[mapData.widthX, mapData.height, mapData.widthZ];
         List<Vector3> childVector = new List<Vector3>();
 
@@ -124,12 +127,18 @@ public class csPhotonGame : Photon.MonoBehaviour
                         if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null && i == 27)
                         {
                             GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (pos.y + (i - y)) * 0.5f, pos.z), Quaternion.identity);
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj,true);
+                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true);
                             tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z]);
+                            //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
                         }
                         else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null)
                         {
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null,false);
+                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
+                        }
+                        else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] != null)
+                        {
+                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].top = false;
+                            childVector.Remove(new Vector3(pos.x, pos.y + (i - y), pos.z));
                         }
                     }
                     //Debug.Log(1111);                    
@@ -165,7 +174,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         yield return null;
 
-        PhotonNetwork.Instantiate("Player1", new Vector3(30, 30, 30), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
     }
@@ -287,6 +296,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[2], new Vector3(pos.x, pos.y * 0.5f, pos.z), Quaternion.identity);
                 worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.GRASS, v, tmpObj);
                 tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z]);
+
+                //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
             }
             else
             {
@@ -300,6 +311,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[3], new Vector3(pos.x, pos.y * 0.5f, pos.z), Quaternion.identity);
                 worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.SOIL, v, tmpObj);
                 tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z]);
+                //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
             }
             else
             {
@@ -313,6 +325,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[1], new Vector3(pos.x, pos.y * 0.5f, pos.z), Quaternion.identity);
                 worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.STON, v, tmpObj);
                 tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z]);
+                //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
             }
             else
             {
@@ -485,7 +498,15 @@ public class csPhotonGame : Photon.MonoBehaviour
                     oldBlock = hit.transform.root.GetComponent<IHighlighter>();
                     oldBlock.OnHighlighter();
                 }
+
+                Vector3 tmpPos = hit.transform.position;
+                targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
             }
+        }
+
+        if(myPlyerCtrl !=null&& !myPlyerCtrl.m_execute&& Input.GetMouseButtonDown(0))
+        {
+            myPlyerCtrl.FindPathCoroutine(targetPos);
         }
 
         //if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
@@ -965,6 +986,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[3], new Vector3(blockPos.x,(blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
                     worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SOIL, true, tmpObj,true, false,Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
+                    //m_nodeArr[(int)blockPos.x, (int)blockPos.z] = tmpObj.GetComponent<Node>();
                 }
                 break;
             case Enum_CubeType.WATER:
@@ -972,6 +994,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
                     worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
+                   // m_nodeArr[(int)blockPos.x, (int)blockPos.z] = tmpObj.GetComponent<Node>();
 
                     int tmpY = (int)blockPos.y;
                     while (tmpY > 0)
@@ -1234,6 +1257,103 @@ public class csPhotonGame : Photon.MonoBehaviour
             if (worldBlock[(int)blockPos.x, (int)blockPos.y+1, (int)blockPos.z] ==null)
             {
                 worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = true;
+                //m_nodeArr[(int)blockPos.x, (int)blockPos.z] = tmpObj.GetComponent<Node>();
+            }
+        }
+    }
+
+    //a*       
+    [Header("A* 관련")]
+    public bool startPathFinding = false;
+    [SerializeField]
+    private List<Node> m_neighbours = new List<Node>();
+    public Node[,] m_nodeArr;
+    public Vector3 targetPos;
+
+    private bool CheckNode(int row, int col)//x,z
+    {
+        if (row < 0 || row >= mapData.widthX)
+        {
+            return false;
+        }
+        if (col < 0 || col >= mapData.widthZ)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public Node[] Neighbours(Vector3 pos)
+    {
+        return Neighbours(m_nodeArr[(int)pos.x, (int)pos.z]);
+    }
+
+    public Node[] Neighbours(Node node)
+    {
+        m_neighbours.Clear();
+
+        if (CheckNode(node.Row - 1, node.Col - 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row - 1, node.Col - 1]);
+        }
+        if (CheckNode(node.Row - 1, node.Col))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row - 1, node.Col]);
+        }
+        if (CheckNode(node.Row - 1, node.Col + 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row - 1, node.Col + 1]);
+        }
+        if (CheckNode(node.Row, node.Col - 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row, node.Col - 1]);
+        }
+        if (CheckNode(node.Row, node.Col + 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row, node.Col + 1]);
+        }
+        if (CheckNode(node.Row + 1, node.Col - 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row + 1, node.Col - 1]);
+        }
+        if (CheckNode(node.Row + 1, node.Col))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row + 1, node.Col]);
+        }
+        if (CheckNode(node.Row + 1, node.Col + 1))
+        {
+            m_neighbours.Add(m_nodeArr[node.Row + 1, node.Col + 1]);
+        }
+
+        return m_neighbours.ToArray();
+    }
+
+    public Node FindNode(Vector3 pos)
+    {
+        return m_nodeArr[(int)pos.x, (int)pos.z];
+    }
+
+    public void ResetNode()
+    {
+        for (int row = 0; row < mapData.widthX; ++row)
+        {
+            for (int col = 0; col < mapData.widthZ; ++col)
+            {
+                m_nodeArr[row, col].Reset();
+            }
+        }
+    }
+
+    public void StartSetNode()
+    {
+        for (int row = 0; row < mapData.widthX; ++row)
+        {
+            for (int col = 0; col < mapData.widthZ; ++col)
+            {
+                if (m_nodeArr[row, col].m_nodeType.Equals(NodeType.None))
+                {
+                    m_nodeArr[row, col].Reset();
+                }
             }
         }
     }
