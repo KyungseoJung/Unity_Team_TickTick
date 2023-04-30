@@ -559,17 +559,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
                 }
             }
-        }
-
-        if (isUiBlock)
-        {
-            return;
-        }
-
-        if (myPlyerCtrl !=null&& !myPlyerCtrl.m_execute&& Input.GetMouseButtonDown(0) && !isBuild && !isCreateFurniture && !inTheBuilding)
-        {
-            myPlyerCtrl.FindPathCoroutine(targetPos);
-        }
+        }      
 
         //if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
         //{
@@ -715,6 +705,16 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
+        if (isUiBlock)
+        {
+            return;
+        }
+
+        if (myPlyerCtrl != null && !myPlyerCtrl.m_execute && Input.GetMouseButtonDown(0) && !isBuild && !isCreateFurniture && !inTheBuilding)
+        {
+            myPlyerCtrl.FindPathCoroutine(targetPos);
+        }
+
         if (actionNow && Input.GetMouseButtonDown(1))
         {
             StartCoroutine(PlayerUseItem(UseItemType));
@@ -790,6 +790,14 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void SetPlayerHand(Enum_DropItemType type)
     {
+        if (bluePrint != null)
+        {
+            isBuild = false;
+            isCreateFurniture = false;
+            bluePrint.GetComponent<csPreViewBase>().HiedPreView();
+            bluePrint = null;
+        }
+
         switch (type)
         {
             case Enum_DropItemType.FRUIT:
@@ -805,6 +813,14 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void SetPlayerUseUtem(Enum_PlayerUseItemType type)//인벤토리 슬룻에 들어있는걸 들었다고 친다
     {
+        if (bluePrint != null)
+        {
+            isBuild = false;
+            isCreateFurniture = false;
+            bluePrint.GetComponent<csPreViewBase>().HiedPreView();
+            bluePrint = null;            
+        }
+
         switch (type)
         {
             case Enum_PlayerUseItemType.HAND:
@@ -938,8 +954,10 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (bluePrint != null)
                 {
                     bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
+                    SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);
                 }
                 break;
+                
             case Enum_PlayerUseItemType.BLOCKSOIL://흙 블럭
                 ActionAddBlock(Enum_CubeType.SOIL);
                 break;
