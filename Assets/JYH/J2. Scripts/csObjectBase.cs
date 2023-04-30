@@ -38,11 +38,11 @@ namespace JinscObjectBase
 
         bool isDamaged = false;
 
-        public PhotonView pV;
+        public csPhotonGame PG;
 
         public virtual void Awake()
         {
-            pV = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<PhotonView>();
+            PG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
         }
 
         public virtual void Start()
@@ -160,15 +160,17 @@ namespace JinscObjectBase
                 {
                     for (int i = 0; i < dropItems.Length; i++)
                     {
-                        if (!PhotonNetwork.isMasterClient)
-                        {
-                            pV.RPC("CreateObjRPC", PhotonTargets.MasterClient, i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
-                        }
-                        else
-                        {
-                            CreateObjRPC(i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
-                        }
+                        //if (!PhotonNetwork.isMasterClient)
+                        //{
+                        //    pV.RPC("CreateObjRPC", PhotonTargets.MasterClient, i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
+                        //}
+                        //else
+                        //{
+                        //    CreateObjRPC(i, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z));
+                        //}
                         //Debug.Log("drop");
+
+                        PG.CreateDropItem(new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), dropItems[i].name);
 
                         //사운드 재생?
 
@@ -181,10 +183,10 @@ namespace JinscObjectBase
                 yield return new WaitForSeconds(0.2f);
             }
 
-            transform.parent.GetComponent<ICubeInfo>().CubeInfo.haveChild = false;
-            transform.parent.GetComponent<csCube>().DestroyChild();
+            //transform.parent.GetComponent<ICubeInfo>().CubeInfo.haveChild = false;
+            //transform.parent.GetComponent<csCube>().DestroyChild();
             gameObject.SetActive(false);
-            Invoke("DelObj", 0.5f);
+            Invoke("DelObj", 0.2f);
         }
 
         [PunRPC]
@@ -201,7 +203,8 @@ namespace JinscObjectBase
 
         void DelObj()
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            PG.DelChildObj(new Vector3(transform.parent.position.x, transform.parent.position.y*2, transform.parent.position.z));
         }
 
         public virtual void Update()

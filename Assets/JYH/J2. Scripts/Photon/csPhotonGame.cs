@@ -1305,6 +1305,31 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
+    public void CreateDropItem(Vector3 pos, string objName)
+    {
+        pV.RPC("CreateDropItemRPC", PhotonTargets.MasterClient, pos, objName);
+    }
+
+    [PunRPC]
+    public void CreateDropItemRPC(Vector3 pos, string str)
+    {
+        //Debug.Log(dropItem.name);
+        GameObject tmp = PhotonNetwork.InstantiateSceneObject(str, pos, Quaternion.identity, 0, null);
+        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
+        tmp.transform.SetParent(null);
+    }
+
+    public void DelChildObj(Vector3 pos)
+    {
+        pV.RPC("DelChildObjRPC", PhotonTargets.AllBuffered, pos);
+    }
+
+    [PunRPC]
+    public void DelChildObjRPC(Vector3 pos)
+    {
+        worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().DestroyChild();
+    }
+
     //a*       
     [Header("A* 관련")]
     public bool startPathFinding = false;

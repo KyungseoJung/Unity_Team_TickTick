@@ -22,6 +22,14 @@ public class csDropItemBase : Item
             pV = GetComponent<PhotonView>();
         }
     }
+    private void OnEnable()
+    {
+        Vector3 randomDir = Random.insideUnitSphere;
+        if (!isTemp)
+        {
+            GetComponent<Rigidbody>().AddForce(randomDir * 1.5f);
+        }
+    }
 
     protected virtual void Start()
     {

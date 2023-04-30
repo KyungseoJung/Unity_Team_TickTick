@@ -88,24 +88,17 @@ public class csGrass : csObjectBase, IGrowth
 
         for (int i = 0; i < Random.Range(1, 3); i++)
         {
-            if (!PhotonNetwork.isMasterClient)
-            {
-                pV.RPC("CreateGrassRPC", PhotonTargets.MasterClient, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z));
-            }
-            else
-            {
-                CreateGrassRPC(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
-            }
+            //if (!PhotonNetwork.isMasterClient)
+            //{
+            //    pV.RPC("CreateGrassRPC", PhotonTargets.MasterClient, new Vector3(transform.position.x, transform.position.y + 0.7f, transform.position.z));
+            //}
+            //else
+            //{
+            //    CreateGrassRPC(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
+            //}
+            PG.CreateDropItem(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), dropItem.name);
         }
 
         yield return null;
-    }
-
-    [PunRPC]
-    public void CreateGrassRPC(Vector3 pos)
-    {
-        GameObject tmp = PhotonNetwork.InstantiateSceneObject(dropItem.name, pos, Quaternion.identity, 0, null);
-        tmp.GetComponent<Rigidbody>().AddForce(Vector3.up * Time.deltaTime * 6000f);
-        tmp.transform.SetParent(null);
     }
 }

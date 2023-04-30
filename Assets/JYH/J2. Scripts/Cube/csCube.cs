@@ -32,7 +32,11 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
         cubeInfo.childState = Enum_CubeState.NONE;
         cubeInfo.childNum = 0;
         cubeInfo.childGrowth = Enum_ObjectGrowthLevel.ZERO;
-        childObj = null;
+        if (childObj != null)
+        {
+            Destroy(childObj);
+            childObj = null;
+        }
         cubeInfo.top = true;
 
         GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.None;
