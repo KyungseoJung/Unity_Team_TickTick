@@ -381,7 +381,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
             {
                 if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
                 {
-                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ##
+                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ## (무기의 경우 1개만 들어가고, 다른 아이템들은 2개 이상씩 들어가겠지)
                     {
                         //itemInventoryCount[i, j]+= _count;
                         slots[(col * i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트

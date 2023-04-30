@@ -83,8 +83,8 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         SetAlpha(1);    //불투명하게 보이게
     }
 
-    //해당 슬롯의 아이템 개수 업데이트
-    public void UpdateSlotCount(int _count)
+    //해당 슬롯의 아이템 개수 업데이트      //#12-1 특정 개수만큼만 아이템 제거하기 - 그냥 이 함수 쓰면 되겠네?
+    public void UpdateSlotCount(int _count) 
     {
         itemTotalSum += _count;
         txtCount.text = itemTotalSum.ToString();    //바뀐 개수로 텍스트 업데이트
@@ -99,7 +99,6 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         {
             SelectSlot.Ins.ReSetShowItem();
         }
-        
     }
 
     // 해당 슬롯 하나 삭제
@@ -120,6 +119,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
             SelectSlot.Ins.ReSetShowItem();
         }
     }
+
 
 //#2-2 드래그 앤 드롭 ===========================
     public void OnBeginDrag(PointerEventData eventData) // 마우스 드래그 시작할 때 호출되는 이벤트 함수
