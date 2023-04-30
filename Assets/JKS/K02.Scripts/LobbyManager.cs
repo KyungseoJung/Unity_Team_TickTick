@@ -133,7 +133,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         btnGoNextScene.onClick.AddListener(OnClickGoNextScene);
 
 //#4-1 
-        Debug.Log("//#4-2 Start 끝");
+        // Debug.Log("//#4-2 Start 끝");
     }
 
     IEnumerator LoadJSONDataFct()
@@ -199,13 +199,13 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         for(int i=1; i<tgHostOption.Length; i++)    // 토글 모두 꺼놓고 시작
         {
-            Debug.Log("토글1 길이는 : " + tgHostOption.Length);
+            // Debug.Log("토글1 길이는 : " + tgHostOption.Length);
             tgHostOption[i].isOn = false;
         }
         tgHostOption[0].isOn = true;
         for(int i=1; i<tgOpenOption.Length; i++)    // 토글 모두 꺼놓고 시작
         {
-            Debug.Log("토글2");
+            // Debug.Log("토글2");
             tgOpenOption[i].isOn = false;
         }
         tgOpenOption[0].isOn = true;

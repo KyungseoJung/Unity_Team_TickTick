@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     private GameObject gridInventory;
 
     [SerializeField]
-    private Slot[] slots;                           // 슬롯 배열로 모두 가져오기
+    private Slot[] slots;   // 캔버스에 보이는 실제 슬롯 배열로 모두 가져오기 - 데이터 저장하는 건 - itemInventory, itemInventoryCount 배열에!
     private Slot[] previousSlots;
     // [SerializeField]
     // private Slot[] sortSlots;       //#9-2 정렬할 슬롯들
@@ -80,6 +80,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         itemInventory = new Enum_DropItemType[row, col];
         itemInventoryCount = new int[row, col];
+
+        UpdateItemInvenData();  //#12-1
 
         btnAscSorting.onClick.AddListener(AscSorting);
         btnDescSorting.onClick.AddListener(DescSorting);
@@ -416,6 +418,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         }
     }
 
+    //JSON에서 저장할 아이템을 로드하기 위한 함수 비슷하게 추가로 만듦
     public void CollectItemLoad(Enum_DropItemType dropItemType, int _count = 1, int index=0)  // _item이라는 이름의 아이템을 _count만큼 수집
     {
         Item _item =null;
@@ -623,7 +626,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     //     }
 
 
-    public void ChangeSlotData(int slotNum, int count=0,Enum_DropItemType type= Enum_DropItemType.NONE)
+    public void ChangeSlotData(int slotNum, int count=0 ,Enum_DropItemType type= Enum_DropItemType.NONE)
     {
         //for (int i = 0; i < row ; i++)
         //{
@@ -695,4 +698,43 @@ public class Inventory : MonoBehaviour, IInventoryBase
             }
         }
     }
+
+    public void UpdateItemInvenData()   //#12-1 제작대 시작할 때 itemInventory, itemInventoryCount 배열의 값을 업데이트 해주기
+    {
+        for(int i=0; i<row*col; i++)
+        {
+            ChangeSlotData(i);
+        }
+    }
+
+    public int CheckItemCount(Enum_DropItemType _findItemType) //#12-1 제작대 - 아이템 개수 뽑기 위해
+    {
+        for(int i=1; i<row ; i++)
+        {
+            for(int j=0; j<col; j++)
+            {
+                if(itemInventory[i, j].Equals(_findItemType))
+                {
+                    return itemInventoryCount[i,j];
+                }
+            }
+        }
+
+        return 0;   // 해당 아이템이 없음 = 0개이다
+    }
+
+    public void UseCraftingItem(Enum_DropItemType _useItemType, int _useCount) //제작에서 특정 아이템을 특정 개수만큼 사용하기
+    {
+        for(int i=1; i<row ; i++)
+        {
+            for(int j=0; j<col; j++)
+            {
+                if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)
+                {
+                    slots[col*i + j].UpdateSlotCount(- _useCount);  
+                }
+            }
+        }
+    }
+
 }

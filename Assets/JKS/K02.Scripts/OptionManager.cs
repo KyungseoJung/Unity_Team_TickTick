@@ -79,7 +79,7 @@ public class OptionManager : csGenericSingleton<OptionManager>
     {
         if(Input.GetMouseButtonDown(0)) // 마우스 클릭시마다 효과음
         {
-            Debug.Log("마우스 클릭");
+            // Debug.Log("마우스 클릭");
             PlayEffect(transform.position, clickClip);
         }
     }
