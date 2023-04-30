@@ -63,6 +63,9 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("UI 관련")]
     public Text timeText;
     public bool isUiBlock = false;
+    bool keyBlock=true;
+    [SerializeField]
+    public GameObject crossHair;
 
     [Header("디버그 관련")]
     public GameObject debugBtn;
@@ -96,6 +99,8 @@ public class csPhotonGame : Photon.MonoBehaviour
         {
             debugBtn.SetActive(false);
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     IEnumerator InitMapData()
@@ -466,6 +471,11 @@ public class csPhotonGame : Photon.MonoBehaviour
         tmpObj.GetComponent<Item>().count = count;
     }
 
+    void KeyBlockFct()
+    {
+        keyBlock = true;
+    }
+
     private void Update()
     {
         //맵 로드 안됬으면 아무것도 안한다
@@ -475,6 +485,33 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
 
         if (!pV.isMine)
+        {
+            return;
+        }
+
+        if (keyBlock && Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            keyBlock = false;
+
+            if (!isUiBlock)
+            {
+                isUiBlock = true;
+                crossHair.SetActive(false);
+                //Debug.Log("uiblock");
+                Cursor.lockState = CursorLockMode.None;                
+            }
+            else
+            {
+                isUiBlock = false;
+                crossHair.SetActive(true);
+                //Debug.Log("enuiblock");
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+
+            Invoke("KeyBlockFct", 0.2f);
+        }
+
+        if (isUiBlock)
         {
             return;
         }
@@ -781,6 +818,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                                                                  //isBuild = false;
 
             bluePrint = null;
+            isCreateFurniture = false;
+            isBuild = false;
         }
 
 

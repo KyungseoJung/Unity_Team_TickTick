@@ -192,7 +192,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
-        if (!m_grid2D.isUiBlock)
+        if (m_grid2D.isUiBlock)
         {
             return;
         }
@@ -232,7 +232,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     private void LateUpdate()
     {
-        if (!m_grid2D.isUiBlock)
+        if (m_grid2D.isUiBlock)
         {
             return;
         }
