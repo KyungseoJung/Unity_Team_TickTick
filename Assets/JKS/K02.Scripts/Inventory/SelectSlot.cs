@@ -30,6 +30,7 @@ public class SelectSlot : csGenericSingleton<SelectSlot> //#11-2
         if (nowUsingSlot.item == null)
         {
             GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerUseUtem(Enum_PlayerUseItemType.HAND);
+            Camera.main.GetComponent<csPlayerUseItem>().SetShowUseItem(Enum_DropItemType.NONE);
         }
         else
         {
@@ -78,6 +79,7 @@ public class SelectSlot : csGenericSingleton<SelectSlot> //#11-2
                     GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().SetPlayerHand(Enum_DropItemType.CARROT);
                     break;
             }
+            Camera.main.GetComponent<csPlayerUseItem>().SetShowUseItem(nowUsingSlot.item.ItemType);
         }        
         
         if(_show&& !this.gameObject.activeSelf) //하이라이트 true인데 비활성화 상태라면
