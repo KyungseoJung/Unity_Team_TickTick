@@ -215,8 +215,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 invenInfo.itemType = InfoManager.Ins.GetInvenInfo((col * i) + j).itemType;
                 invenInfo.itemCount = InfoManager.Ins.GetInvenInfo((col * i) + j).itemCount;
 
-                Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
-                Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
+                //Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
+                //Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
                 // 이건 애초에 저장하는 코드가 따로 있었잖아 -> ChangeSlotData 함수
                 /*
                 itemInventory[i,j] = invenInfo.itemType;
@@ -301,7 +301,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 if(_loadItem != null)   //아이템이 없는 경우에는 그냥 AddSlot 안 타도록
                 {  
                     //수집하는 원리의 함수를 이용해야 하니까, 위치 그대로는 못가져옴 - 일부러 앞으로 당겨서 넣는 것처럼 하자
-                    CollectItem(_loadItemType, _loadItem, invenInfo.itemCount);   //AddSlot 아님! Collect 하기
+                    CollectItemLoad(_loadItemType, invenInfo.itemCount,((col * i) + j));   //AddSlot 아님! Collect 하기
+                }
+                else{
+                    CollectItemLoad(Enum_DropItemType.NONE, 0,((col * i) + j));
                 }
             }
         }
@@ -370,51 +373,26 @@ public class Inventory : MonoBehaviour, IInventoryBase
                     Debug.Log("무슨아이템인지 모르겠음");
                     return;
             }
-        }
+        }          
 
-        //if (!_item.ItemType.Equals(Enum_DropItemType.PLAYERWEAPONAXE1)&& !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWATCHFIRE) 
-        //    && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTTENT) && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_CHAIR) 
-        //    && !_item.ItemType.Equals(Enum_DropItemType.HOUSE_TABLE) && !_item.ItemType.Equals(Enum_DropItemType.BLUEPRINTWORKBENCH)) // SWORD 외의 아이템을 collect 했을 때
-        //{
-            //for (int i = 0; i < slots.Length; i++)  //획득한 아이템이 슬롯에 이미 있는 아이템인가 확인
-            //{
-            //    if (slots[i].item != null)   //비어있는 슬롯이 아니라면 (Null 에러 방지)
-            //    {
-            //        if (_item.itemName == slots[i].item.itemName)    //슬롯에 해당 아이템이 이미 있었다면
-            //        {
-            //            Debug.Log("UpdateItemCount");
-            //            slots[i].UpdateSlotCount(_count);   // 개수 업데이트
-            //            return;
-            //        }
-            //    }
-            //}
-
-           
-
-            for (int i = 0; i < row && !tmpCheck; i++)
+        for (int i = 0; i < row && !tmpCheck; i++)
+        {
+            for (int j = 0; j < col && !tmpCheck; j++)
             {
-                for (int j = 0; j < col && !tmpCheck; j++)
+                if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
                 {
-                    if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
+                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ##
                     {
-                        if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ##
-                        {
-                            //itemInventoryCount[i, j]+= _count;
-                            slots[(col * i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
-                            tmpCheck = true;
-                            //Debug.Log((i % row) + j);
-                            //Debug.Log("타긴하니2");
-                        }
+                        //itemInventoryCount[i, j]+= _count;
+                        slots[(col * i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
+                        tmpCheck = true;
+                        //Debug.Log((i % row) + j);
+                        //Debug.Log("타긴하니2");
                     }
                 }
-            }            
-        //}
-        //else
-        //{
-        //    tmpCheck = false;
-        //    _count = 1;
-        //}
-
+            }
+        }            
+        
         if (!tmpCheck)
         {
             bool isFind = false;
@@ -436,17 +414,75 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
             }
         }
+    }
 
-        ////위 if문에서 return 되지 않았다 == 해당 아이템이 슬롯에 없다
-        //for (int i = 0; i < slots.Length; i++)
-        //{
-        //    if (slots[i].item == null)   //슬롯에 남은 자리 있으면
-        //    {
-        //        Debug.Log("AddItem");
-        //        slots[i].AddSlot(_item, _count);
-        //        return;
-        //    }
-        //}
+    public void CollectItemLoad(Enum_DropItemType dropItemType, int _count = 1, int index=0)  // _item이라는 이름의 아이템을 _count만큼 수집
+    {
+        Item _item =null;
+
+        switch (dropItemType)
+        {
+            case Enum_DropItemType.NONE:
+                Debug.Log("빈칸 -> 손");
+                return;
+            case Enum_DropItemType.FRUIT:
+                _item = objFruit.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.STON:
+                _item = objSton.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.WOOD:
+                _item = objWood.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.CARROT:
+                _item = objCarrot.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.PLAYERWEAPONAXE1:
+                Debug.Log("아이템에 웨폰 연결해줘야함");
+                break;
+            case Enum_DropItemType.SHOVEL:
+                Debug.Log("삽");
+                break;
+            case Enum_DropItemType.AXE:
+                Debug.Log("도끼");
+                break;
+            case Enum_DropItemType.PICKAXE:
+                Debug.Log("곡괭이");
+                break;
+            case Enum_DropItemType.HOE:
+                Debug.Log("괭이");
+                break;
+            case Enum_DropItemType.BLOCKSOIL:
+                Debug.Log("땅");
+                break;
+            //case Enum_DropItemType.BLUEPRINTTENT:
+            //    Debug.Log("탠트 청사진");
+            //    break;
+            case Enum_DropItemType.BLUEPRINTWATCHFIRE:
+                _item = blueprint_BONFIRE.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.BLUEPRINTTENT:
+                _item = blueprint_TENT.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.HOUSE_CHAIR:
+                _item = blueprint_CHAIR.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.HOUSE_TABLE:
+                _item = blueprint_TABLE.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.BLUEPRINTWORKBENCH:
+                _item = blueprint_WORKBENCH.GetComponent<Item>();
+                break;
+            default:
+                Debug.Log("무슨아이템인지 모르겠음");
+                return;
+        }
+        
+        if(_item==null){
+            return;
+        }
+
+        slots[index].AddSlot(_item, _count);
     }
 
     public void AscSorting()
