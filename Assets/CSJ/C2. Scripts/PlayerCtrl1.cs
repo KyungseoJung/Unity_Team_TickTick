@@ -783,5 +783,27 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             StartCoroutine(IEStep());
         }
     }
+
+
+    //제작대 사용
+    bool isOpenUI = false;
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("WorkBench") && !isOpenUI)
+        {
+            isOpenUI = true;
+            GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("WorkBench") && isOpenUI)
+        {
+            isOpenUI = false;
+            GameObject.FindGameObjectWithTag("CraftingUI").SetActive(false);
+        }
+    }
 }
 
