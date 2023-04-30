@@ -666,6 +666,13 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_startNode = m_grid2D.FindNode(new Vector3(Mathf.Round(player.x), player.y, Mathf.Round(player.z)));
         m_targetNode = m_grid2D.FindNode(new Vector3(Mathf.Round(target.x), target.y, Mathf.Round(target.z)));
 
+        if(m_targetNode.m_nodeType.Equals(NodeType.Water) || m_targetNode.m_nodeType.Equals(NodeType.Obstacle))
+        {
+            StopCoroutine(IEStep());
+            ResetNode();
+            return;
+        }
+
         m_targetNode.SetParent(null);
         m_startNode.SetParent(null);
 
@@ -682,6 +689,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             m_path.Clear();
         }
         //if (!m_execute)//지금 길찾기 중이 아닌가?
+        //if(!m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x),(int)Mathf.Round(Target.x)].Equals(NodeType.Water)&& !m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.x)].Equals(NodeType.Obstacle))
         {
             Ready(transform.position, Target);//시작 좌표와 목표 좌표를 전해준다 ^^2
 
