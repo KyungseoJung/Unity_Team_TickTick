@@ -91,7 +91,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         SortingButtonsObj.SetActive(false); //#4-3 비활성화 상태로 시작
         DropItemZone.SetActive(false);  //#4-3
 
-        InfoManager.Ins.LoadInvenJSONData();    //#11-6
+        InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
 
     }
 
@@ -195,10 +195,14 @@ public class Inventory : MonoBehaviour, IInventoryBase
         invenInfo.itemType = Enum_DropItemType.NONE;
         invenInfo.itemCount = 0;
 */        
+        Invoke("ExecuteSaveInvenJson", 1.0f);   // 데이터가 꼬여서 잘 저장되지 않는 걸 막기 위해 조금 늦게 호출
+    }
+    void ExecuteSaveInvenJson()
+    {
         InfoManager.Ins.SaveInvenJSONData();
     }
 
-    public void LoadInvenData() //#11-6 게임 입장할 때, 인벤토리 데이터 저장하기
+    public void LoadInvenData() //#11-6 게임 입장할 때, JSON (인벤토리) 데이터 가져와서 슬롯에 보이게 하기
     {
         
         for (int i = 0; i < row ; i++)
@@ -222,6 +226,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 switch(invenInfo.itemType)
                 {
                     case (int)Enum_DropItemType.NONE :
+                        _loadItem = null;   //#11-7 보완 (밑에서 null로 인식을 안해서 ChangeSlotData에서 에러 뜨는 것 같음.)
                         _loadItemType = Enum_DropItemType.NONE;
                         break;  //여기서 return; 하면 하나라도 비어있으면 로드 안되고 함수가 끝나겠지
                     case (int)Enum_DropItemType.FRUIT :
@@ -241,21 +246,27 @@ public class Inventory : MonoBehaviour, IInventoryBase
                         _loadItemType = Enum_DropItemType.CARROT;
                         break;
                     case (int)Enum_DropItemType.PLAYERWEAPONAXE1:
+                        _loadItem = null;
                         Debug.Log("아이템에 웨폰 연결해줘야함");
                         break;
                     case (int)Enum_DropItemType.SHOVEL:
+                        _loadItem = null;
                         Debug.Log("삽");
                         break;
                     case (int)Enum_DropItemType.AXE:
+                        _loadItem = null;
                         Debug.Log("도끼");
                         break;
                     case (int)Enum_DropItemType.PICKAXE:
+                        _loadItem = null;
                         Debug.Log("곡괭이");
                         break;
                     case (int)Enum_DropItemType.HOE:
+                        _loadItem = null;
                         Debug.Log("괭이");
                         break;
                     case (int)Enum_DropItemType.BLOCKSOIL:
+                        _loadItem = null;
                         Debug.Log("땅");
                         break;
                     //case Enum_DropItemType.BLUEPRINTTENT:

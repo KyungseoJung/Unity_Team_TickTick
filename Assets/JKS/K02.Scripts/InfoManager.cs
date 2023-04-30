@@ -159,7 +159,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
     }
     
-    public void LoadInvenJSONData() //#11-6
+    public void LoadInvenJSONData() //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
     {
         invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
 
@@ -213,6 +213,9 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
             invenObject.Add("개수", inven.itemCount);
 
             invenArray.Add(invenObject);
+
+
+            Debug.Log("//#11-7 저장되는중~ : " + inven.itemType + "//" + inven.itemCount);
         }
         invenJson.Add("인벤토리", invenArray);
 
