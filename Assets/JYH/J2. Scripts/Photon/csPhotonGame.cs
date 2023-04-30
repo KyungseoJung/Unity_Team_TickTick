@@ -182,6 +182,8 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
+        DropItemCreate("Blueprint_WorkBench", new Vector3(12, 30, 12), 1);
+
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
         Invoke("LoadInvenDataStart", 1f);
@@ -282,8 +284,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     void OnLeftRoom()
     {
         //포톤 방나감 콜백 대충 여기서 세이브
-
-       SceneManager.LoadScene("scLobby0");
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene("scLobby0");
     }
 
     void OnPhotonPlayerConnected()
@@ -503,7 +505,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
-        if (keyBlock && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.Tab)))
+        if (keyBlock && Input.GetKeyDown(KeyCode.LeftAlt) )
         {
             keyBlock = false;
 
