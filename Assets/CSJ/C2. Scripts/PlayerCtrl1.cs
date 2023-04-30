@@ -110,6 +110,13 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     float mouseX=0f;
     float mouseY=0f;
 
+    public bool inTheHouse = false;
+
+    public void SetInTheHouse(bool a)
+    {
+        inTheHouse = a;
+    }
+
     private void Awake()
     {   
 
@@ -205,20 +212,28 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //임시
         //hpBar.UpdateHPBar(currentHP, maxHP);
-        IsGround();
+
         //TryJump();
         //TryRun();
         //TryCrouch();
 
+        IsGround();
 
-        //Move();
+        if (inTheHouse)
+        {
+            Move();
+        }
+
+        CharacterRotation();
+
+
+        //
         //MoveBlock();
 
 
         //CameraRotation();
-        CharacterRotation();
 
-       
+
         //float _moveDirX = Input.GetAxisRaw("Horizontal") *0.5f;
         //float _moveDirZ = Input.GetAxisRaw("Vertical") * 0.5f;
 
@@ -227,7 +242,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
 
         //transform.position += _velocity * Time.deltaTime;
-        
+
     }
 
     private void LateUpdate()

@@ -43,7 +43,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     public GameObject bluePrint=null;
     public GameObject[] bluePrintObj;
     bool actionNow = true;//지금 뭐 동작중인지 체크
-    public float rayCastRange = 15f;
+    public float rayCastRange = 20f;
     public PlayerCtrl1 myPlyerCtrl;
 
     [Header("레이 케스팅용")]
@@ -183,6 +183,8 @@ public class csPhotonGame : Photon.MonoBehaviour
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+
+        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().LoadInvenData();
     }
     IEnumerator EnemySpawn()
     {
@@ -258,6 +260,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         StopAllCoroutines();
         CancelInvoke();
+
+        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().SaveInvenData();
 
         Invoke("DestroyRoom", 1f);
     }
@@ -421,6 +425,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 isBuild = false;
             }
 
+            myPlyerCtrl.SetInTheHouse(true);
+
             if (UseItemType.Equals(Enum_PreViewType.HOUSE_CHAIR))
             {
                 bluePrint = bluePrintObj[2];
@@ -439,6 +445,8 @@ public class csPhotonGame : Photon.MonoBehaviour
                 bluePrint.GetComponent<csPreViewBase>().HiedPreView();
                 isCreateFurniture = false;
             }
+
+            myPlyerCtrl.SetInTheHouse(false);
 
             if (UseItemType.Equals(Enum_PreViewType.FIRE))
             {
@@ -489,7 +497,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
-        if (keyBlock && Input.GetKeyDown(KeyCode.LeftAlt))
+        if (keyBlock && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.Tab)))
         {
             keyBlock = false;
 
@@ -498,7 +506,12 @@ public class csPhotonGame : Photon.MonoBehaviour
                 isUiBlock = true;
                 crossHair.SetActive(false);
                 //Debug.Log("uiblock");
-                Cursor.lockState = CursorLockMode.None;                
+                Cursor.lockState = CursorLockMode.None;
+
+                if (bluePrint != null)
+                {
+                    bluePrint.GetComponent<IPreViewBase>().HiedPreView();
+                }
             }
             else
             {
@@ -509,11 +522,6 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
 
             Invoke("KeyBlockFct", 0.2f);
-        }
-
-        if (isUiBlock)
-        {
-            return;
         }
 
         ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
@@ -545,7 +553,12 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
-        if(myPlyerCtrl !=null&& !myPlyerCtrl.m_execute&& Input.GetMouseButtonDown(0))
+        if (isUiBlock)
+        {
+            return;
+        }
+
+        if (myPlyerCtrl !=null&& !myPlyerCtrl.m_execute&& Input.GetMouseButtonDown(0) && !isBuild && !isCreateFurniture && !inTheBuilding)
         {
             myPlyerCtrl.FindPathCoroutine(targetPos);
         }

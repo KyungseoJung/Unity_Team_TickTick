@@ -34,6 +34,7 @@ public class csCubeTopCheck : MonoBehaviour
 
             cube.childObj = other.gameObject;
             cube.cubeInfo.haveChild = true;
+            GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.Obstacle;
         }
     }
 }

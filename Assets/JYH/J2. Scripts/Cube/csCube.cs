@@ -39,6 +39,8 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
         }
         cubeInfo.top = true;
 
+        GameObject.FindGameObjectWithTag("MiniMap").GetComponent<MiniMap>().RemoveObj((int)transform.position.x, (int)transform.position.z);
+
         GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.None;
     }
 
