@@ -184,8 +184,14 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
+        Invoke("LoadInvenDataStart", 1f);
+    }
+
+    void LoadInvenDataStart()
+    {
         GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().LoadInvenData();
     }
+
     IEnumerator EnemySpawn()
     {
         Debug.Log("애너미스폰");
