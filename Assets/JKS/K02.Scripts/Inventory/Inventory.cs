@@ -391,19 +391,19 @@ public class Inventory : MonoBehaviour, IInventoryBase
                     Debug.Log("아이템에 웨폰 연결해줘야함");
                     break;
                 case Enum_DropItemType.SHOVEL:
-                    Debug.Log("삽");
+                    _item = eq_Shovel.GetComponent<Item>();
                     break;
                 case Enum_DropItemType.AXE:
-                    Debug.Log("도끼");
+                    _item = eq_Axe.GetComponent<Item>();
                     break;
                 case Enum_DropItemType.PICKAXE:
-                    Debug.Log("곡괭이");
+                    _item = eq_PickAxe.GetComponent<Item>();
                     break;
                 case Enum_DropItemType.HOE:
-                    Debug.Log("괭이");
+                    _item = eq_Hoe.GetComponent<Item>();
                     break;
                 case Enum_DropItemType.BLOCKSOIL:
-                    Debug.Log("땅");
+                    _item = objBlockSoil.GetComponent<Item>();
                     break;
                 //case Enum_DropItemType.BLUEPRINTTENT:
                 //    Debug.Log("탠트 청사진");

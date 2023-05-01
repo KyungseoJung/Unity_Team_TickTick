@@ -20,10 +20,25 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
     public Block CubeInfo { get { return cubeInfo; } set { cubeInfo = value; } }
     public Enum_CubeState CubeState { get { return cubeState; } set { cubeState = value; } }
 
+    public bool addNode = false;
+
     private void Start()
     {
         highlighter.SetActive(false);
         cubeState = Enum_CubeState.NONE;
+    }
+
+    private void Update()
+    {
+        if(!addNode && cubeInfo.top )
+        {
+            addNode = true;
+            gameObject.GetComponent<Node>().ReStartNode();
+        }
+        else if (addNode && !cubeInfo.top)
+        {
+            addNode = false;
+        }
     }
 
     public void DestroyChild()
@@ -41,23 +56,28 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
         GameObject.FindGameObjectWithTag("MiniMap").GetComponent<MiniMap>().RemoveObj((int)transform.position.x, (int)transform.position.z);
 
-        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.None;
+        gameObject.GetComponent<Node>().SetNodeType(NodeType.None);
+        //GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.None;
     }
 
     public void SetCube(Block cube)
     {
         cubeInfo = cube;
 
-        if (cubeInfo.top)
-        {
-            gameObject.AddComponent<Node>();
-        }
+        Debug.Log("0001 셋큐브");
+
+        //if (cubeInfo.top)
+        //{
+        //    Debug.Log("0002 탑임");
+        //    Debug.Log("0003 컴포넌트추가");
+        //    gameObject.AddComponent<Node>();
+        //}
     }
 
     public void SetObj(Enum_CubeState state, int val=0, Enum_ObjectGrowthLevel gl = Enum_ObjectGrowthLevel.ZERO)
     {
         if (!cubeInfo.type.Equals(Enum_CubeType.WATER))
-        {
+        {            
             StartCoroutine(CreateObj(state, val, gl));
         }
     }
@@ -74,6 +94,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
                 case Enum_CubeState.GRASS1:
                     cubeState = Enum_CubeState.GRASS1;
@@ -81,6 +102,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
                 case Enum_CubeState.TREE1:
                     cubeState = Enum_CubeState.TREE1;
@@ -88,6 +110,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
                 case Enum_CubeState.TREE2:
                     cubeState = Enum_CubeState.TREE2;
@@ -95,6 +118,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
                 case Enum_CubeState.GRASS2:
                     cubeState = Enum_CubeState.GRASS2;
@@ -102,6 +126,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
                 case Enum_CubeState.ROCK1:
                     cubeState = Enum_CubeState.ROCK1;
@@ -109,6 +134,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
                     break;
             }
         }

@@ -258,7 +258,6 @@ public class csPhotonGame : Photon.MonoBehaviour
         
     }
 
-
     void OnLeftRoom()
     {
         //포톤 방나감 콜백 대충 여기서 세이브
@@ -270,11 +269,11 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         // 다른 플레이어가 방에 접속했을 때 void OnPhotonPlayerConnected(PhotonPlayer newPlayer) { ... }
     }
+
     void OnPhotonPlayerDisconnected()
     {
         // 다른 플레이어가 방에서 접속 종료시 void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) { ... }
     }
-
 
     [PunRPC]
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
@@ -515,7 +514,6 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
     }
-
 
     public void DropItemCreate(string objName, Vector3 pos, int count)
     {
@@ -876,7 +874,6 @@ public class csPhotonGame : Photon.MonoBehaviour
                 break;
         }
     }
-
     public void SetPlayerUseUtem(Enum_PlayerUseItemType type)//인벤토리 슬룻에 들어있는걸 들었다고 친다
     {
         if (bluePrint != null)
@@ -1086,7 +1083,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //Debug.Log(123123123);
 
             //밭 설치
-            pV.RPC("RPCActionHOE", PhotonTargets.AllBuffered, blockPos);
+            pV.RPC("RPCActionHOE", PhotonTargets.AllBuffered, blockPos);            
         }
     }
 
@@ -1239,9 +1236,9 @@ public class csPhotonGame : Photon.MonoBehaviour
             
             oldBlock = null;
             bool waterCheck = WaterCheck(blockPos);
-            pV.RPC("ActionSHOVELRPC", PhotonTargets.All, blockPos);            
+            pV.RPC("ActionSHOVELRPC", PhotonTargets.All, blockPos);
+            DropItemCreate("ITEM_Cube", blockPos, 1);
 
-           
             //Debug.Log(waterCheck+"무슨일이 일어나는거지");
             if (!waterCheck && ((int)blockPos.y - 1) > 0)
             {
@@ -1355,7 +1352,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void DrawBlock(Vector3 blockPos)//블록 그리는 함수
+    public void DrawBlock(Vector3 blockPos)//블록 그리는 함수
     {
         if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] == null)
         {
@@ -1370,53 +1367,87 @@ public class csPhotonGame : Photon.MonoBehaviour
 
             GameObject tmpObj = null;
 
+            bool tmpTop = false;
+
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y + 1, (int)blockPos.z] == null)
+            {
+                tmpTop = true;
+            }
+
             switch (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type)
             {
                 case Enum_CubeType.DARKSOIL:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[0], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.DARKSOIL, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.DARKSOIL, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.STON:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[1], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.STON, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.STON, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.GRASS:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[2], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.GRASS, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.GRASS, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.SOIL:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[3], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SOIL, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SOIL, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.SEND:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[4], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SEND, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.SEND, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
                 case Enum_CubeType.WATER:
                     tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
-                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, false, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
+                    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, tmpTop, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
                     tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
                     break;
             }
             //newBlock.transform.SetParent(map);
-            tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
+            //tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
 
-            if (tmpObj != null && worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj == null)
-            {
-                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj = tmpObj; 
-            }
+            //if (tmpObj != null && worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj == null)
+            //{
+                //worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj = tmpObj;
 
-            if (worldBlock[(int)blockPos.x, (int)blockPos.y+1, (int)blockPos.z] ==null)
-            {
-                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = true;
-                //m_nodeArr[(int)blockPos.x, (int)blockPos.z] = tmpObj.GetComponent<Node>();
-            }
+                //if (worldBlock[(int)blockPos.x, (int)blockPos.y + 1, (int)blockPos.z] == null)
+                //{
+                //    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = true;
+                //}
+
+            //    tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
+            //}
+
+            //if (worldBlock[(int)blockPos.x, (int)blockPos.y+1, (int)blockPos.z] ==null)
+            //{
+            //    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = true;
+            //    worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj.GetComponent<csCube>().AddNode();
+            //    //for(int i = 0; i < 64; i++)
+            //    //{
+            //    //    for(int j = 0; j < 64; j++)
+            //    //    {
+            //    //        if (m_nodeArr[i, j] != null)
+            //    //        {
+            //    //            Debug.Log("m_nodeArr [" + i+","+j+"] >> "+m_nodeArr[i, j].m_nodeType);
+            //    //        }
+            //    //        else
+            //    //        {
+            //    //            Debug.Log("m_nodeArr [" + i + "," + j + "] >> NULL");
+            //    //        }
+            //    //    }
+            //    //}
+            //    //m_nodeArr[(int)blockPos.x, (int)blockPos.z] = tmpObj.GetComponent<Node>();
+            //}
         }
+    }
+
+    public void AddNode(Vector3 blockPos, Node n)
+    {
+        m_nodeArr[(int)blockPos.x, (int)blockPos.z] = n;
     }
 
     public void CreateDropItem(Vector3 pos, string objName)

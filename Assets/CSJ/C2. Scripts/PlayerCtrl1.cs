@@ -409,7 +409,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         mouseX %= 360f;
         mouseY = Mathf.Clamp((mouseY), -50f, 35f);
-        Debug.Log(mouseX + "//" + mouseY + "마우스 xy");
+        //Debug.Log(mouseX + "//" + mouseY + "마우스 xy");
 
         //transform.eulerAngles = new Vector3(-mouseY,mouseX, 0);
         transform.eulerAngles = new Vector3(0,mouseX, 0); // 캐릭터 좌우 회전

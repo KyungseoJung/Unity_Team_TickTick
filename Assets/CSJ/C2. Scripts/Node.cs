@@ -47,7 +47,36 @@ public class Node : MonoBehaviour
         GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z] = this;
         
         //로그 출력
-        Debug.Log(GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z]);
+        //Debug.Log(GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z]);
+    }
+
+    public void ReStartNode()
+    {
+        csCube tmpCube = GetComponent<csCube>(); //현재 노드에 달려있는 큐브 컴포넌트 가져오기
+
+        if (tmpCube.childObj != null) //만약에 노드가 장애물이면
+        {
+            m_nodeType = NodeType.Obstacle; //노드 타입을 장애물로 지정
+        }
+        else if (tmpCube.cubeInfo.type == TeamInterface.Enum_CubeType.WATER) //만약 노드가 물이면
+        {
+            Debug.Log("이것은 물이다");
+            m_nodeType = NodeType.Water; //노드 타입을 물로 지정
+        }
+        else //그 외라면
+        {
+            m_nodeType = NodeType.None; //노드 타입을 없음으로 지정
+        }
+
+        //현재 노드의 위치에 따라 행과 열 변수 저장
+        m_row = (int)transform.position.x;
+        m_col = (int)transform.position.z;
+
+        y = transform.position.y; //현재 노드의 y축 좌표 저장
+
+        //현재 노드를 노드 배열에 저장
+        GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z] = this;
+
     }
 
     public int Row  //현재 노드의 행값을 반환
