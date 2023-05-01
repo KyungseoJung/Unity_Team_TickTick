@@ -1032,6 +1032,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 
             case Enum_PlayerUseItemType.BLOCKSOIL://흙 블럭
                 ActionAddBlock(Enum_CubeType.SOIL);
+                SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);
                 break;
         }
 
