@@ -46,6 +46,9 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
     private int haveEle1Count;
     private int haveEle2Count;
 
+    //##0501 온에이블에 널뜨는애가 있는데 처음부터 꺼져있으면 파인드가 안됨.. 제작대 앞에 섰을 때 널레퍼런스 그래서 처음 한번은 무조건 안타게 변수 추가
+    bool startCheck = false;
+
     void Awake()
     {
         child0 = transform.GetChild(0).gameObject;
@@ -63,14 +66,17 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
         // txtEle1Count = transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
         // objStartCraft = transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
 
-        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+        //##0501 인스펙터에서 직접 집어넣어봄
+        //inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
     }
 
     void Start()
     {
-        btnStartCraft.onClick.AddListener(StartCraftingItem);   // 각 레시피 [제작] 버튼에 함수 연결 - 동적으로 하는 게 빠르니까
+        //btnStartCraft.onClick.AddListener(StartCraftingItem);   // 각 레시피 [제작] 버튼에 함수 연결 - 동적으로 하는 게 빠르니까
+        //##0501 이렇게 쓰는건 어떤가요
+        btnStartCraft.onClick.AddListener(delegate { StartCraftingItem(); });
 
-        switch(recipeType)
+        switch (recipeType)
         {
             case RecipeType.CAMPFIRE : 
                 needEle1Count = 1;
@@ -119,9 +125,13 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
                 break;
         }
         // inventory.UpdateItemInvenData();
-        
-        Invoke("CheckRecipeState", 2.0f);   //# 이 함수가 Inventory.cs 대부분의 함수들보다 먼저 실행되어서 null로 뜨는 문제가 발생함
+
+        //##0501임시로꺼봄
+        //Invoke("CheckRecipeState", 2.0f);   //# 이 함수가 Inventory.cs 대부분의 함수들보다 먼저 실행되어서 null로 뜨는 문제가 발생함
         // CheckRecipeState();
+
+        //##0501 다음부터 활성화 될때마다 온언에이블 탈 수 있게
+        startCheck = true;
     }
 
     // 현재 만들 수 있는 레시피들 확인하기 - 아이템의 개수 Text(불가능 : 빨간색, 가능 : 초록색), 제작 버튼(불가능 : 안 보여, 가능 : 클릭 가능)
@@ -163,8 +173,12 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
 
     void OnEnable() // 비활성화에서 활성화 될 때, 매번 호출되는 콜백함수
     {
-        Debug.Log("//#12-1 OnEnable 호출 확인");
-        StartCraftingItem();
+        //##0501 스타트 함수가 한번 지난 뒤 호출됨 >> 시작할 때 에러안남 만세! 함수 호출순서 어웨이크 > 온언에이블 > 스타트 응용
+        if (startCheck)
+        {
+            Debug.Log("//#12-1 OnEnable 호출 확인");
+            StartCraftingItem();
+        }
     }
 
     void StartCraftingItem()    //버튼에 연결 - 동적으로 하는 게 빠르겠다.

@@ -45,13 +45,16 @@ public class csDropItemBase : Item
         //Debug.Log(col.transform.tag);
 
         if(!isTemp && col.transform.tag == "Player" && !isRoot)
-        {
-            isRoot = true; 
+        {           
             //Debug.Log("타긴하니");
-
-            //사운드 재생?           
-
-            StartCoroutine(DelObj());
+            //만약 인벤토리가 꽉차있지 않으면
+            if (GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().CanAddItem())
+            {
+                isRoot = true;
+                //사운드 재생
+                GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().PlayEffectSoundPhoton(transform.position, 2);
+                StartCoroutine(DelObj());
+            }
         }
     }
 

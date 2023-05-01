@@ -45,6 +45,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     bool actionNow = true;//지금 뭐 동작중인지 체크
     public float rayCastRange = 20f;
     public PlayerCtrl1 myPlyerCtrl;
+    public GameObject craftingUI;
 
     [Header("레이 케스팅용")]
     [SerializeField]
@@ -66,6 +67,10 @@ public class csPhotonGame : Photon.MonoBehaviour
     bool keyBlock=true;
     [SerializeField]
     public GameObject crossHair;
+
+    [Header("튜토리얼 캔버스")]
+    public GameObject tutorialCanvas;
+    public bool gameStart = false;
 
     [Header("디버그 관련")]
     public GameObject debugBtn;
@@ -163,11 +168,27 @@ public class csPhotonGame : Photon.MonoBehaviour
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
         Invoke("LoadInvenDataStart", 1f);
+        Invoke("OffTutorialCanvas", 6f);
     }
 
     void LoadInvenDataStart()
     {
         GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().LoadInvenData();
+        //##0501 크래프팅 유아이 연결하고 비활성화
+        craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
+        craftingUI.SetActive(false);
+    }
+
+    void OffTutorialCanvas()
+    {
+        tutorialCanvas.SetActive(false);
+        gameStart = true;
+        //Destroy(tutorialCanvas);
+    }
+
+    public bool GetGameStart()
+    {
+        return gameStart;
     }
 
     IEnumerator EnemySpawn()
@@ -258,19 +279,19 @@ public class csPhotonGame : Photon.MonoBehaviour
         
     }
 
-    void OnLeftRoom()
+    public void OnLeftRoom()
     {
         //포톤 방나감 콜백 대충 여기서 세이브
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("scLobby0");
     }
 
-    void OnPhotonPlayerConnected()
+    public void OnPhotonPlayerConnected()
     {
         // 다른 플레이어가 방에 접속했을 때 void OnPhotonPlayerConnected(PhotonPlayer newPlayer) { ... }
     }
 
-    void OnPhotonPlayerDisconnected()
+    public void OnPhotonPlayerDisconnected()
     {
         // 다른 플레이어가 방에서 접속 종료시 void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) { ... }
     }
@@ -279,6 +300,17 @@ public class csPhotonGame : Photon.MonoBehaviour
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
     {
         worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().SetObj(tmpCS, tmpNum);
+    }
+
+    public void PlayEffectSoundPhoton(Vector3 pos, int type)
+    {
+        pV.RPC("PlayEffectSoundPhotonRPC", PhotonTargets.All, pos, type);
+    }
+
+    [PunRPC]
+    public void PlayEffectSoundPhotonRPC(Vector3 pos, int tpye)
+    {
+        csLevelManager.Ins.PlayAudioClip(pos, tpye);
     }
 
     void CreateBlockData(int y, Vector3 pos, bool v)
@@ -535,7 +567,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     private void Update()
     {
         //맵 로드 안됬으면 아무것도 안한다
-        if (!isReady)
+        if (!isReady || !gameStart)
         {
             return;
         }
@@ -844,6 +876,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     public void CreateBluePrint(string objName, Vector3 pos)
     {
         pV.RPC("CreateBluePrintRPC", PhotonTargets.MasterClient, objName, pos);
+
+        PlayEffectSoundPhoton(transform.position, 9);
     }
 
     [PunRPC]
@@ -983,7 +1017,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void SetObjDMGRPC(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
+    public void SetObjDMGRPC(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
     {
         worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().StartAction(dmg, ui);
     }

@@ -1,11 +1,8 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamInterface;
 using UnityEngine.UI;
-
-
-
 
 public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInTheRoomCallBackFct
 {
@@ -110,8 +107,16 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     float mouseX=0f;
     float mouseY=0f;
 
-
+    //집에들어가면 움직이는 방법 변경
     public bool inTheHouse = false;
+    public bool canTrigger = false;//제작대 앞에 섰을 때 키입력으로 제작창 열 수 있는 체크용
+    public bool blockKeyDownE = false;//키 한번 눌리면 0.2초뒤 다시 입력 가능 아니면 겁나 많이 눌림
+
+    //캐릭터 빙글빙글 도는 이슈 해결용
+    public Vector3 oldRot;
+
+    //튜토리얼 끝나기전까지 못움직여 ~~
+    public bool gameStart = false;
 
     public void SetInTheHouse(bool a)
     {
@@ -199,8 +204,17 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
+        //튜토리얼 안끝났으면 아무것도 안해~
+        if (!gameStart)
+        {
+            gameStart = m_grid2D.GetGameStart();//언제 트루되는지 계속 물어봄
+            return;
+        }
+
         if (m_grid2D.isUiBlock)
         {
+            transform.eulerAngles = oldRot;
+
             return;
         }
 
@@ -239,6 +253,20 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //transform.position += _velocity * Time.deltaTime;
         
+        if(canTrigger && !blockKeyDownE && Input.GetKey(KeyCode.E))
+        {
+            blockKeyDownE = true;
+            Invoke("ResetBlockKeyDownE", 0.2f);
+            //GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
+            //GameObject.Find("CraftingCanvas").SetActive(true);
+            m_grid2D.craftingUI.SetActive(true);
+        }
+
+    }
+
+    public void ResetBlockKeyDownE()
+    {
+        blockKeyDownE = false;
     }
 
     private void LateUpdate()
@@ -414,7 +442,12 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //transform.eulerAngles = new Vector3(-mouseY,mouseX, 0);
         transform.eulerAngles = new Vector3(0,mouseX, 0); // 캐릭터 좌우 회전
         theCamera.transform.eulerAngles = new Vector3(-mouseY, mouseX, 0);// 카메라 상하, 좌우 회전
-       
+
+
+        if (oldRot != transform.eulerAngles)
+        {
+            oldRot = transform.eulerAngles;
+        }//현재 회전 정보 저장
 
         //theCamera.transform.eulerAngles = new Vector3(mouseY,0, 0);
         //Vector3 tpmCamPos =new Vector3( -mouseY, transform.rotation.y,0);
@@ -636,6 +669,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_closedList.Clear();
 
         m_grid2D.ResetNode(); //그리드 초기화 함수 호출
+
+        m_execute = false;
     }
 
     public void ResetNode2()
@@ -669,6 +704,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
 
         m_grid2D.StartSetNode();
+
+        m_execute = false;
     }
 
     public void Ready(Vector3 player, Vector3 target) //시작 좌표와 목표 좌표를 전달 받는다 ^^3
@@ -860,23 +897,25 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     }
 
     //제작대 사용
-    bool isOpenUI = false;
-
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("WorkBench") && !isOpenUI)
+        if (other.CompareTag("WorkBench") && !canTrigger)
         {
-            isOpenUI = true;
-            GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
+            other.transform.parent.GetComponent<csWorkBench>().ShowText();
+            canTrigger = true;
+            //GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("WorkBench") && isOpenUI)
+        if (other.CompareTag("WorkBench") && canTrigger)
         {
-            isOpenUI = false;
-            GameObject.FindGameObjectWithTag("CraftingUI").SetActive(false);
+            other.transform.parent.GetComponent<csWorkBench>().HideText();
+            canTrigger = false;
+            //GameObject.FindGameObjectWithTag("CraftingUI").SetActive(false);
+            //GameObject.Find("CraftingCanvas").SetActive(false);
+            m_grid2D.craftingUI.SetActive(false);
         }
     }
 }

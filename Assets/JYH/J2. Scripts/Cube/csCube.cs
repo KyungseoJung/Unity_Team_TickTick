@@ -94,7 +94,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
                     childObj.transform.SetParent(transform);
                     childObj.GetComponent<csObjectBase>().SetGrowthLevel(gl);
                     cubeInfo.haveChild = true;
-                    gameObject.GetComponent<Node>().SetNodeType(NodeType.Obstacle);
+                    gameObject.GetComponent<Node>().SetNodeType(NodeType.None);
                     break;
                 case Enum_CubeState.GRASS1:
                     cubeState = Enum_CubeState.GRASS1;

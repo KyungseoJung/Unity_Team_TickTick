@@ -82,6 +82,7 @@ namespace JinscObjectBase
                         hp -= dmg;
                         if (maxHP!=1 && hpBar != null)
                         {
+                            PG.PlayEffectSoundPhoton(transform.position, 3);
                             hpBar.UpdateHPBar(hp,maxHP);
                         }
                     }
@@ -91,8 +92,13 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.AXE)
                     {
                         hp -= dmg;
+                        if (hp <= 0)
+                        {
+                            PG.PlayEffectSoundPhoton(transform.position, 10);
+                        }
                         if (maxHP != 1 && hpBar != null)
                         {
+                            PG.PlayEffectSoundPhoton(transform.position, 4);
                             hpBar.UpdateHPBar(hp, maxHP);
                         }
                     }
@@ -105,8 +111,13 @@ namespace JinscObjectBase
                     if (useItemType == Enum_PlayerUseItemType.PICKAXE)
                     {
                         hp -= dmg;
+                        if (hp <= 0)
+                        {
+                            PG.PlayEffectSoundPhoton(transform.position, 5);
+                        }
                         if (maxHP != 1 && hpBar != null)
                         {
+                            PG.PlayEffectSoundPhoton(transform.position, 8);
                             hpBar.UpdateHPBar(hp, maxHP);
                         }
                     }
@@ -122,15 +133,14 @@ namespace JinscObjectBase
                         hp -= dmg;
                         if (maxHP != 1 && hpBar != null)
                         {
+                            PG.PlayEffectSoundPhoton(transform.position, 6);
                             hpBar.UpdateHPBar(hp, maxHP);
                         }
                     }
                     else
                     {
                         Shake();
-                    }
-
-                    
+                    }                    
                     break;
             }
         }
@@ -138,6 +148,8 @@ namespace JinscObjectBase
         public virtual void Shake()
         {
             Debug.Log("shake~~");
+
+            PG.PlayEffectSoundPhoton(transform.position, 3);
         }
 
         public virtual void DropItemFct()

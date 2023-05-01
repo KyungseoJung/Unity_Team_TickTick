@@ -304,24 +304,24 @@ public class Inventory : MonoBehaviour, IInventoryBase
                         Debug.Log("아이템에 웨폰 연결해줘야함");
                         break;
                     case (int)Enum_DropItemType.SHOVEL:
-                        _loadItem = null;
-                        Debug.Log("삽");
+                        _loadItem = eq_Shovel.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.SHOVEL;
                         break;
                     case (int)Enum_DropItemType.AXE:
-                        _loadItem = null;
-                        Debug.Log("도끼");
+                        _loadItem = eq_Axe.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.AXE;
                         break;
                     case (int)Enum_DropItemType.PICKAXE:
-                        _loadItem = null;
-                        Debug.Log("곡괭이");
+                        _loadItem = eq_PickAxe.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.PICKAXE;
                         break;
                     case (int)Enum_DropItemType.HOE:
-                        _loadItem = null;
-                        Debug.Log("괭이");
+                        _loadItem = eq_Hoe.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.HOE;
                         break;
                     case (int)Enum_DropItemType.BLOCKSOIL:
-                        _loadItem = null;
-                        Debug.Log("땅");
+                        _loadItem = objBlockSoil.GetComponent<Item>();
+                        _loadItemType = Enum_DropItemType.BLOCKSOIL;
                         break;
                     //case Enum_DropItemType.BLUEPRINTTENT:
                     //    Debug.Log("탠트 청사진");
@@ -766,18 +766,23 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public int CheckItemCount(Enum_DropItemType _findItemType) //#12-1 제작대 - 아이템 개수 뽑기 위해
     {
+        //##0501 아이템 슬룻이 꽉차있어서 여러개가 들어있었다면?!!
+        int tmpResult = 0;
+
         for(int i=1; i<row ; i++)
         {
             for(int j=0; j<col; j++)
             {
                 if(itemInventory[i, j].Equals(_findItemType))
                 {
-                    return itemInventoryCount[i,j];
+                    //##0501 합계계산하는거 추가
+                    tmpResult += itemInventoryCount[i,j];
                 }
             }
         }
 
-        return 0;   // 해당 아이템이 없음 = 0개이다
+        //##0501 처음에 0으로 초기화해서 최소 0이 리턴
+        return tmpResult;   // 해당 아이템이 없음 = 0개이다
     }
 
     public void UseCraftingItem(Enum_DropItemType _useItemType, int _useCount) //제작에서 특정 아이템을 특정 개수만큼 사용하기
@@ -792,6 +797,22 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
             }
         }
+    }
+
+    //##0501 인벤토리가 꽉차있는데도 아이템이랑 부딫이면 사라지는 문제가있음. 빈공간이 있는지 확인하는 용도
+    public bool CanAddItem()
+    {
+        for (int i = 1; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                if (itemInventory[i, j].Equals(Enum_DropItemType.NONE))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
