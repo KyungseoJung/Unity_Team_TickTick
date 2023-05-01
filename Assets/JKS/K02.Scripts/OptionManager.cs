@@ -83,6 +83,11 @@ public class OptionManager : csGenericSingleton<OptionManager>
             PlayEffect(transform.position, clickClip);
         }
     }
+
+	public void PlayClickSound()
+    {
+		PlayEffect(transform.position, clickClip);
+	}
 	//AudioSource 셋팅 (사운드 UI에서 설정 한 값의 적용 )
 	void AudioSet(){
 		//AudioSource의 볼륨 셋팅 

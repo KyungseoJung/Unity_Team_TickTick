@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 2942323164198781831}
   - component: {fileID: 2942323164198781829}
   - component: {fileID: 6932528387105930186}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WorkBenchPreView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

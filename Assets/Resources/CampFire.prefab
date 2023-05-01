@@ -14557,7 +14557,6 @@ GameObject:
   - component: {fileID: 307421231172379895}
   - component: {fileID: 557593033}
   - component: {fileID: 2698807398963582936}
-  - component: {fileID: -5237054425341791643}
   m_Layer: 0
   m_Name: CampFire
   m_TagString: Untagged
@@ -14621,22 +14620,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!54 &-5237054425341791643
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085364588456787533}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &1087901533469771342
 GameObject:
   m_ObjectHideFlags: 0

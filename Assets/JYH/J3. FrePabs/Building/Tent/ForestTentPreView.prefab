@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 928749756974691502}
   - component: {fileID: 2916271272698403146}
   - component: {fileID: 5984977250713294906}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ForestTentPreView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

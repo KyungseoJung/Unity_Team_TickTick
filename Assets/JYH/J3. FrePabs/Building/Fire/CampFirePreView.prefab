@@ -15091,7 +15091,7 @@ GameObject:
   - component: {fileID: 6340659252266218714}
   - component: {fileID: 6033317195051852260}
   - component: {fileID: -6188583970542169558}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CampFirePreView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

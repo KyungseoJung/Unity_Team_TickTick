@@ -110,24 +110,28 @@ public class Inventory : MonoBehaviour, IInventoryBase
             SelectSlot.Ins.nowUsingSlot = slots[0];
             SelectSlot.Ins.transform.position = slots[0].transform.position;
             SelectSlot.Ins.ReSetShowItem();
+            OptionManager.Ins.PlayClickSound();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SelectSlot.Ins.nowUsingSlot = slots[1];
             SelectSlot.Ins.transform.position = slots[1].transform.position;
             SelectSlot.Ins.ReSetShowItem();
+            OptionManager.Ins.PlayClickSound();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SelectSlot.Ins.nowUsingSlot = slots[2];
             SelectSlot.Ins.transform.position = slots[2].transform.position;
             SelectSlot.Ins.ReSetShowItem();
+            OptionManager.Ins.PlayClickSound();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             SelectSlot.Ins.nowUsingSlot = slots[3];
             SelectSlot.Ins.transform.position = slots[3].transform.position;
             SelectSlot.Ins.ReSetShowItem();
+            OptionManager.Ins.PlayClickSound();
         }
 
         // 테스트용 아이템 줍기 =========================

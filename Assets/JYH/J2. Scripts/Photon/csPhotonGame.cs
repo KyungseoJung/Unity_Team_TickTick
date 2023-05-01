@@ -227,6 +227,8 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void OnClickExitBtn()
     {
+        //OptionManager.Ins.PlayClickSound();
+
         //마스터가 나가면 방폭
         if (PhotonNetwork.isMasterClient)
         {
@@ -473,11 +475,13 @@ public class csPhotonGame : Photon.MonoBehaviour
             if (UseItemType.Equals(Enum_PreViewType.HOUSE_CHAIR))
             {
                 bluePrint = bluePrintObj[2];
+                bluePrint.SetActive(true);
                 isCreateFurniture = true;//빌드모드 시작
             }
             else if (UseItemType.Equals(Enum_PreViewType.HOUSE_TABLE))
             {
-                bluePrint = bluePrintObj[2];
+                bluePrint = bluePrintObj[3];
+                bluePrint.SetActive(true);
                 isCreateFurniture = true;//빌드모드 시작
             }            
         }
@@ -494,16 +498,19 @@ public class csPhotonGame : Photon.MonoBehaviour
             if (UseItemType.Equals(Enum_PreViewType.FIRE))
             {
                 bluePrint = bluePrintObj[0];
+                bluePrint.SetActive(true);
                 isBuild = true;//빌드모드 시작
             }
             else if (UseItemType.Equals(Enum_PreViewType.TENT))
             {
                 bluePrint = bluePrintObj[1];
+                bluePrint.SetActive(true);
                 isBuild = true;//빌드모드 시작
             }
             else if (UseItemType.Equals(Enum_PreViewType.WORKBENCH))
             {
                 bluePrint = bluePrintObj[4];
+                bluePrint.SetActive(true);
                 isBuild = true;//빌드모드 시작
             }
         }
@@ -551,10 +558,10 @@ public class csPhotonGame : Photon.MonoBehaviour
                 //Debug.Log("uiblock");
                 Cursor.lockState = CursorLockMode.None;
 
-                if (bluePrint != null)
-                {
-                    bluePrint.GetComponent<IPreViewBase>().HiedPreView();
-                }
+                //if (bluePrint != null)
+                //{
+                //    bluePrint.GetComponent<IPreViewBase>().HiedPreView();
+                //}
             }
             else
             {
@@ -594,24 +601,41 @@ public class csPhotonGame : Photon.MonoBehaviour
                     targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
                 }
             }
-        }      
+        }
 
         //if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
         //{
         //    isBuild = true;//빌드모드 시작
         //}
 
+        if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
+            && isBuild && !inTheBuilding )//&& !isUiBlock)
+        {
+            if (bluePrint == null)
+            {
+                SelectSlot.Ins.ReSetShowItem();
+            }
+        }
+        else if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE)
+            && isCreateFurniture && inTheBuilding )//&& !isUiBlock)
+        {
+            if (bluePrint == null)
+            {
+                SelectSlot.Ins.ReSetShowItem();
+            }
+        }
+
         if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
-            && isBuild)//빌드모드 끝
+            && isBuild)// && !isUiBlock)//빌드모드 끝
         {
             if (bluePrint != null)
             {
                 bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
             }
             isBuild = false;
-        }   
-        else if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR)&& !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE) 
-            && isCreateFurniture)//빌드모드 끝
+        }
+        else if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE)
+            && isCreateFurniture )//&& !isUiBlock)//빌드모드 끝
         {
             if (bluePrint != null)
             {
@@ -622,7 +646,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (isBuild && bluePrint != null)//빌드모드일 때 미리보기 그려주기
         {
-            if (Physics.Raycast(ray, out hit, rayCastRange))
+            if (Physics.Raycast(ray, out hit, rayCastRange))//, 1 << LayerMask.NameToLayer("Igonore Raycast")))
             {
                 if (hit.transform.tag == "Block")
                 {
@@ -715,10 +739,16 @@ public class csPhotonGame : Photon.MonoBehaviour
                 }
             }
         }
-        else if (isCreateFurniture && bluePrint!=null)
+        //else
+        if (isCreateFurniture && bluePrint!=null)
         {
-            if (Physics.Raycast(ray, out hit, rayCastRange))
+            //int layerMask = ~(1 << LayerMask.NameToLayer("Item"));
+
+            //Debug.Log("가구보여주기 시작");
+            if (Physics.Raycast(ray, out hit, rayCastRange))//, layerMask))
             {
+                Debug.Log(hit.transform.name+"뭐에 맞고있냐..?");
+
                 if (hit.transform.tag == "HouseBlock")
                 {
                     if (oldBlock != null)
@@ -754,8 +784,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         {
             StartCoroutine(PlayerUseItem(UseItemType));
         }
-
-        return;
+        /*
             //// 여기서부터 안쓰일 예정
         if (actionNow && Input.GetKeyDown(KeyCode.Q))
         {
@@ -811,6 +840,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
             Debug.Log("EEEEEEEEE" + UseItemType);
         }
+        */
     }
 
     public void CreateBluePrint(string objName, Vector3 pos)
@@ -888,7 +918,6 @@ public class csPhotonGame : Photon.MonoBehaviour
         if ( bluePrint!=null)
         {
             bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
-                                                                 //isBuild = false;
 
             bluePrint = null;
             isCreateFurniture = false;
@@ -903,6 +932,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (!inTheBuilding)
                 {
                     bluePrint = bluePrintObj[0];
+                    bluePrint.SetActive(true);
                     isBuild = true;//빌드모드 시작
                 }
                 break;
@@ -911,6 +941,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (!inTheBuilding)
                 {
                     bluePrint = bluePrintObj[1];
+                    bluePrint.SetActive(true);
                     isBuild = true;//빌드모드 시작
                 }
                 break;
@@ -919,6 +950,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (!inTheBuilding)
                 {
                     bluePrint = bluePrintObj[4];
+                    bluePrint.SetActive(true);
                     isBuild = true;//빌드모드 시작
                 }
                 break; 
@@ -927,6 +959,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (inTheBuilding)
                 {
                     bluePrint = bluePrintObj[2];
+                    bluePrint.SetActive(true);
                     isCreateFurniture = true;//빌드모드 시작
                 }
                 break;
@@ -935,15 +968,16 @@ public class csPhotonGame : Photon.MonoBehaviour
                 if (inTheBuilding)
                 {
                     bluePrint = bluePrintObj[3];
+                    bluePrint.SetActive(true);
                     isCreateFurniture = true;//빌드모드 시작
                 }
                 break;
         }
 
-        if (bluePrint != null)
-        {
-            bluePrint.GetComponent<csPreViewBase>().ShowPreView();
-        }
+        //if (bluePrint != null)
+        //{
+        //    bluePrint.GetComponent<csPreViewBase>().ShowPreView();
+        //}
     }
 
     public void SetObjDMG(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
