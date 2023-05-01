@@ -616,6 +616,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     public void ResetNode()
     {
+        StopAllCoroutines();
+
         m_currNode = null;
         m_startNode = null;
         m_targetNode = null;
@@ -626,11 +628,15 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_openList.Clear();
         m_closedList.Clear();
 
+        //m_path.Clear();
+
         m_grid2D.ResetNode();
     }
 
     public void ResetNode2()
     {
+        StopAllCoroutines();
+
         m_currNode = null;
         m_startNode = null;
         m_targetNode = null;
@@ -653,6 +659,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             m_closedList.Clear();
         }
 
+        //m_path.Clear();
+
         m_grid2D.StartSetNode();
     }
 
@@ -666,9 +674,9 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         m_startNode = m_grid2D.FindNode(new Vector3(Mathf.Round(player.x), player.y, Mathf.Round(player.z)));
         m_targetNode = m_grid2D.FindNode(new Vector3(Mathf.Round(target.x), target.y, Mathf.Round(target.z)));
 
-        if(m_targetNode.m_nodeType.Equals(NodeType.Water) || m_targetNode.m_nodeType.Equals(NodeType.Obstacle))
+        if(m_targetNode.m_nodeType.Equals(NodeType.Obstacle) || m_targetNode.m_nodeType.Equals(NodeType.Water))
         {
-            StopCoroutine(IEStep());
+            //StopCoroutine(IEStep());
             ResetNode();
             return;
         }
@@ -684,17 +692,19 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     public void FindPathCoroutine(Vector3 Target)//target은 마우스 찍힌 타일의 좌표 ^^1
     {
-        if (m_path.Count > 0)
-        {
-            m_path.Clear();
-        }
+       
+        ResetNode();
+        
         //if (!m_execute)//지금 길찾기 중이 아닌가?
         //if(!m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x),(int)Mathf.Round(Target.x)].Equals(NodeType.Water)&& !m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.x)].Equals(NodeType.Obstacle))
+        
+        Debug.Log(m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType +"["+ (int)Mathf.Round(Target.x)+","+ (int)Mathf.Round(Target.z)+"]" +Target);
+        if (m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType.Equals(NodeType.None))
         {
             Ready(transform.position, Target);//시작 좌표와 목표 좌표를 전해준다 ^^2
-
             StartCoroutine(IEStep());
         }
+        
         //길찾기중일때 경로가 수정되면 바뀌어야 함
     }
 
@@ -713,7 +723,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
                 continue;
             }
 
-            if (neighbours[i].NType == NodeType.Water || neighbours[i].NType == NodeType.Obstacle)
+            if (neighbours[i].NType == NodeType.Obstacle || neighbours[i].NType == NodeType.Water)
             {
                 continue;
             }
@@ -736,6 +746,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
 
         m_closedList.Add(m_currNode);
+        
 
         if (m_openList.Contains(m_currNode))
         {
@@ -788,10 +799,24 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
         else
         {
-            StartCoroutine(IEStep());
+            if (m_closedList.Count > 300)
+            {
+                ResetNode();
+            }
+            else
+            {
+                StartCoroutine(IEStep());
+            }
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag.Equals("Building"))
+        {
+            ResetNode2();
+        }
+    }
 
     //제작대 사용
     bool isOpenUI = false;

@@ -117,37 +117,13 @@ public class csPhotonGame : Photon.MonoBehaviour
                 float xb = (x + 0) / mapData.waveLength;
                 float zb = (z + 0) / mapData.waveLength;
                 int y = (int)((Mathf.PerlinNoise(xb, zb) * mapData.amplitude) * mapData.amplitude + mapData.groundHeightOffset);
-                Vector3 pos = new Vector3(x, y, z);
+                Vector3 pos = new Vector3(x, y, z);               
+                
+                CreateBlockData(y, pos, true);               
 
-                CreateBlockData(y, pos, true);
-
-                if (UnityEngine.Random.Range(0, 100) < 40)
+                if (UnityEngine.Random.Range(0, 100) < 40 && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z]!=null && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z].top && !worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
                 {
                     childVector.Add(pos);
-                }
-
-                if (y + 1 <= 27 && y + 1 >= 24)
-                {
-                    for (int i = y + 1; i <= 27; i++)
-                    {
-                        if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null && i == 27)
-                        {
-                            GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (pos.y + (i - y)) * 0.5f, pos.z), Quaternion.identity);
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true);
-                            tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z]);
-                            //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
-                        }
-                        else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null)
-                        {
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
-                        }
-                        else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] != null)
-                        {
-                            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].top = false;
-                            childVector.Remove(new Vector3(pos.x, pos.y + (i - y), pos.z));
-                        }
-                    }
-                    //Debug.Log(1111);                    
                 }
 
                 while (y > 0)
@@ -155,7 +131,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     y--;
                     pos = new Vector3(x, y, z);
                     CreateBlockData(y, pos, false);
-                }
+                }     
             }
         }
 
@@ -304,8 +280,12 @@ public class csPhotonGame : Photon.MonoBehaviour
         worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().SetObj(tmpCS, tmpNum);
     }
 
-    void CreateBlockData(float y, Vector3 pos, bool v)
+    void CreateBlockData(int y, Vector3 pos, bool v)
     {
+        if(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] != null)
+        {
+            return;
+        }
 
         if (y > 28)
         {
@@ -350,6 +330,61 @@ public class csPhotonGame : Photon.MonoBehaviour
                 worldBlock[(int)pos.x, (int)pos.y, (int)pos.z] = new Block(Enum_CubeType.STON, v, null, false);
             }
         }
+
+        if (y >= 23 && y<27&& worldBlock[(int)pos.x, (int)pos.y, (int)pos.z]!=null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].vis)
+        {
+            worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].vis = false;
+            worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].top = false;
+            Destroy(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj);
+
+            int tmpY = y;
+
+            while (tmpY <= 27)
+            {
+                if (tmpY == 27)
+                {
+                    GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (27 * 0.5f), pos.z), Quaternion.identity);
+                    worldBlock[(int)pos.x, 27, (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true);
+                    tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, 27, (int)pos.z]);
+                }
+                else
+                {
+                    worldBlock[(int)pos.x, tmpY, (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
+                }
+                tmpY++;
+            }
+
+           
+        }
+
+        //if (y + 1 <= 27 && y + 1 >= 24)
+        //{
+        //    for (int i = y + 1; i <= 27; i++)
+        //    {
+        //        if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null && i == 27)
+        //        {
+        //            GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(pos.x, (pos.y + (i - y)) * 0.5f, pos.z), Quaternion.identity);
+        //            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true);
+        //            tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z]);
+        //            //m_nodeArr[(int)pos.x, (int)pos.z] = tmpObj.GetComponent<Node>();
+        //        }
+        //        else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] == null)
+        //        {
+        //            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] = new Block(Enum_CubeType.WATER, false, null, false);
+        //        }
+        //        else if (worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z] != null && !worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].type.Equals(Enum_CubeType.WATER))
+        //        {
+        //            Debug.Log("물 밑에 땅 제거");
+        //            childVector.Remove(new Vector3(pos.x, pos.y + (i - y), pos.z));
+        //            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].top = false;
+        //            worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].vis = false;
+        //            Destroy(worldBlock[(int)pos.x, (int)pos.y + (i - y), (int)pos.z].obj);
+        //        }
+
+
+        //    }
+        //    //Debug.Log(1111);
+        //}
     }
 
     void GrowthTimeCheck()//타이머
@@ -553,7 +588,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     oldBlock.OnHighlighter();
                 }
 
-                if (hit.transform.GetComponent<csCube>() !=null && (hit.transform.GetComponent<csCube>().childObj == null || hit.transform.GetComponent<csCube>().cubeInfo.type.Equals(Enum_CubeType.WATER)))
+                if (hit.transform.GetComponent<csCube>() !=null && (hit.transform.GetComponent<csCube>().cubeInfo.haveChild == false && !hit.transform.GetComponent<csCube>().cubeInfo.type.Equals(Enum_CubeType.WATER)))
                 {
                     Vector3 tmpPos = hit.transform.position;
                     targetPos = new Vector3(tmpPos.x, tmpPos.y * 2, tmpPos.z);
@@ -1377,7 +1412,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     public Node[,] m_nodeArr;
     public Vector3 targetPos;
 
-    private bool CheckNode(int row, int col)//x,z
+    public bool CheckNode(int row, int col)//x,z
     {
         if (row < 0 || row >= mapData.widthX)
         {
@@ -1387,6 +1422,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         {
             return false;
         }
+
         return true;
     }
 

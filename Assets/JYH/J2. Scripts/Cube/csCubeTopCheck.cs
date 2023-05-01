@@ -30,11 +30,12 @@ public class csCubeTopCheck : MonoBehaviour
     {
         if(!check && other.tag == "Building")
         {
-            //Debug.Log(11);
+            Debug.Log("땅위에 건물있음");
 
             cube.childObj = other.gameObject;
             cube.cubeInfo.haveChild = true;
-            GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.Obstacle;
+            //GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().m_nodeArr[(int)transform.position.x, (int)transform.position.z].m_nodeType = NodeType.Obstacle;
+            transform.parent.GetComponent<Node>().m_nodeType = NodeType.Obstacle;
         }
     }
 }

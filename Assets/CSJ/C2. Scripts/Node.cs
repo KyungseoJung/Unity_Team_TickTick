@@ -29,6 +29,7 @@ public class Node : MonoBehaviour
         }
         else if(tmpCube.cubeInfo.type == TeamInterface.Enum_CubeType.WATER)
         {
+            Debug.Log("이것은 물이다");
             m_nodeType = NodeType.Water;
         }
         else
@@ -84,11 +85,13 @@ public class Node : MonoBehaviour
 
     public void Reset()
     {
-        m_nodeType = NodeType.None;
+        //m_nodeType = NodeType.None;
         m_parent = null;
+        m_fCost = 0;
+        m_hCost = 0;
+        m_gCost = 0;
     }
-
-
+    
     public void SetParent(Node parent)
     {
         m_parent = parent;
