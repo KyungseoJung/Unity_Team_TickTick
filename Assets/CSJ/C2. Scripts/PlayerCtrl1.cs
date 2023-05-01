@@ -110,13 +110,13 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     float mouseX=0f;
     float mouseY=0f;
 
+
     public bool inTheHouse = false;
 
     public void SetInTheHouse(bool a)
     {
         inTheHouse = a;
     }
-
     private void Awake()
     {   
 
@@ -199,7 +199,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
-        if (m_grid2D.isUiBlock)
+        if (!m_grid2D.isUiBlock)
         {
             return;
         }
@@ -212,28 +212,24 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //임시
         //hpBar.UpdateHPBar(currentHP, maxHP);
-
+        IsGround();
         //TryJump();
         //TryRun();
         //TryCrouch();
-
-        IsGround();
 
         if (inTheHouse)
         {
             Move();
         }
 
-        CharacterRotation();
-
-
-        //
+        //Move();
         //MoveBlock();
 
 
         //CameraRotation();
+        CharacterRotation();
 
-
+       
         //float _moveDirX = Input.GetAxisRaw("Horizontal") *0.5f;
         //float _moveDirZ = Input.GetAxisRaw("Vertical") * 0.5f;
 
@@ -242,12 +238,12 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * applySpeed;
 
         //transform.position += _velocity * Time.deltaTime;
-
+        
     }
 
     private void LateUpdate()
     {
-        if (m_grid2D.isUiBlock)
+        if (!m_grid2D.isUiBlock)
         {
             return;
         }
@@ -502,30 +498,30 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //A*
     [Header("A* 관련-플레이어가 찾아갈 길")]
     [SerializeField]
-    private List<Node> m_path = new List<Node>();
+    private List<Node> m_path = new List<Node>(); //경로를 나타내기 위한 노드 목록을 저장
 
     [Header("A* 관련-패스파인딩")]
-    public csPhotonGame m_grid2D;
-    public List<Node> m_closedList = new List<Node>();
-    public List<Node> m_openList = new List<Node>();
-    public Node m_currNode;
-    public Node m_startNode;
-    public Node m_targetNode;
-    public Node m_prevNode;
-    public List<Node> m_pathNode;
-    public List<Node> m_currNeighbours = new List<Node>();
-    public bool m_execute = false;
+    public csPhotonGame m_grid2D; //2d 그리드
+    public List<Node> m_closedList = new List<Node>(); //닫힌 노드를 담은 리스트
+    public List<Node> m_openList = new List<Node>(); //열린 노드를 담은 리스트
+    public Node m_currNode; //현재 노드
+    public Node m_startNode; //시작 노드
+    public Node m_targetNode; //목표 노드
+    public Node m_prevNode; //직전에 탐색한 노드 (이전노드)
+    public List<Node> m_pathNode; //현재 탐색된 경로를 저장
+    public List<Node> m_currNeighbours = new List<Node>(); //현재 노드의 이웃 노드들을 저장
+    public bool m_execute = false; //길찾기가 실행 중인지 여부를 저장
 
-    public void SetPath(List<Node> path)
+    public void SetPath(List<Node> path) //입력 받은 노드 목록을 이용해 경로를 설정하는 함수
     {
-        if (path == null)
+        if (path == null) //입력값이 null이면 실행 종료
         {
             return;
         }
 
-        m_path.Clear();
+        m_path.Clear(); //노드 목록 초기화
 
-        foreach (Node p in path)
+        foreach (Node p in path) //입력받은 path의 모든 노드를 리스트에 추가
         {
             m_path.Add(p);
         }
@@ -533,9 +529,10 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     public void MoveBlock()//목적지에 도착했을 때 다음 노드 탐색해야 함
     {
-        if (m_path.Count > 0)
+        if (m_path.Count > 0) //path 리스트에 노드가 존재하는 경우
         {
-            anim.SetBool("isWalk", true);
+            anim.SetBool("isWalk", true); //걷기 애니메이션 실행
+
             //Vector3 dir = m_path[0].transform.position - transform.position;
 
             //dir.Normalize();
@@ -586,63 +583,68 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
         else
         {
-            anim.SetBool("isWalk", false);
+            anim.SetBool("isWalk", false); //아니라면 애니메이션 중지!
         }
     }
 
     ///패스파인딩
-    public int GetDistance(Node a, Node b)
+    public int GetDistance(Node a, Node b) //두 노드 사이의 거리를 계산
     {
-        int x = Mathf.Abs(a.Col - b.Col);
-        int y = Mathf.Abs(a.Row - b.Row);
+        int x = Mathf.Abs(a.Col - b.Col); //현재 노드와 목표 노드의 열 (가로) 좌표 차이를 구함
+        int y = Mathf.Abs(a.Row - b.Row); //현재 노드와 목표 노드의 행 (세로) 좌표 차이를 구함
 
+        //대각선 방향으로 이동한 경우의 계산
         return 14 * Mathf.Min(x, y) + 10 * Mathf.Abs(x - y);
     }
 
-    public List<Node> RetracePath(Node currNode)
+    public List<Node> RetracePath(Node currNode) //최단 경로 상의 리스트를 반환한다~
     {
-        List<Node> nodes = new List<Node>();
+        List<Node> nodes = new List<Node>(); //최단 경로 상의 노드를 저장할 리스트 생성
 
-        while (currNode != null)
+        while (currNode != null) //현재 노드가 더 이상 부모 노드를 가지지 않을 떄까지 루프
         {
-            nodes.Add(currNode);
-            currNode = currNode.Parent;
+            nodes.Add(currNode); //현재 노드를 최단 경로 상의 노드 리스트에 추가
+            currNode = currNode.Parent; //다음 노드는 현재 노드의 부모 노드
         }
 
-        nodes.Reverse();
+        nodes.Reverse(); //최단 경로 상의 노드 리스트를 역순으로 바꿔서 반환
 
-        return nodes;
+        return nodes; //최단 경로 상의 노드 리스트 반환
     }
 
     public void ResetNode()
-    {
+    {   
         StopAllCoroutines();
 
+        //현재 노드, 시작 노드, 목표 노드. 이전 노드를 null로 초기화
         m_currNode = null;
         m_startNode = null;
         m_targetNode = null;
         m_prevNode = null;
 
+        //경로 노드 리스트, 현재 이웃 노드 리스트, 열린 노드 리스트, 닫힌 노드 리스트 비우기
         m_pathNode.Clear();
         m_currNeighbours.Clear();
         m_openList.Clear();
         m_closedList.Clear();
 
-        //m_path.Clear();
-
-        m_grid2D.ResetNode();
+        m_grid2D.ResetNode(); //그리드 초기화 함수 호출
     }
 
     public void ResetNode2()
-    {
-        StopAllCoroutines();
+    {   
+        StopAllCoroutines(); //모든 코루틴 중지
 
+        //또 null로 초기화!!
         m_currNode = null;
         m_startNode = null;
         m_targetNode = null;
         m_prevNode = null;
 
-        if (m_pathNode != null && m_pathNode.Count > 0)
+        //경로 노드 리스트가 null이 아니면서 요소가 있는 경우를 검사
+        //이 조건문을 사용하여 먼저 null 여부를 검사하고
+        //null이 아닌 경우에는 리스트의 요소 개수가 0보다 큰 지도 같이 검사.
+        if (m_pathNode != null && m_pathNode.Count > 0) 
         {
             m_pathNode.Clear();
         }
@@ -659,21 +661,23 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             m_closedList.Clear();
         }
 
-        //m_path.Clear();
-
         m_grid2D.StartSetNode();
     }
 
-    public void Ready(Vector3 player, Vector3 target)//시작 좌표와 목표 좌표를 전달 받는다 ^^3
+    public void Ready(Vector3 player, Vector3 target) //시작 좌표와 목표 좌표를 전달 받는다 ^^3
     {
-        m_execute = true;//길찾기 시작했음 ^^4
+        m_execute = true; //길찾기 시작했음 ^^4
 
-        m_openList.Clear();//열린 노드를 담은 리스트 초기화 ^^5
-        m_closedList.Clear();
+        m_openList.Clear(); //열린 노드를 담은 리스트 초기화 ^^5
+        m_closedList.Clear(); //닫힌 노드를 담은 리스트 초기화 ^^6
 
         m_startNode = m_grid2D.FindNode(new Vector3(Mathf.Round(player.x), player.y, Mathf.Round(player.z)));
+        //시작 노드를 찾아서 변수에 할당  
         m_targetNode = m_grid2D.FindNode(new Vector3(Mathf.Round(target.x), target.y, Mathf.Round(target.z)));
+        //목표 노드를 찾아서 변수에 할당 
+        //'FindNode' 함수는 입력된 3d 좌표를 기반으로 해당 좌표에 해당하는 2d 그리드 맵 상의 노드를 찾아서 반환하는 함수
 
+        //목표 노드의 타입이 장애물이나 물과 같은 경우 목표 노드를 초기화.
         if(m_targetNode.m_nodeType.Equals(NodeType.Obstacle) || m_targetNode.m_nodeType.Equals(NodeType.Water))
         {
             //StopCoroutine(IEStep());
@@ -682,81 +686,97 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
 
         m_targetNode.SetParent(null);
+        //타겟 노드의 부모 노드를 null로 초기화 
         m_startNode.SetParent(null);
+        //시작 노드의 부모 노드를 null로 초기화 
 
         m_currNode = m_startNode;
+        // 현재 노드를 시작 노드로 초기화 
 
         m_startNode.SetGCost(0);
+        //시작 노드의 Gcost를 0으로 초기화 
+
         m_startNode.SetHCost(GetDistance(m_startNode, m_targetNode));
+        //시작 노드와 타겟 노드 사이의 H cost 값을 구해서 초기화 
     }
 
     public void FindPathCoroutine(Vector3 Target)//target은 마우스 찍힌 타일의 좌표 ^^1
     {
-       
-        ResetNode();
-        
+        // if (m_path.Count > 0)   //이미 경로가 계산 되어 있는 지 확인
+        // {
+        //     m_path.Clear(); //경로가 계산 되어 있다면 이전 경로를 지우기~
+        // }
+
+        ResetNode(); //노드 초기화~
+
         //if (!m_execute)//지금 길찾기 중이 아닌가?
-        //if(!m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x),(int)Mathf.Round(Target.x)].Equals(NodeType.Water)&& !m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.x)].Equals(NodeType.Obstacle))
-        
+
+        //목표 노드가 어떤 타입인지 로그로 출력
         Debug.Log(m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType +"["+ (int)Mathf.Round(Target.x)+","+ (int)Mathf.Round(Target.z)+"]" +Target);
-        if (m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType.Equals(NodeType.None))
-        {
-            Ready(transform.position, Target);//시작 좌표와 목표 좌표를 전해준다 ^^2
-            StartCoroutine(IEStep());
-        }
         
+        //목표 지점이 none 타입이라면 길찾기 실행
+        if (m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType.Equals(NodeType.None))
+        {   
+            Ready(transform.position, Target);//시작 좌표와 목표 좌표를 전해준다 ^^2
+
+            StartCoroutine(IEStep()); //길찾기를 수행하는 코루틴 함수를 실행
+        }
+
         //길찾기중일때 경로가 수정되면 바뀌어야 함
     }
 
     public IEnumerator IEStep()
     {
         Node[] neighbours = m_grid2D.Neighbours(m_currNode);
+        //현재 노드의 이웃 노드를 구함
 
         m_currNeighbours.Clear();
+        //현재 이웃노드 리스트를 초기화
 
         m_currNeighbours.AddRange(neighbours);
+        //현재 이웃 노드 리스트에 이웃 노드 배열을 추가
 
-        for (int i = 0; i < neighbours.Length; ++i)
+        for (int i = 0; i < neighbours.Length; ++i) //이웃 노드들을 순회
         {
-            if (m_closedList.Contains(neighbours[i]))
+            if (m_closedList.Contains(neighbours[i])) //이미 닫힌 리스트에 있는 노드면 다음 노드로 넘어감!
             {
                 continue;
             }
 
-            if (neighbours[i].NType == NodeType.Obstacle || neighbours[i].NType == NodeType.Water)
+            if (neighbours[i].NType == NodeType.Obstacle || neighbours[i].NType == NodeType.Water) //물이나 장애물 노드면 다음 노드로 넘어감
             {
                 continue;
             }
 
-            int gCost = m_currNode.GCost + GetDistance(neighbours[i], m_currNode);
+            int gCost = m_currNode.GCost + GetDistance(neighbours[i], m_currNode); //G cost를 계산!
 
-            if (m_openList.Contains(neighbours[i]) == false || gCost < neighbours[i].GCost)
+            if (m_openList.Contains(neighbours[i]) == false || gCost < neighbours[i].GCost) //이웃 노드가 열린 리스트에 없거나, G cost가 더 작을 경우 이웃 노드를 업데이트
             {
-                int hCost = GetDistance(neighbours[i], m_targetNode);
+                int hCost = GetDistance(neighbours[i], m_targetNode); //H cost 계산
 
+                //Gcost, Hcost, 부모 노드를 설정
                 neighbours[i].SetGCost(gCost);
                 neighbours[i].SetHCost(hCost);
                 neighbours[i].SetParent(m_currNode);
 
-                if (!m_openList.Contains(neighbours[i]))
+                if (!m_openList.Contains(neighbours[i])) //열린 리스트에 이웃 노드를 추가
                 {
                     m_openList.Add(neighbours[i]);
                 }
             }
         }
 
-        m_closedList.Add(m_currNode);
-        
+        m_closedList.Add(m_currNode); //현재 노드를 닫힌 리스트에 추가
 
-        if (m_openList.Contains(m_currNode))
+        if (m_openList.Contains(m_currNode)) //열린 리스트에 현재 노드가 있다면 현재 노드를 제거
         {
             m_openList.Remove(m_currNode);
         }
 
-        if (m_openList.Count > 0)
+        if (m_openList.Count > 0) //열린 목록이 존재하는 경우
         {
-            m_openList.Sort(delegate (Node x, Node y)
-            {
+            m_openList.Sort(delegate (Node x, Node y) //열린 목록을 정렬! 리스트 내의 노드들을 Fcost와 Hcost 값을 기준으로 오름차순으로 정렬
+            {   
                 if (x.FCost < y.FCost)
                 {
                     return -1;
@@ -779,38 +799,38 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
                 return 0;
             });
 
-            if (m_currNode != null)
+            if (m_currNode != null) //현재 노드가 null이 아니면
             {
-                m_prevNode = m_currNode;
+                m_prevNode = m_currNode;//현재 노드를 이전 노드로 저장
             }
 
-            m_currNode = m_openList[0];
+            m_currNode = m_openList[0];//열린 목록에서 첫 번째 노드를 현재 노드로 선택
         }
 
-        yield return null;
+        yield return null; //코루틴 멈추고 넘어가기~
 
-        if (m_currNode == m_targetNode)
+        if (m_currNode == m_targetNode) //현재 노드가 목표 노드인지 확인
         {
-            List<Node> nodes = RetracePath(m_currNode);
-            m_pathNode = nodes;
-            m_execute = false;
+            List<Node> nodes = RetracePath(m_currNode); //현재 노드에서 시작해 역으로 경로를 구하기!
+            m_pathNode = nodes; //구한 경로를 변수에 저장
+            m_execute = false; //길찾기 실행 종료
             
-            SetPath(m_pathNode);
+            SetPath(m_pathNode); //구한 경로를 이용해 유니티에서 경로를 표시
         }
         else
         {
-            if (m_closedList.Count > 300)
+            if (m_closedList.Count > 300) //닫힌 노드 리스트가 300개 초과면
             {
-                ResetNode();
+                ResetNode();    //노드 초기화 함수 실행
             }
-            else
+            else 
             {
-                StartCoroutine(IEStep());
+                StartCoroutine(IEStep()); //현재 노드가 목표 노드가 아니라면 다시 길찾기 시작
             }
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag.Equals("Building"))
         {
@@ -839,4 +859,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         }
     }
 }
+
+//RetracePath() -> a* 알고리즘을 사용해 찾은 경로를 역추적해서 node 리스트로 반환하는 함수
+//SetPath() -> a* 알고리즘으로 찾아낸 경로를 이용해 플레이어가 이동할 경로를 그려주는 함수
 
