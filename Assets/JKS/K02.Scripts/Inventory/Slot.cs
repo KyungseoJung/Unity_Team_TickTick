@@ -97,6 +97,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         //퀵슬룻이면 들고있는거 다시 설정 ##       
         if(SelectSlot.Ins.nowUsingSlot.mySlotNumber == mySlotNumber)
         {
+            Debug.Log("손에든거 다시 보여줘 업데이트슬룻카운트");
             SelectSlot.Ins.ReSetShowItem();
         }
     }
@@ -116,6 +117,7 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
         //퀵슬룻이면 들고있는거 다시 설정 ##       
         if (SelectSlot.Ins.nowUsingSlot.mySlotNumber == mySlotNumber)
         {
+            Debug.Log("손에든거 다시 보여줘 ");
             SelectSlot.Ins.ReSetShowItem();
         }
     }

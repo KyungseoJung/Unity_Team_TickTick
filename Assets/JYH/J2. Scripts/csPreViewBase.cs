@@ -54,6 +54,11 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
         preViewObj.SetActive(false);
     }
 
+    public void ShowPreView()
+    {
+        preViewObj.SetActive(true);
+    }
+
     public void ShowPreView(Vector3 pos, bool groundCheck)
     {
         this.groundCheck = groundCheck;
@@ -79,7 +84,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
         }
         targetPos = new Vector3(pos.x, pos.y + yVal, pos.z);
         showPreViewCheck = true;
-        preViewObj.SetActive(true);
+        //preViewObj.SetActive(true);
     }
 
     public void CreateBuilding()

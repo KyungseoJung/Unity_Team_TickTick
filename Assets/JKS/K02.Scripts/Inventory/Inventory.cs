@@ -48,6 +48,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
     public GameObject blueprint_CHAIR;
     public GameObject blueprint_TABLE;
     public GameObject blueprint_WORKBENCH;
+    public GameObject eq_Axe;
+    public GameObject eq_PickAxe;
+    public GameObject eq_Hoe;
+    public GameObject eq_Shovel;
+    public GameObject objBlockSoil;
 
     [Header("정렬 임시 버튼")]
     [Space(10)]
@@ -99,12 +104,38 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     void Update()
     {
-        // 테스트용 아이템 줍기 =========================
+        //퀵슬룻 선택 키
         if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SelectSlot.Ins.nowUsingSlot = slots[0];
+            SelectSlot.Ins.transform.position = slots[0].transform.position;
+            SelectSlot.Ins.ReSetShowItem();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SelectSlot.Ins.nowUsingSlot = slots[1];
+            SelectSlot.Ins.transform.position = slots[1].transform.position;
+            SelectSlot.Ins.ReSetShowItem();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SelectSlot.Ins.nowUsingSlot = slots[2];
+            SelectSlot.Ins.transform.position = slots[2].transform.position;
+            SelectSlot.Ins.ReSetShowItem();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SelectSlot.Ins.nowUsingSlot = slots[3];
+            SelectSlot.Ins.transform.position = slots[3].transform.position;
+            SelectSlot.Ins.ReSetShowItem();
+        }
+
+        // 테스트용 아이템 줍기 =========================
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             //Debug.Log("1 클릭");
 
-            switch (UnityEngine.Random.Range(0, 4))//아이템 랜덤획득
+            switch (UnityEngine.Random.Range(0, 5))//아이템 랜덤획득
             {
                 case 0://과일
                     CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
@@ -118,11 +149,14 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 case 3://당근
                     CollectItem(objCarrot.GetComponent<Item>().ItemType, objCarrot.GetComponent<Item>());
                     break;
+                case 4://흙블럭
+                    CollectItem(objBlockSoil.GetComponent<Item>().ItemType, objBlockSoil.GetComponent<Item>());
+                    break;
             }
             //CollectItem(objFruit.GetComponent<Item>().ItemType, objFruit.GetComponent<Item>());
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             //Debug.Log("2 클릭");
             switch (UnityEngine.Random.Range(0, 5))//청사진 랜덤획득
@@ -146,10 +180,24 @@ public class Inventory : MonoBehaviour, IInventoryBase
             //CollectItem(objSton.GetComponent<Item>().ItemType, objSton.GetComponent<Item>());
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            Debug.Log("3 클릭");//장비류 랜덤생성하는거 어떨지
-            CollectItem(objWood.GetComponent<Item>().ItemType, objWood.GetComponent<Item>());
+            //Debug.Log("3 클릭");//장비류 랜덤생성하는거 어떨지
+            switch (UnityEngine.Random.Range(0, 4))//장비 랜덤획득
+            {
+                case 0://모닥불
+                    CollectItem(eq_Axe.GetComponent<Item>().ItemType, eq_Axe.GetComponent<Item>());
+                    break;
+                case 1:
+                    CollectItem(eq_PickAxe.GetComponent<Item>().ItemType, eq_PickAxe.GetComponent<Item>());
+                    break;
+                case 2:
+                    CollectItem(eq_Hoe.GetComponent<Item>().ItemType, eq_Hoe.GetComponent<Item>());
+                    break;
+                case 3:
+                    CollectItem(eq_Shovel.GetComponent<Item>().ItemType, eq_Shovel.GetComponent<Item>());
+                    break;
+            }
         }
 
         //if (Input.GetKey(KeyCode.Alpha4))
@@ -408,7 +456,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
                         //itemInventory[i, j] = dropItemType;
                         //itemInventoryCount[i, j]+= _count;
                         slots[(col*i)+j].AddSlot(_item, _count);
-
+                        
                         //Debug.Log((i % row) + j);
                         isFind = true;
                         //Debug.Log("타긴하니3");
@@ -643,6 +691,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         itemInventory[(slotNum / this.col) , (slotNum%this.col)] = type;
         itemInventoryCount[(slotNum / this.col), (slotNum % this.col)] = count;
+
+        if (slotNum < 4)
+        {
+            SelectSlot.Ins.ReSetShowItem();
+        }
 
         //Debug.Log("112" + itemInventory[(slotNum / this.x), (slotNum % this.y)] + itemInventoryCount[(slotNum / this.x), (slotNum % this.y)]);
     }

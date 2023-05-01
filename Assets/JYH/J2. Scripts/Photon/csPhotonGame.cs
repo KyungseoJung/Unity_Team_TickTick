@@ -755,6 +755,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             StartCoroutine(PlayerUseItem(UseItemType));
         }
 
+        return;
             //// 여기서부터 안쓰일 예정
         if (actionNow && Input.GetKeyDown(KeyCode.Q))
         {
@@ -937,6 +938,11 @@ public class csPhotonGame : Photon.MonoBehaviour
                     isCreateFurniture = true;//빌드모드 시작
                 }
                 break;
+        }
+
+        if (bluePrint != null)
+        {
+            bluePrint.GetComponent<csPreViewBase>().ShowPreView();
         }
     }
 
