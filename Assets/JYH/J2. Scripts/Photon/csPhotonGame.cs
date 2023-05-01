@@ -1475,6 +1475,11 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         m_neighbours.Clear();
 
+        if (node == null)
+        {
+            return null;
+        }
+
         if (CheckNode(node.Row - 1, node.Col - 1))
         {
             m_neighbours.Add(m_nodeArr[node.Row - 1, node.Col - 1]);
