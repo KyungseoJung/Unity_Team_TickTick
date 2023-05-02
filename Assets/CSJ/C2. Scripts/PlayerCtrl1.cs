@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamInterface;
@@ -118,6 +118,14 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //튜토리얼 끝나기전까지 못움직여 ~~
     public bool gameStart = false;
 
+
+    //플레이어 커스터마이징 (추가!)
+    public Material[] faceMaterials; //플레이어 얼굴 배열
+
+    private int faceindex; //플레이어 얼굴 변수
+
+
+
     public void SetInTheHouse(bool a)
     {
         inTheHouse = a;
@@ -139,19 +147,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         if(pv.isMine) // PhotonNetwork.isMasterClient 마스터 클라이언트는 이런식 체크
         {
             m_grid2D.myPlyerCtrl = this;
-        //메인 카메라에 추가된 SmoothFollowCam 스크립트(컴포넌트)에 추적 대상을 연결 
+            //메인 카메라에 추가된 SmoothFollowCam 스크립트(컴포넌트)에 추적 대상을 연결 
             //Camera.main.GetComponent<SmoothFollowCam>().target = camPivot;
          }
-        else    //자신의 네트워크 객체가 아닐때...
+        else //자신의 네트워크 객체가 아닐때...
         {
-            //원격 네트워크 유저의 아바타는 물리력을 안받게 처리하고
-            //또한, 물리엔진으로 이동 처리하지 않고(Rigidbody로 이동 처리시...)
-            //실시간 위치값을 전송받아 처리 한다 그러므로 Rigidbody 컴포넌트의
-            //isKinematic 옵션을 체크해주자. 한마디로 물리엔진의 영향에서 벗어나게 하여
-            //불필요한 물리연산을 하지 않게 해주자...(만약 수십명의 플레이어가 접속 한다면???)
-
-            //원격 네트워크 플레이어의 아바타는 물리력을 이용하지 않음 
-            //(원래 게임이 이렇다는거다...우리건 안해도 체크 돼있음...)
             myRigid.isKinematic = true;
         }
 
@@ -160,6 +160,10 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         currRot = Tr.rotation;
 
         //pv.viewID = PhotonNetwork.AllocateViewID();
+
+        //플레이어 커스터마이징 추가
+        faceindex = 0; //얼굴 초기화
+        UpdateFace(); //얼굴 업데이트 함수
 
     }
 
@@ -259,9 +263,16 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             Invoke("ResetBlockKeyDownE", 0.2f);
             //GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
             //GameObject.Find("CraftingCanvas").SetActive(true);
-            m_grid2D.craftingUI.SetActive(true);
-        }
-
+            
+         if(m_grid2D.tPlayer.HaveEmptySpace())   // 남은 자리 있어야 제작대 켜지도록
+            {
+                m_grid2D.craftingUI.SetActive(true);
+            }
+            else
+            {
+                m_grid2D.tPlayer.OpenWarningWindow();
+            }
+        }      
     }
 
     public void ResetBlockKeyDownE()
@@ -494,6 +505,38 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     {
         return currentHP / maxHP;
     }
+
+    //플레이어 커스터마이징 추가
+    private void UpdateFace()
+    {
+        Transform faceTransform = transform.Find("Scout"); //플레이어 얼굴 오브젝트 찾기..
+
+        if (faceTransform == null)
+        {
+            Debug.LogError ("얼굴 안불러와져~");
+
+            return;
+
+        }
+
+        Renderer faceRenderer = faceTransform.GetComponent<Renderer>(); //플레이어 얼굴 랜더러 컴포넌트 연결
+        if (faceRenderer != null && faceindex < faceMaterials.Length)
+        {
+            faceRenderer.material = faceMaterials[faceindex];
+        }
+        else
+        {
+            Debug.LogError ("얼굴 머트리얼 못찾겠어~");
+        }
+    }
+
+    //플레이어 커스터마이징 추가
+    public void ChangeFace(int index)
+    {
+        faceindex = index;
+        UpdateFace();
+    }
+
 
     /// <summary>
     /// ///////////////////
