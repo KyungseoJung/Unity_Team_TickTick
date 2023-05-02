@@ -50,6 +50,7 @@ public class csDropItemBase : Item
             //만약 인벤토리가 꽉차있지 않으면
             if (GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().CanAddItem())
             {
+                GetComponent<Rigidbody>().isKinematic = true;
                 isRoot = true;
                 //사운드 재생
                 GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().PlayEffectSoundPhoton(transform.position, 2);

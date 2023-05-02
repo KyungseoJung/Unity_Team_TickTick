@@ -100,7 +100,7 @@ MonoBehaviour:
   ObjType: 4
   hpBarObj: {fileID: 9025314816477067114}
   haBarAddY: 0.5
-  pV: {fileID: 0}
+  PG: {fileID: 0}
 --- !u!1001 &1900494934756814823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,12 +116,12 @@ PrefabInstance:
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.08
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 0.003
       objectReference: {fileID: 0}
     - target: {fileID: 7430858103135180940, guid: b2e5f64d6f88cf54295f90928310c248,
         type: 3}

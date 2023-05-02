@@ -104,7 +104,7 @@ MonoBehaviour:
   ObjType: 5
   hpBarObj: {fileID: 8295917586722203336}
   haBarAddY: 0.5
-  pV: {fileID: 0}
+  PG: {fileID: 0}
   haveGrowth: 1
   dropItem: {fileID: 119794, guid: 9ed2135a5a3a53649b902e398462f220, type: 3}
   childObj: {fileID: 3836965566059294311}
