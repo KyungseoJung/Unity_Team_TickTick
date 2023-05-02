@@ -232,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &49070331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2509,6 +2509,7 @@ MonoBehaviour:
   txtConnect: {fileID: 103176292}
   txtLogMsg: {fileID: 966962640}
   enterText: {fileID: 1246905226}
+  useEnter: 0
   debugBtn: {fileID: 792053488}
   isDebugMode: 0
   startPathFinding: 0

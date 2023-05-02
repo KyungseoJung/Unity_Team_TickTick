@@ -182,7 +182,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     {        
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
-        DropItemCreate("Blueprint_WorkBench", new Vector3(12, 30, 12), 1);
+        string tmpStr = "Blueprint_WorkBench";
+        DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
