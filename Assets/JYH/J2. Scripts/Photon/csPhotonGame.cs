@@ -175,13 +175,6 @@ public class csPhotonGame : Photon.MonoBehaviour
             StartCoroutine(EnemySpawn());
         }
 
-        isReady = true;
-
-        yield return SetGameCorutin();
-    }
-
-    IEnumerator SetGameCorutin()
-    {        
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
         string tmpStr = "Blueprint_WorkBench";
@@ -210,6 +203,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     void OffTutorialCanvas()
     {
         tutorialCanvas.SetActive(false);
+
+        isReady = true;
         gameStart = true;
         //Destroy(tutorialCanvas);
     }
@@ -595,10 +590,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
-        if (!pV.isMine)
-        {
-            return;
-        }
+        //if (!pV.isMine)
+        //{
+        //    return;
+        //}
 
         if(!useEnter && Input.GetKeyDown(KeyCode.Return))
         {
