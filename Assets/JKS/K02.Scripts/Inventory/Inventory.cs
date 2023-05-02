@@ -78,6 +78,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
     private Enum_DropItemType _loadItemType;    
 //#12-3
     private GameObject[] allRecipe;
+    public GameObject warningWindow;
+
     void Awake()
     {
         allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
@@ -105,6 +107,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
 
+        warningWindow.SetActive(false); //#12-4 꺼놓은 상태로 시작
     }
 
     void Update()
@@ -903,6 +906,21 @@ public class Inventory : MonoBehaviour, IInventoryBase
         return false;
     }
 
+    public bool HaveEmptySpace() //#12-4 무기 아이템 하나 넣을 자리가 있나 - PlayerCtrl에서 사용
+    {
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                if (itemInventory[i, j].Equals(Enum_DropItemType.NONE)) //빈 공간이 하나라도 있다면
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void CheckAllRecipeState()   //#12-3
     {
         foreach(GameObject recipes in allRecipe)
@@ -910,5 +928,17 @@ public class Inventory : MonoBehaviour, IInventoryBase
             recipes.SendMessage("CheckRecipeState");
         }
     }
+
+    public void OpenWarningWindow()
+    {
+        warningWindow.SetActive(true);
+        Invoke("CloseWarningWindow", 2.0f);
+    }
+
+    void CloseWarningWindow()
+    {
+        warningWindow.SetActive(false);
+    }
+
 
 }

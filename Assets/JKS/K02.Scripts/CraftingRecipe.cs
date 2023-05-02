@@ -181,7 +181,7 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
         {
             Debug.Log("//#12-1 OnEnable 호출 확인");
             // StartCraftingItem();
-            CheckRecipeState();
+            CheckRecipeState(); // 이 스크립트를 가진 모든 오브젝트에서 실행될 테니까// 굳이 Inventory 스크립트에서 SendMessage 하지 않아도 돼
 
             // checkOnce = true;
         }
@@ -194,17 +194,27 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
 
     void StartCraftingItem()    //'제작'버튼에 연결 - 동적으로 하는 게 빠르겠다.
     {
-        // 아이템 개수 감소 - Slot 스크립트 내 UpdateSlotCount 함수 이용
-        inventory.UseCraftingItem(Enum_DropItemType.STON, needEle1Count);
-        inventory.UseCraftingItem(Enum_DropItemType.WOOD, needEle2Count);
+        // if (inventory.CanAddItem(craftItemType,1))  //#12-3 인벤토리 추가 가능 상태라면
+        // {
+
+            // 아이템 개수 감소 - Slot 스크립트 내 UpdateSlotCount 함수 이용
+            inventory.UseCraftingItem(Enum_DropItemType.STON, needEle1Count);
+            inventory.UseCraftingItem(Enum_DropItemType.WOOD, needEle2Count);
 
 
-        // 제작 결과 아이템도 수집되도록 - Inventory 내 CollectItem 함수 이용
-        inventory.CollectItem(craftItemType);      //1개만 만들어
+            // 제작 결과 아이템도 수집되도록 - Inventory 내 CollectItem 함수 이용
+            inventory.CollectItem(craftItemType);      //1개만 만들어
 
 
-        // CheckRecipeState();
-        inventory.CheckAllRecipeState();
+            // CheckRecipeState();
+            inventory.CheckAllRecipeState();
+            
+        // }
+        // else    // 추가 불가능 상태라면
+        // {
+
+        // }
+
     }
 
 
