@@ -195,11 +195,11 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     IEnumerator EnemySpawn()
     {
-        Debug.Log("애너미스폰");
+        //Debug.Log("애너미스폰");
 
         Transform[] enemySpawnPoint = enemySpawn.GetComponentsInChildren<Transform>();
 
-        Debug.Log(enemySpawnPoint.Length);
+        //Debug.Log(enemySpawnPoint.Length);
 
         int maxEnemyPrefaps = csLevelManager.Ins.enemyPrefaps.Length;
 
@@ -493,7 +493,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     public void InTheBuilding(bool ib)
     {
         inTheBuilding = ib;
-        Debug.Log("집이니?" + ib);
+       // Debug.Log("집이니?" + ib);
 
         if (inTheBuilding)//건물에 있으면 하우징용 변수 활성화
         {
@@ -707,7 +707,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                             }
                         }
                     }
-                    Debug.Log(tmpCheck);
+                    //Debug.Log(tmpCheck);
                     tmpPreView.ShowPreView(blockPos, tmpCheck);
                 }
                 else if (hit.transform.root.tag == "Block")
@@ -761,7 +761,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //Debug.Log("가구보여주기 시작");
             if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
             {
-                Debug.Log(hit.transform.name+"뭐에 맞고있냐..?");
+                //Debug.Log(hit.transform.name+"뭐에 맞고있냐..?");
 
                 if (hit.transform.tag == "HouseBlock")
                 {
@@ -778,7 +778,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                     {
                         return;
                     }
-                    Debug.Log("가구보여줘");
+                    //Debug.Log("가구보여줘");
                     tmpPreView.ShowPreView(blockPos, true);
                 }
             }
@@ -1136,7 +1136,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
         {
-            Debug.Log(hit.transform.tag + "블럭생성중 1");
+            //Debug.Log(hit.transform.tag + "블럭생성중 1");
 
             if (hit.transform.tag != "Block")
             {
@@ -1149,19 +1149,19 @@ public class csPhotonGame : Photon.MonoBehaviour
 
             if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].haveChild)//땅위에 뭐 있으면 탈출
             {
-                Debug.Log(hit.transform.tag + "블럭 생성중 땅위에 뭐 있어서 리턴");
+                //Debug.Log(hit.transform.tag + "블럭 생성중 땅위에 뭐 있어서 리턴");
                 return;
             }
 
             if (!worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top)//제일위에있는거 아니면 탈출
             {
-                Debug.Log(hit.transform.tag + "블럭 생성중 탑 블럭이 아니라 리턴");
+                //Debug.Log(hit.transform.tag + "블럭 생성중 탑 블럭이 아니라 리턴");
                 return;
             }
 
             if (blockPos.y + 1 > mapData.height)
             {
-                Debug.Log(hit.transform.tag + "블럭 생성중 맵 최대 높이 벗어나서 리턴");
+                //Debug.Log(hit.transform.tag + "블럭 생성중 맵 최대 높이 벗어나서 리턴");
                 return;
             }
 
@@ -1294,7 +1294,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
             else if (waterCheck)
             {
-                Debug.Log(blockPos);
+                //Debug.Log(blockPos);
                 CreateWaterAuto(blockPos);
             }
 
@@ -1373,25 +1373,25 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         if (pos.x - 1 > 0 && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x - 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
-            Debug.Log(worldBlock[(int)pos.x-1, (int)pos.y, (int)pos.z ].type);
+            //Debug.Log(worldBlock[(int)pos.x-1, (int)pos.y, (int)pos.z ].type);
             return true;
         }
         else if (pos.x + 1 < mapData.widthX && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z] != null && worldBlock[(int)pos.x + 1, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
         {
-            Debug.Log(worldBlock[(int)pos.x+1, (int)pos.y, (int)pos.z ].type);
+            //Debug.Log(worldBlock[(int)pos.x+1, (int)pos.y, (int)pos.z ].type);
             return true;
         }
         else if (pos.z - 1 > 0 && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type.Equals(Enum_CubeType.WATER))
         {
-            Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type);
+            //Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z - 1].type);
             return true;
         }
         else if (pos.z + 1 < mapData.widthZ && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1] != null && worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type.Equals(Enum_CubeType.WATER))
         {
-            Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type);
+            //Debug.Log(worldBlock[(int)pos.x, (int)pos.y, (int)pos.z + 1].type);
             return true;
         }
-        Debug.Log(55555555);
+        //Debug.Log(55555555);
         return false;
     }
 

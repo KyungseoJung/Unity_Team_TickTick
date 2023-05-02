@@ -30,7 +30,7 @@ public class csCubeTopCheck : MonoBehaviour
     {
         if(!check && other.tag == "Building")
         {
-            Debug.Log("땅위에 건물있음");
+            //Debug.Log("땅위에 건물있음");
 
             cube.childObj = other.gameObject;
             cube.cubeInfo.haveChild = true;

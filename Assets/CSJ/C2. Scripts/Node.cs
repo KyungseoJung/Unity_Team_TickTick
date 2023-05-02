@@ -29,7 +29,7 @@ public class Node : MonoBehaviour
         }
         else if(tmpCube.cubeInfo.type == TeamInterface.Enum_CubeType.WATER) //만약 노드가 물이면
         {
-            Debug.Log("이것은 물이다");
+            //Debug.Log("이것은 물이다");
             m_nodeType = NodeType.Water; //노드 타입을 물로 지정
         }
         else //그 외라면
@@ -60,7 +60,7 @@ public class Node : MonoBehaviour
         }
         else if (tmpCube.cubeInfo.type == TeamInterface.Enum_CubeType.WATER) //만약 노드가 물이면
         {
-            Debug.Log("이것은 물이다");
+            //Debug.Log("이것은 물이다");
             m_nodeType = NodeType.Water; //노드 타입을 물로 지정
         }
         else //그 외라면

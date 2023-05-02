@@ -474,7 +474,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     public void DeathProcess()
     {
-        Debug.Log("Player is dead.");
+        //Debug.Log("Player is dead.");
         // 여기에 플레이어가 죽었을 때 처리할 내용을 추가할 수 있습니다.
     }
 
@@ -654,7 +654,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public void ResetNode()
     {   
         //StopAllCoroutines();
-        Debug.Log("리셋1");
+       // Debug.Log("리셋1");
 
         //현재 노드, 시작 노드, 목표 노드. 이전 노드를 null로 초기화
         m_currNode = null;
@@ -676,7 +676,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public void ResetNode2()
     {   
         //StopAllCoroutines(); //모든 코루틴 중지
-        Debug.Log("리셋2");
+       // Debug.Log("리셋2");
         //또 null로 초기화!!
         m_currNode = null;
         m_startNode = null;
@@ -763,7 +763,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //if (!m_execute)//지금 길찾기 중이 아닌가?
 
         //목표 노드가 어떤 타입인지 로그로 출력
-        Debug.Log(m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType +"["+ (int)Mathf.Round(Target.x)+","+ (int)Mathf.Round(Target.z)+"]" +Target);
+       // Debug.Log(m_grid2D.m_nodeArr[(int)Mathf.Round(Target.x), (int)Mathf.Round(Target.z)].m_nodeType +"["+ (int)Mathf.Round(Target.x)+","+ (int)Mathf.Round(Target.z)+"]" +Target);
 
         //목표 지점이 none 타입이라면 길찾기 실행
         if (!m_execute)

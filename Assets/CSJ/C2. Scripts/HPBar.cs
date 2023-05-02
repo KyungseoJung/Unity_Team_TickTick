@@ -71,19 +71,19 @@ public class HPBar : MonoBehaviour
             material.SetFloat("_Progress", 0.8f);
 
             material.SetFloat("_Progress", (((float)currentHP / maxHP) * 0.8f));
-            Debug.Log(currentHP + "..." + maxHP + "..." + ((float)currentHP / maxHP) + "./." + material.GetFloat("_Progress"));
+            //Debug.Log(currentHP + "..." + maxHP + "..." + ((float)currentHP / maxHP) + "./." + material.GetFloat("_Progress"));
         }
         else
         {
             material.SetFloat("_Progress", (((float)currentHP / maxHP) * 0.8f));
-            Debug.Log(currentHP + "..." + maxHP + "..." + ((float)currentHP / maxHP) + "./." + material.GetFloat("_Progress"));
+           // Debug.Log(currentHP + "..." + maxHP + "..." + ((float)currentHP / maxHP) + "./." + material.GetFloat("_Progress"));
         }       
     }
 
     //플레이어의 체력을 갱신
     public void UpdateHealth(float health)
     {
-        Debug.Log("안쓰는함수 동작안함");
+        //Debug.Log("안쓰는함수 동작안함");
         //currentHP = health;
         //UpdateHPBar(currentHP, maxHP);
     }
@@ -91,7 +91,7 @@ public class HPBar : MonoBehaviour
     // 플레이어의 최대 체력을 설정
     public void SetMaxHealth(float maxHealth)
     {
-        Debug.Log("안쓰는함수 동작안함");
+       // Debug.Log("안쓰는함수 동작안함");
         //....
         //currentHP = maxHP = maxHealth;
     }

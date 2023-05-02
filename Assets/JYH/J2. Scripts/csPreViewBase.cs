@@ -48,6 +48,9 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
 
     LayerMask layer;
     float yVal = 0;
+
+    bool isActive;
+
     public void HiedPreView()
     {
         showPreViewCheck = false;
@@ -89,7 +92,14 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
 
     public void CreateBuilding()
     {
-        StartCoroutine(Create());
+        if (isActive)
+        {
+            StartCoroutine(Create());
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
     public virtual void Update()
     {
@@ -97,7 +107,7 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
 
         if (colHit.Length != 0 || !groundCheck)
         {
-            Debug.Log(CanBuild+"캔빌드"+ colHit.Length+ groundCheck);
+            //Debug.Log(CanBuild+"캔빌드"+ colHit.Length+ groundCheck);
             CanBuild = false;
         }
         else
@@ -143,5 +153,15 @@ public class csPreViewBase : MonoBehaviour, IPreViewBase
     {
         layer = 1 << LayerMask.NameToLayer("PreViewCheck");
         preViewObj.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        isActive = true;
+    }
+
+    private void OnDisable()
+    {
+        isActive = false;
     }
 }

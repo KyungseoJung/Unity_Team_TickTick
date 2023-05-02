@@ -64,7 +64,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
     {
         cubeInfo = cube;
 
-        Debug.Log("0001 셋큐브");
+        //Debug.Log("0001 셋큐브");
 
         //if (cubeInfo.top)
         //{

@@ -147,7 +147,7 @@ namespace JinscObjectBase
 
         public virtual void Shake()
         {
-            Debug.Log("shake~~");
+            //Debug.Log("shake~~");
 
             PG.PlayEffectSoundPhoton(transform.position, 3);
         }
