@@ -76,7 +76,12 @@ public class Inventory : MonoBehaviour, IInventoryBase
 //# CollectItem 함수 사용 목적
     private Item _loadItem;     //JSON 데이터를 이용해서 가져올 Item 클래스 데이터 저장용
     private Enum_DropItemType _loadItemType;    
-
+//#12-3
+    private GameObject[] allRecipe;
+    void Awake()
+    {
+        allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
+    }
     void Start()
     {
         //slots = gridInventory.GetComponentsInChildren<Slot>();
@@ -212,6 +217,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         if (Input.GetKeyDown(KeyCode.Tab))       // Tab 누르면 인벤토리 활성화 (On/ Off)
         {
+            csLevelManager.Ins.PlayAudioClip(Vector3.zero, 7);
             //Debug.Log("Tab 클릭");
             inventoryOpen = !inventoryOpen;
 
@@ -435,7 +441,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
             {
                 if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
                 {
-                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ## (무기의 경우 1개만 들어가고, 다른 아이템들은 2개 이상씩 들어가겠지)
+                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ## (무기의 경우 1개만 들어가고, 다른 아이템들은 2개 이상 999개 이하씩 들어가겠지)
                     {
                         //itemInventoryCount[i, j]+= _count;
                         slots[(col * i) + j].UpdateSlotCount(_count);    //slots[(i% row) + j].UpdateSlotCount(_count);   // 개수 업데이트
@@ -468,6 +474,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
             }
         }
+
+        //#12-3 자리가 아예 없다면 땅에 버려지도록
+        
     }
 
     //JSON에서 저장할 아이템을 로드하기 위한 함수 비슷하게 추가로 만듦
@@ -769,7 +778,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         //##0501 아이템 슬룻이 꽉차있어서 여러개가 들어있었다면?!!
         int tmpResult = 0;
 
-        for(int i=1; i<row ; i++)
+        for(int i=0; i<row ; i++)   //#12-3 i=1부터 되어있었음
         {
             for(int j=0; j<col; j++)
             {
@@ -787,11 +796,12 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void UseCraftingItem(Enum_DropItemType _useItemType, int _useCount) //제작에서 특정 아이템을 특정 개수만큼 사용하기
     {
-        for(int i=1; i<row ; i++)
+        for(int i=0; i<row ; i++)   //#12-3 i=1부터 되어있던 거 고치기
         {
             for(int j=0; j<col; j++)
             {
-                if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)   //#12-2 && 뒷 부분은 이미 CraftingRecipe.cs에서 검사하고 온 거라, 안 해도 되긴 하는데, 대비용으로 해놓자
+                if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)   //#12-2 어차피 재료 아이템은 한 슬롯에 여러개씩 있으니까 이렇게 검사해도 돼 
+                    //#12-2 && 뒷 부분은 이미 CraftingRecipe.cs에서 검사하고 온 거라, 안 해도 되긴 하는데, 대비용으로 해놓자
                 {
                     slots[col*i + j].UpdateSlotCount(- _useCount);  
                 }
@@ -800,9 +810,87 @@ public class Inventory : MonoBehaviour, IInventoryBase
     }
 
     //##0501 인벤토리가 꽉차있는데도 아이템이랑 부딫이면 사라지는 문제가있음. 빈공간이 있는지 확인하는 용도
-    public bool CanAddItem()
+    public bool CanAddItem(Enum_DropItemType dropItemType, int _count=1)
     {
-        for (int i = 1; i < row; i++)
+        Item _item=null;
+
+        switch (dropItemType)
+        {
+            case Enum_DropItemType.NONE:
+                Debug.Log("빈칸 -> 손");
+                break;
+            case Enum_DropItemType.FRUIT:
+                _item = objFruit.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.STON:
+                _item = objSton.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.WOOD:
+                _item = objWood.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.CARROT:
+                _item = objCarrot.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.PLAYERWEAPONAXE1:
+                Debug.Log("아이템에 웨폰 연결해줘야함");
+                break;
+            case Enum_DropItemType.SHOVEL:
+                _item = eq_Shovel.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.AXE:
+                _item = eq_Axe.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.PICKAXE:
+                _item = eq_PickAxe.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.HOE:
+                _item = eq_Hoe.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.BLOCKSOIL:
+                _item = objBlockSoil.GetComponent<Item>();
+                break;
+            //case Enum_DropItemType.BLUEPRINTTENT:
+            //    Debug.Log("탠트 청사진");
+            //    break;
+            case Enum_DropItemType.BLUEPRINTWATCHFIRE:
+                _item = blueprint_BONFIRE.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.BLUEPRINTTENT:
+                _item = blueprint_TENT.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.HOUSE_CHAIR:
+                _item = blueprint_CHAIR.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.HOUSE_TABLE:
+                _item = blueprint_TABLE.GetComponent<Item>();
+                break;
+            case Enum_DropItemType.BLUEPRINTWORKBENCH:
+                _item = blueprint_WORKBENCH.GetComponent<Item>();
+                break;
+            default:
+                Debug.Log("무슨아이템인지 모르겠음");
+                break;
+        }
+
+        if(_item==null){
+            return false;
+        }
+        
+        for (int i = 0; i < row ; i++)
+        {
+            for (int j = 0; j < col ; j++)
+            {
+                if (itemInventory[i, j].Equals(dropItemType))   //슬롯에 해당 아이템이 이미 있었다면
+                {
+                    if (itemInventoryCount[i, j] + _count <= _item.maxCount)//맥스카운트를 넘지 않았으면 ## (무기의 경우 1개만 들어가고, 다른 아이템들은 2개 이상 999개 이하씩 들어가겠지)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
@@ -813,6 +901,14 @@ public class Inventory : MonoBehaviour, IInventoryBase
             }
         }
         return false;
+    }
+
+    public void CheckAllRecipeState()   //#12-3
+    {
+        foreach(GameObject recipes in allRecipe)
+        {
+            recipes.SendMessage("CheckRecipeState");
+        }
     }
 
 }

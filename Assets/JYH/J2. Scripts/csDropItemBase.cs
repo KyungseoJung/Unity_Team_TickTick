@@ -48,7 +48,7 @@ public class csDropItemBase : Item
         {           
             //Debug.Log("타긴하니");
             //만약 인벤토리가 꽉차있지 않으면
-            if (GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().CanAddItem())
+            if (GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().CanAddItem(ItemType,count))
             {
                 GetComponent<Rigidbody>().isKinematic = true;
                 isRoot = true;

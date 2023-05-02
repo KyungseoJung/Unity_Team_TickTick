@@ -1867,7 +1867,7 @@ GameObject:
   - component: {fileID: 319922511}
   m_Layer: 5
   m_Name: Recipe1
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2309,7 +2309,7 @@ GameObject:
   - component: {fileID: 350150312}
   m_Layer: 5
   m_Name: Recipe5
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4621,7 +4621,7 @@ GameObject:
   - component: {fileID: 842596748}
   m_Layer: 5
   m_Name: Recipe2
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6187,7 +6187,7 @@ GameObject:
   - component: {fileID: 1062552225}
   m_Layer: 5
   m_Name: Recipe9
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6271,7 +6271,7 @@ GameObject:
   - component: {fileID: 1062889734}
   m_Layer: 5
   m_Name: Recipe4
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9643,7 +9643,7 @@ GameObject:
   - component: {fileID: 1501513902}
   m_Layer: 5
   m_Name: Recipe6
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9727,7 +9727,7 @@ GameObject:
   - component: {fileID: 1506310018}
   m_Layer: 5
   m_Name: Recipe8
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10685,7 +10685,7 @@ GameObject:
   - component: {fileID: 1616136946}
   m_Layer: 5
   m_Name: Recipe7
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11993,7 +11993,7 @@ GameObject:
   - component: {fileID: 1859459262}
   m_Layer: 5
   m_Name: Recipe3
-  m_TagString: Untagged
+  m_TagString: Recipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
