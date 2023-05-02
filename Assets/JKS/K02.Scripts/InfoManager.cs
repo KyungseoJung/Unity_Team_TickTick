@@ -230,7 +230,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
         playerInfo.playerName = "";     // 그냥 null로 저장하면 안돼. null 자체로 저장이 되어버림!
         playerInfo.islandName = "";
         playerInfo.clothesNum = 0;
-        playerInfo.clothesColor = HexToColor32("#FF5D5D");
+        playerInfo.clothesColor = HexToColor32("#7ED67F");
 
         SaveJSONData();
     }

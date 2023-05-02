@@ -30,18 +30,42 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public GameObject loadScrollContents;       // '게임 불러오기' 화면 내 스크롤
     public GameObject singlePlayerInfoBox;
 
-// '새로운 게임' 화면 ======================
+// '새로운 게임' 화면 ======================    //변수 바꿔서 헷갈림 -> clothes = eye라고 생각
     [Header("새로운 게임 화면")]
     [Space(10)]
     private bool inputAllInfo;      // #9-1 모든 정보를 입력했나 확인용 (플레이어 옷 종류, 옷 색, 이름, 섬 이름)
-    public Button[] newGameBtns;     // '새로운 게임' 화면 내 버튼 배열
-    public Button[] chooseClothesBtns;  // '옷' 선택 버튼   //[0]부터 차례대로 : btnClothes0, btnClothes1, btnClothes2
-    public Button[] chooseColorsBtns;   // '색' 선택 버튼   //[0]부터 차례대로 : btnColor0, btnColor1, btnColor2
+    public Button[] newGameBtns;     // '새로운 게임' 화면 내 버튼 배열 //[0] : btnRandom
+    public Button[] chooseClothesBtns;  // '옷'-> '눈동자' 선택 버튼   //[0]부터 차례대로 : btnClothes0, btnClothes1, btnClothes2
+    public Button[] chooseColorsBtns;   // '색' > '가방 색' 선택 버튼   //[0]부터 차례대로 : btnColor0, btnColor1, btnColor2
     public GameObject[] chooseScreen;       //[0] : 옷 선택하는 panel, [1] : 색 선택하는 panel, [2] : 플레이어 이름, 섬 이름 작성하는 panel
 
     public Image playerClothes;     // ImgPlayerClothes 오브젝트
     public Image[] newClothes;
     public Image[] newColor;
+// #13-1 커스터마이징 플레이어와 Material 연결하기
+    // public SkinnedMeshRenderer skinnedScout;    // 눈 접근용
+    // public SkinnedMeshRenderer skinnedBackPack; // 백팩 접근용
+
+    // public GameObject objScout;    // 눈 접근용
+    // public GameObject objBackPack; // 백팩 접근용
+
+    public Material matSkin;            //  원래 피부색 - 눈만 바꾸는 거 안 돼서
+    public Material[] matCustomEyes;    // 3가지 종류의 눈 
+    public Material[] matCustomBackPacks;   // 3가지 색의 백팩
+
+    // public Material matPlayerEye;   //테스트용
+    // public Material matPlayerBackPack;  //테스트용
+    public Renderer materialEye;        // 바꾸고자 하는 오브젝트의 Renderer
+    public Renderer materialBackPack;   // 바꾸고자 하는 오브젝트의 Renderer
+// #13-2 회전 ==========================
+    public GameObject customPlayer;     //회전 목적
+    private float rotateTime = 1.0f;
+    private float rotationAngle = 180f;
+    private float currRotateTime = 0f;  //현재 회전하고 있는 시간
+    private Quaternion startRotation;
+    private Quaternion endRotation;
+
+
 
     public InputField inputName;        //#4-1 
     public InputField inputIslandName;  //#4-1 
@@ -134,6 +158,15 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
 //#4-1 
         // Debug.Log("//#4-2 Start 끝");
+//#13-1
+        // matEyes = skinnedScout.materials[1];    // 직접 프리팹 확인 -> 1번째가 눈이거든~
+        // matBackPack = skinnedBackPack.materials[0];
+        // skinnedScout = objScout.GetComponent<SkinnedMeshRenderer>();
+        // skinnedBackPack = objBackPack.GetComponent<SkinnedMeshRenderer>();
+
+
+        // matPlayerEye = skinnedScout.materials[1];
+        // matPlayerBackPack = skinnedBackPack.materials[0];
     }
 
     IEnumerator LoadJSONDataFct()
@@ -262,9 +295,9 @@ public class LobbyManager : MonoBehaviour   //#1-1
 
         //#4-1 JSON 테스트용    //#4-4 나중에 주석 풀 것
         int num = InfoManager.Ins.clothesNum;   //#11-6
-        playerClothes.sprite = newClothes[num].sprite;
+        // playerClothes.sprite = newClothes[num].sprite;
 
-        playerClothes.color = InfoManager.Ins.clothesColor; //#11-6
+        // playerClothes.color = InfoManager.Ins.clothesColor; //#11-6
 
     }
 
@@ -299,7 +332,6 @@ public class LobbyManager : MonoBehaviour   //#1-1
         // InfoManager.Info.InitializeJSONData();   
         InfoManager.Ins.InitializeJSONData();   //#11-6   
 
-
         OnClickGoBack();
     }
 
@@ -310,10 +342,14 @@ public class LobbyManager : MonoBehaviour   //#1-1
         int randomClothes = UnityEngine.Random.Range(0, newClothes.Length);
         int randomColor = UnityEngine.Random.Range(0, newColor.Length);
 
-        playerClothes.sprite = newClothes[randomClothes].sprite;
-        playerClothes.color = newColor[randomColor].color;
+        // playerClothes.sprite = newClothes[randomClothes].sprite; //#13-2
+        // playerClothes.color = newColor[randomColor].color;
 
-        clothesNum = randomClothes;         //#4-1 
+        clothesNum = randomClothes;         //#4-1 //#13-2 JSON 저장 위해 필요함
+
+        materialEye.materials = new Material[2] {matSkin, matCustomEyes[randomClothes] };   //#13-2 커스터마이징 material 적용
+        materialBackPack.material = matCustomBackPacks[randomColor];    //#13-2 커스터마이징 material 적용
+
     }
     void OnClickOpenClothes()
     {
@@ -379,41 +415,91 @@ public class LobbyManager : MonoBehaviour   //#1-1
     void OnClickClothes0()
     {
         // 옷0로 변경
-        playerClothes.sprite = newClothes[0].sprite;
+        // playerClothes.sprite = newClothes[0].sprite; //#13-2
         //imageToChange.SetNativeSize(); // 이미지 크기를 원래 크기로 설정
 
-        clothesNum = 0;     //#4-1
+        clothesNum = 0;     //#4-1  //#13-2 JSON 저장 위해 필요함
+        
+        materialEye.materials = new Material[2] {matSkin, matCustomEyes[0] };
+        // materialEye.materials[0] = matCustomEyes[0]; //#13-1 커스터마이징 - 눈 종류 0번째
+        // matPlayerEye = matCustomEyes[0];
     }
     void OnClickClothes1()
     {   
         // 옷1 로 변경
-        playerClothes.sprite = newClothes[1].sprite;
+        // playerClothes.sprite = newClothes[1].sprite; //#13-2
+        clothesNum = 1;     //#4-1  //#13-2 JSON 저장 위해 필요함
 
-        clothesNum = 1;     //#4-1
+        materialEye.materials = new Material[2] {matSkin, matCustomEyes[1] };
+        // materialEye.materials[0] = matCustomEyes[1]; //#13-1 커스터마이징 - 눈 종류 1번째
+        // matPlayerEye = matCustomEyes[1];
+
     }
     void OnClickClothes2()
     {
         // 옷2 로 변경
-        playerClothes.sprite = newClothes[2].sprite;
-
-        clothesNum = 2;     //#4-1
+        // playerClothes.sprite = newClothes[2].sprite; //#13-2
+        clothesNum = 2;     //#4-1  //#13-2 JSON 저장 위해 필요함
+        
+        materialEye.materials = new Material[2] {matSkin, matCustomEyes[2] };
+        // materialEye.materials[0] = matCustomEyes[2]; //#13-1 커스터마이징 - 눈 종류 2번째
+        // matPlayerEye = matCustomEyes[2];
     }
 
     void OnClickColors0()
     {
         // 색0 로 변경
-        playerClothes.color = newColor[0].color;
+        playerClothes.color = newColor[0].color;    //JSON 위해서 일단 남겨두자 //#13-2
+
+        materialBackPack.material = matCustomBackPacks[0];    //#13-1 커스터마이징 - 옷 색 0번째
+        // matPlayerBackPack = matCustomBackPacks[0];
     }
     void OnClickColors1()
     {
         // 색1 로 변경
-        playerClothes.color = newColor[1].color;
+        playerClothes.color = newColor[1].color;    //JSON 위해서 일단 남겨두자 //#13-2
+
+        materialBackPack.material = matCustomBackPacks[1];    //#13-1 커스터마이징 - 옷 색 1번째
+        // matPlayerBackPack = matCustomBackPacks[1];
+
     }
     void OnClickColors2()
     {
         // 색2 로 변경
-        playerClothes.color = newColor[2].color;
+        playerClothes.color = newColor[2].color;    //JSON 위해서 일단 남겨두자 //#13-2
+
+        materialBackPack.material = matCustomBackPacks[2];    //#13-1 커스터마이징 - 옷 색 2번째
+        // matPlayerBackPack = matCustomBackPacks[2];
     }
+
+    public void OnClickRotation()  //#13-2 회전하기 빙글빙글
+    {
+        startRotation = customPlayer.transform.rotation;    // 시작 회전값 지정
+        
+        Vector3 euler = startRotation.eulerAngles;          // 도착 회전값 지정
+        euler.y += rotationAngle;
+        endRotation = Quaternion.Euler(euler);
+
+        StartCoroutine(RotateCustomPlayer(customPlayer, startRotation, endRotation));
+    }
+
+    IEnumerator RotateCustomPlayer(GameObject target, Quaternion start, Quaternion end)
+    {
+        while(currRotateTime < rotateTime)  //while 해도 괜찮은가?
+        {
+            float time = currRotateTime / rotateTime;
+            target.transform.rotation = Quaternion.Lerp(start, end, time);
+
+            yield return null;
+
+            currRotateTime += Time.deltaTime;
+        }
+
+        target.transform.rotation = end;
+
+        currRotateTime = 0f;    //초기화 - 나가면서 한번 초기화 하고 끝내기
+    }
+
 
  // '멀티 플레이' 화면 내 버튼 배열 ======================
     
