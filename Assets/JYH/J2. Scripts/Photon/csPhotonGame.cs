@@ -45,18 +45,19 @@ public class csPhotonGame : Photon.MonoBehaviour
     bool actionNow = true;//지금 뭐 동작중인지 체크
     public float rayCastRange = 20f;
     public PlayerCtrl1 myPlyerCtrl;
-    public GameObject craftingUI;
-    public int LayerMaskBlock;// = 1 << LayerMask.NameToLayer("PreViewCheck");
+    public GameObject craftingUI;    
 
     [Header("레이 케스팅용")]
     [SerializeField]
     RaycastHit hit;
     [SerializeField]
     Ray ray;
+    public int LayerMaskBlock;// = 1 << LayerMask.NameToLayer("PreViewCheck");
 
     [Header("포톤 관련")]
     [SerializeField]
     public PhotonView pV;
+    public GameObject smile;
 
     [Header("스폰 관련")]
     public GameObject enemySpawn;
@@ -72,6 +73,12 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("튜토리얼 캔버스")]
     public GameObject tutorialCanvas;
     public bool gameStart = false;
+
+    [Header("채팅 관련")]
+    public Text txtConnect;
+    public Text txtLogMsg;
+    public InputField enterText;
+    public bool useEnter = false;
 
     [Header("디버그 관련")]
     public GameObject debugBtn;
@@ -93,7 +100,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        yield return new WaitForSeconds(0.1f); 
+        yield return new WaitForSeconds(0.1f);
 
         if (PhotonNetwork.connectedAndReady && PhotonNetwork.isMasterClient)//방장일때탄다
         {
@@ -108,6 +115,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
+
     }
 
     IEnumerator InitMapData()
@@ -143,11 +151,17 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
 
         //SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트로 대체
-        
+
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
-        
 
         PhotonNetwork.isMessageQueueRunning = true;
+
+        enterText.text = "";
+        enterText.gameObject.SetActive(false);
+
+        string msg = "\n\t<color=#00ff00>["
+                    + PhotonNetwork.player.NickName
+                    + "] Connected</color>";
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -161,8 +175,11 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         isReady = true;
 
-        yield return null;
+        yield return SetGameCorutin();
+    }
 
+    IEnumerator SetGameCorutin()
+    {        
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
         DropItemCreate("Blueprint_WorkBench", new Vector3(12, 30, 12), 1);
@@ -171,6 +188,8 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         Invoke("LoadInvenDataStart", 1f);
         Invoke("OffTutorialCanvas", 6f);
+
+        yield return null;
     }
 
     void LoadInvenDataStart()
@@ -252,6 +271,11 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         //OptionManager.Ins.PlayClickSound();
 
+        string msg = "\n\t<color=#999999>[" + PhotonNetwork.player.NickName + "] Disconnected</color>";
+
+        //RPC 함수 호출
+        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
+
         //마스터가 나가면 방폭
         if (PhotonNetwork.isMasterClient)
         {
@@ -286,16 +310,6 @@ public class csPhotonGame : Photon.MonoBehaviour
         //포톤 방나감 콜백 대충 여기서 세이브
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("scLobby0");
-    }
-
-    public void OnPhotonPlayerConnected()
-    {
-        // 다른 플레이어가 방에 접속했을 때 void OnPhotonPlayerConnected(PhotonPlayer newPlayer) { ... }
-    }
-
-    public void OnPhotonPlayerDisconnected()
-    {
-        // 다른 플레이어가 방에서 접속 종료시 void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) { ... }
     }
 
     [PunRPC]
@@ -579,8 +593,35 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
-        if (keyBlock && Input.GetKeyDown(KeyCode.LeftAlt) )
+        if(!useEnter && Input.GetKeyDown(KeyCode.Return))
         {
+            useEnter = true;
+            enterText.gameObject.SetActive(true);
+            enterText.ActivateInputField();
+
+            if (!isUiBlock)
+            {
+                isUiBlock = true;
+                crossHair.SetActive(false);
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+        else if (useEnter && Input.GetKeyDown(KeyCode.Return))
+        {
+            useEnter = false;
+            enterText.gameObject.SetActive(false);
+            enterText.DeactivateInputField();
+
+            if (isUiBlock)
+            {
+                isUiBlock = false;
+                crossHair.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        if (keyBlock && Input.GetKeyDown(KeyCode.LeftAlt) )
+         {
             keyBlock = false;
 
             if (!isUiBlock)
@@ -601,6 +642,18 @@ public class csPhotonGame : Photon.MonoBehaviour
                 crossHair.SetActive(true);
                 //Debug.Log("enuiblock");
                 Cursor.lockState = CursorLockMode.Locked;
+            }
+
+            if (useEnter)
+            {
+                useEnter = true;
+                enterText.gameObject.SetActive(true);
+            }
+            else
+            {
+                useEnter = false;
+                enterText.gameObject.SetActive(false);
+                enterText.DeactivateInputField();
             }
 
             Invoke("KeyBlockFct", 0.2f);
@@ -1619,5 +1672,66 @@ public class csPhotonGame : Photon.MonoBehaviour
                 }
             }
         }
+    }
+
+
+    //채팅기능
+
+    public void OnClickSmileBtn()
+    {
+        if (pV.isMine)
+        {
+            pV.RPC("StartSmile", PhotonTargets.All, null);
+        }
+    }
+
+    [PunRPC]
+    public void StartSmile()
+    {
+        StopCoroutine(Smile());
+        smile.SetActive(false);
+        StartCoroutine(Smile());
+    }
+
+    IEnumerator Smile()
+    {
+        smile.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        smile.SetActive(false);
+    }
+
+    public void GetConnectPlayerCount()
+    {
+        Room currRoom = PhotonNetwork.room;
+
+        txtConnect.text = currRoom.PlayerCount.ToString() + "/" + currRoom.MaxPlayers.ToString();
+    }
+
+    public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
+        Debug.Log(newPlayer.ToStringFull());
+
+        GetConnectPlayerCount();
+    }
+
+    public void OnPhotonPlayerDisconnected(PhotonPlayer outPlayer)
+    {
+        GetConnectPlayerCount();
+    }
+
+    // 포톤 추가
+    [PunRPC]
+    public void LogMsg(string msg)
+    {
+        txtLogMsg.text = txtLogMsg.text + msg;
+    }
+
+    public void OnEnterChat()
+    {
+        string msg = "\n\t<color=#ffffff>[" + PhotonNetwork.player.NickName + "] : " + enterText.text + "</color>";
+
+        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
+
+        enterText.text = "";
     }
 }
