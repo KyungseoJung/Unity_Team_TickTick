@@ -508,10 +508,10 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     }
 
 //#18 공부용
-    void OnCreatedRoom()
-    {
-        Debug.Log("공부용 : 방 만들어짐");  //# 실행됨.
-    }
+    // void OnCreatedRoom()
+    // {
+    //     Debug.Log("공부용 : 방 만들어짐");  //# 실행됨.
+    // }
     
 
 //# 테스트용 주석    

@@ -109,17 +109,17 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     public InventoryInfo GetInvenInfo(int index)    //#11-6 인벤토리 정보
     {
         foreach(InventoryInfo aaa in invenList){
-            Debug.Log(aaa.itemCount+"////"+aaa.itemType);
+            // Debug.Log(aaa.itemCount+"////"+aaa.itemType);
         }
-         Debug.Log("//#11-6 인벤토리 Get 카운트 : " +invenList.Count);
-         Debug.Log("//#11-6 인벤토리 Index 번호 : " + index);
+        //  Debug.Log("//#11-6 인벤토리 Get 카운트 : " +invenList.Count);
+        //  Debug.Log("//#11-6 인벤토리 Index 번호 : " + index);
         if(index >= invenList.Count)
         {
-            Debug.Log("//#11-6  인벤토리 인덱스 범위 초과");
+            // Debug.Log("//#11-6  인벤토리 인덱스 범위 초과");
             return null;
         }
-        Debug.Log("//#11-6 InfoManager 클래스의 List1 : " + invenList[index].itemType);
-        Debug.Log("//#11-6 InfoManager 클래스의 List2 : " + invenList[index].itemCount);
+        // Debug.Log("//#11-6 InfoManager 클래스의 List1 : " + invenList[index].itemType);
+        // Debug.Log("//#11-6 InfoManager 클래스의 List2 : " + invenList[index].itemCount);
         return invenList[index];
     }
 

@@ -495,20 +495,20 @@ public class Inventory : MonoBehaviour, IInventoryBase
             case Enum_DropItemType.PLAYERWEAPONAXE1:
                 Debug.Log("아이템에 웨폰 연결해줘야함");
                 break;
-            case Enum_DropItemType.SHOVEL:
-                Debug.Log("삽");
-                break;
+           case Enum_DropItemType.SHOVEL:
+                    _item = eq_Shovel.GetComponent<Item>();
+                    break;
             case Enum_DropItemType.AXE:
-                Debug.Log("도끼");
+                _item = eq_Axe.GetComponent<Item>();
                 break;
             case Enum_DropItemType.PICKAXE:
-                Debug.Log("곡괭이");
+                _item = eq_PickAxe.GetComponent<Item>();
                 break;
             case Enum_DropItemType.HOE:
-                Debug.Log("괭이");
+                _item = eq_Hoe.GetComponent<Item>();
                 break;
             case Enum_DropItemType.BLOCKSOIL:
-                Debug.Log("땅");
+                _item = objBlockSoil.GetComponent<Item>();
                 break;
             //case Enum_DropItemType.BLUEPRINTTENT:
             //    Debug.Log("탠트 청사진");
@@ -791,7 +791,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         {
             for(int j=0; j<col; j++)
             {
-                if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)
+                if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)   //#12-2 && 뒷 부분은 이미 CraftingRecipe.cs에서 검사하고 온 거라, 안 해도 되긴 하는데, 대비용으로 해놓자
                 {
                     slots[col*i + j].UpdateSlotCount(- _useCount);  
                 }

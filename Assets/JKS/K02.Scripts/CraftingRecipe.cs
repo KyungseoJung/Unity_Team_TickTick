@@ -48,6 +48,7 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
 
     //##0501 온에이블에 널뜨는애가 있는데 처음부터 꺼져있으면 파인드가 안됨.. 제작대 앞에 섰을 때 널레퍼런스 그래서 처음 한번은 무조건 안타게 변수 추가
     bool startCheck = false;
+    bool checkOnce = false;
 
     void Awake()
     {
@@ -174,19 +175,30 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
     void OnEnable() // 비활성화에서 활성화 될 때, 매번 호출되는 콜백함수
     {
         //##0501 스타트 함수가 한번 지난 뒤 호출됨 >> 시작할 때 에러안남 만세! 함수 호출순서 어웨이크 > 온언에이블 > 스타트 응용
-        if (startCheck)
+        if (startCheck && !checkOnce)
         {
             Debug.Log("//#12-1 OnEnable 호출 확인");
-            StartCraftingItem();
+            // StartCraftingItem();
+            CheckRecipeState();
+
+            checkOnce = true;
         }
     }
 
-    void StartCraftingItem()    //버튼에 연결 - 동적으로 하는 게 빠르겠다.
+    void OnDisable()        //#12-2 비활성화 후, 활성화 해야 CheckRecipeState 타도록(딱 1번만)
+    {
+        checkOnce = false;
+    }
+
+    void StartCraftingItem()    //'제작'버튼에 연결 - 동적으로 하는 게 빠르겠다.
     {
         // 아이템 개수 감소 - Slot 스크립트 내 UpdateSlotCount 함수 이용
 
         // 제작 결과 아이템도 수집되도록 - Inventory 내 CollectItem 함수 이용
         inventory.CollectItem(craftItemType);      //1개만 만들어
+
+        inventory.UseCraftingItem(Enum_DropItemType.STON, needEle1Count);
+        inventory.UseCraftingItem(Enum_DropItemType.WOOD, needEle2Count);
 
         CheckRecipeState();
     }
