@@ -265,7 +265,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
-            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBuffered, pos, tmpCS, tmpNum);
+            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBufferedViaServer, pos, tmpCS, tmpNum);
         }       
     }
 
