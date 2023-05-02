@@ -46,6 +46,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     public float rayCastRange = 20f;
     public PlayerCtrl1 myPlyerCtrl;
     public GameObject craftingUI;
+    public int LayerMaskBlock;// = 1 << LayerMask.NameToLayer("PreViewCheck");
 
     [Header("레이 케스팅용")]
     [SerializeField]
@@ -106,6 +107,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
 
         Cursor.lockState = CursorLockMode.Locked;
+        LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
     }
 
     IEnumerator InitMapData()
@@ -607,7 +609,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
         //블록 하이라이트 활성화/비활성화
-        if (!isBuild && Physics.Raycast(ray, out hit, rayCastRange))
+        if (!isBuild && Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
         {
             if (hit.transform.root.tag == "Block")
             {
@@ -636,10 +638,10 @@ public class csPhotonGame : Photon.MonoBehaviour
         //if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINT) && !isBuild)//청사진 들고있을때
         //{
         //    isBuild = true;//빌드모드 시작
-        //}
+        //}                
 
         if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
-            && isBuild && !inTheBuilding )//&& !isUiBlock)
+            && isBuild && !inTheBuilding)//&& !isUiBlock)
         {
             if (bluePrint == null)
             {
@@ -647,7 +649,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
         else if (UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR) || UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE)
-            && isCreateFurniture && inTheBuilding )//&& !isUiBlock)
+            && isCreateFurniture && inTheBuilding)//&& !isUiBlock)
         {
             if (bluePrint == null)
             {
@@ -655,28 +657,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
         }
 
-        if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
-            && isBuild)// && !isUiBlock)//빌드모드 끝
-        {
-            if (bluePrint != null)
-            {
-                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
-            }
-            isBuild = false;
-        }
-        else if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE)
-            && isCreateFurniture )//&& !isUiBlock)//빌드모드 끝
-        {
-            if (bluePrint != null)
-            {
-                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
-            }
-            isCreateFurniture = false;
-        }
 
         if (isBuild && bluePrint != null)//빌드모드일 때 미리보기 그려주기
         {
-            if (Physics.Raycast(ray, out hit, rayCastRange))//, 1 << LayerMask.NameToLayer("Igonore Raycast")))
+            if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
             {
                 if (hit.transform.tag == "Block")
                 {
@@ -775,7 +759,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //int layerMask = ~(1 << LayerMask.NameToLayer("Item"));
 
             //Debug.Log("가구보여주기 시작");
-            if (Physics.Raycast(ray, out hit, rayCastRange))//, layerMask))
+            if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
             {
                 Debug.Log(hit.transform.name+"뭐에 맞고있냐..?");
 
@@ -873,10 +857,32 @@ public class csPhotonGame : Photon.MonoBehaviour
         */
     }
 
+    private void LateUpdate()
+    {
+        if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
+           && isBuild)// && !isUiBlock)//빌드모드 끝
+        {
+            if (bluePrint != null)
+            {
+                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            }
+            isBuild = false;
+        }
+        else if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTCHAIR) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTABLE)
+            && isCreateFurniture)//&& !isUiBlock)//빌드모드 끝
+        {
+            if (bluePrint != null)
+            {
+                bluePrint.GetComponent<IPreViewBase>().HiedPreView();//빌딩 미리보기 제거
+            }
+            isCreateFurniture = false;
+        }
+    }
+
     public void CreateBluePrint(string objName, Vector3 pos)
     {
         pV.RPC("CreateBluePrintRPC", PhotonTargets.MasterClient, objName, pos);
-
+        SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);
         PlayEffectSoundPhoton(transform.position, 9);
     }
 
@@ -1059,14 +1065,12 @@ public class csPhotonGame : Photon.MonoBehaviour
             case Enum_PlayerUseItemType.BLUEPRINTWORKBENCH:
                 if (bluePrint != null)
                 {
-                    bluePrint.GetComponent<IPreViewBase>().CreateBuilding();
-                    SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);
+                    bluePrint.GetComponent<IPreViewBase>().CreateBuilding();                    
                 }
                 break;
                 
             case Enum_PlayerUseItemType.BLOCKSOIL://흙 블럭
-                ActionAddBlock(Enum_CubeType.SOIL);
-                SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);
+                ActionAddBlock(Enum_CubeType.SOIL);                
                 break;
         }
 
@@ -1077,7 +1081,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void ActionHOE()
     {
-        if (Physics.Raycast(ray, out hit, rayCastRange))
+        if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
         {
             if (hit.transform.tag != "Block")
             {
@@ -1130,8 +1134,10 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void ActionAddBlock(Enum_CubeType type)
     {
-        if (Physics.Raycast(ray, out hit, rayCastRange))
+        if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
         {
+            Debug.Log(hit.transform.tag + "블럭생성중 1");
+
             if (hit.transform.tag != "Block")
             {
                 return;
@@ -1143,24 +1149,28 @@ public class csPhotonGame : Photon.MonoBehaviour
 
             if (worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].haveChild)//땅위에 뭐 있으면 탈출
             {
+                Debug.Log(hit.transform.tag + "블럭 생성중 땅위에 뭐 있어서 리턴");
                 return;
             }
 
             if (!worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top)//제일위에있는거 아니면 탈출
             {
+                Debug.Log(hit.transform.tag + "블럭 생성중 탑 블럭이 아니라 리턴");
                 return;
             }
 
             if (blockPos.y + 1 > mapData.height)
             {
+                Debug.Log(hit.transform.tag + "블럭 생성중 맵 최대 높이 벗어나서 리턴");
                 return;
             }
 
-            if (worldBlock[(int)blockPos.x, (int)blockPos.y + 1, (int)blockPos.z] == null)
+            if (worldBlock[(int)blockPos.x, (int)blockPos.y + 1, (int)blockPos.z] == null)//바로 위가 빈 공간이면
             {
-                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = false;
+                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = false;//지금 내위치는 탑이아님
 
-                pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);
+                pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);//블록 생성
+                SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);//블록 아이템 갯수 차감
             }
         }
     }
@@ -1207,7 +1217,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void ActionSHOVEL()
     {
-        if (Physics.Raycast(ray, out hit, rayCastRange))
+        if (Physics.Raycast(ray, out hit, rayCastRange, LayerMaskBlock))
         {
             bool tmpCheck = false;
 
@@ -1315,7 +1325,6 @@ public class csPhotonGame : Photon.MonoBehaviour
                             {
                                 pV.RPC("DrawBlock", PhotonTargets.AllBuffered, tmpPos);
                             }
-
                             // Debug.Log(tmpPos + "///" + hit.transform.position);
                         }
                     }
