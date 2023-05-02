@@ -1522,7 +1522,6 @@ GameObject:
   - component: {fileID: 3258400810745979667}
   - component: {fileID: 3258400810745979676}
   - component: {fileID: 6965507182367929411}
-  - component: {fileID: 7622916120435551085}
   - component: {fileID: 3744843225335752530}
   - component: {fileID: 2913222739631955404}
   - component: {fileID: -9212707192461160644}
@@ -1585,14 +1584,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  lookSensitivity: 1
-  cameraRotationLimit: 45
   theCamera: {fileID: 0}
   camPos: {fileID: 8631910259409241185}
   dropItemPos: {fileID: 8631910260515314701}
   pV: {fileID: 3744843225335752530}
   cUrrPos: {x: 0, y: 0, z: 0}
   cUrrRot: {x: 0, y: 0, z: 0, w: 0}
+  camPivot: {fileID: 0}
   maxHP: 1000
   hpBar: {fileID: 8631910259488470731}
 --- !u!136 &3258400810745979667
@@ -1721,19 +1719,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7622916120435551085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258400810745979678}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4433564e76b1940028e7e531f171050d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3258400810745979678}
 --- !u!114 &3744843225335752530
 MonoBehaviour:
   m_ObjectHideFlags: 0
