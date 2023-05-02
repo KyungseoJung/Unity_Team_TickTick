@@ -1045,6 +1045,8 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4ec81ba0404fb4bc3a788c1112ec698a, type: 2}
+  - {fileID: 2100000, guid: 1d0f967f03536854d8e023471d2e1393, type: 2}
+  - {fileID: 2100000, guid: 885abc4c04d679b4e8b4b1b53d9ab471, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1161,7 +1163,7 @@ GameObject:
   - component: {fileID: 3258400810748873286}
   - component: {fileID: 3258400810753072624}
   m_Layer: 0
-  m_Name: Scout
+  m_Name: PlayerFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,6 +1203,8 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
   - {fileID: 2100000, guid: b0a6262cd9208479eb0dd4941fb248e7, type: 2}
+  - {fileID: 2100000, guid: e854a1cc3c66c46b4ad697206a532f07, type: 2}
+  - {fileID: 2100000, guid: 192e4fcbfbd074e7393a154a422b33f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

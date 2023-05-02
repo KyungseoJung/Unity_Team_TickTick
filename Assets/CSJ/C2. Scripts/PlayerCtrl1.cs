@@ -119,11 +119,19 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public bool gameStart = false;
 
 
-    //플레이어 커스터마이징 (추가!)
-    public Material[] faceMaterials; //플레이어 얼굴 배열
+    //플레이어 얼굴 커스터마이징 추가~ 
+    //public Material[] faceMaterials = new Material[3]; //플레이어 얼굴 배열
 
-    private int faceindex; //플레이어 얼굴 변수
+    //private int faceindex; //플레이어 얼굴 변수
 
+
+    //플레이어 백팩 커스터마이징 추가~
+    //public Material[] BackMaterials = new Material[2]; //플레이어 백팩 배열
+    private int Backindex; //플레이어 백팩 변수
+
+    private int Dressindex; // 플레이어 옷 변수
+
+    //public Material[] dressMaterials = new
 
 
     public void SetInTheHouse(bool a)
@@ -160,11 +168,6 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         currRot = Tr.rotation;
 
         //pv.viewID = PhotonNetwork.AllocateViewID();
-
-        //플레이어 커스터마이징 추가
-        faceindex = 0; //얼굴 초기화
-        UpdateFace(); //얼굴 업데이트 함수
-
     }
 
     IEnumerator Start()
@@ -204,6 +207,20 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //hpBar.UpdateHPBar(currentHP, maxHP);
 
         //PhotonView pV = GetComponent<PhotonView>();
+
+        //플레이어 얼굴 커스터마이징 추가
+        //faceindex = 0; //얼굴 초기화
+        //UpdateFace(); //얼굴 업데이트 함수
+
+
+        //플레이어 백팩 커스터마이징 추가
+        Backindex = 0; //백팩 초기화
+        UpdateBack();  //백팩 업데이트 함수
+
+        Dressindex = 0; //옷 초기화
+        UpdateDress();  //옷 업데이트
+
+
     }
 
     void Update()
@@ -506,36 +523,118 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         return currentHP / maxHP;
     }
 
-    //플레이어 커스터마이징 추가
-    private void UpdateFace()
+    //커스터마이징 적용
+    public Renderer backpack;
+    public Material[] backpackMat;
+
+    public Renderer dress;
+    public Material[] dressMat;
+
+    //public Renderer snow;
+    //public Material[] snowMat;
+
+    //플레이어 얼굴 커스터마이징 추가
+    // private void UpdateFace(int index=0)
+    // {   
+    //     Material[] tmpMats = snow.materials;
+    //     tmpMats[1] = snowMat[index];
+    //     //플레이어 얼굴 오브젝트 찾기! 플레이어 오브젝트의 3번째 자식이기 때문에 find로 못찾음!!
+    //     // Transform faceTransform = transform.GetChild(2);
+
+    //     // if (faceTransform == null) //얼굴 위치가 안불러와진다면 디버그 출력!
+    //     // {
+    //     //     Debug.LogError ("얼굴 안불러와져~");
+
+    //     //     return;
+
+    //     // }
+
+    //     // SkinnedMeshRenderer faceRenderer = faceTransform.GetComponent<SkinnedMeshRenderer>(); //플레이어 얼굴 랜더러 컴포넌트 연결
+    //     // if (faceRenderer != null && faceindex >= 0 && faceindex < faceMaterials.Length)
+    //     // {   
+    //     //     Material[] materials = faceRenderer.materials; //얼굴 머트리얼 배열을 연결
+
+    //     //     //materials[0] = materials[0]; //첫 번째 요소는 그대로 유지! (옷 텍스쳐라서)
+    //     //     materials[1] = faceMaterials[faceindex]; //두 번째 요소만 바꿔주기
+
+    //     //     faceRenderer.materials = materials;
+    //     //     //faceRenderer.material = faceMaterials[faceindex];
+    //     // }
+    //     // else
+    //     // {
+    //     //     Debug.LogError ("얼굴 머트리얼 못찾겠어~");
+    //     // }
+    // }
+
+    // //플레이어 얼굴 커스터마이징 추가
+    // public void ChangeFace(int index) //선택한 얼굴로 바꿔주기
+    // {
+    //     faceindex = index;
+    //     UpdateFace(); //얼굴을 업데이트 해준다~
+    // }
+
+
+
+    private void UpdateDress(int index = 0)
     {
-        Transform faceTransform = transform.Find("Scout"); //플레이어 얼굴 오브젝트 찾기..
-
-        if (faceTransform == null)
-        {
-            Debug.LogError ("얼굴 안불러와져~");
-
-            return;
-
-        }
-
-        Renderer faceRenderer = faceTransform.GetComponent<Renderer>(); //플레이어 얼굴 랜더러 컴포넌트 연결
-        if (faceRenderer != null && faceindex < faceMaterials.Length)
-        {
-            faceRenderer.material = faceMaterials[faceindex];
-        }
-        else
-        {
-            Debug.LogError ("얼굴 머트리얼 못찾겠어~");
-        }
+        dress.material = dressMat[index];
     }
 
-    //플레이어 커스터마이징 추가
-    public void ChangeFace(int index)
+    //플레이어 백팩 커스터마이징 추가
+    private void UpdateBack(int index=0)
     {
-        faceindex = index;
-        UpdateFace();
+        backpack.material = backpackMat[index];
+        // Transform BackTransform = transform.Find("BackPack"); //백팩은 플레이어의 첫 번째 자식이기 때문에 find 함수 사용 가능
+
+        // if (BackTransform == null)
+        // {
+        //     Debug.LogError ("백팩 안불러와져~");
+
+        //     return;
+        // }
+
+        // SkinnedMeshRenderer BackRenderer = BackTransform.GetComponent<SkinnedMeshRenderer>(); //플레이어 백팩 랜더러 컴포넌트 연결
+
+        // if(BackRenderer == null )
+        // {
+        //     Debug.Log("//#13-1 BackRenderer 없음");
+        // }
+
+        // if(Backindex < BackMaterials.Length)
+        // {
+        //     Debug.Log("//#13-2 범위 버그");
+        // }
+
+        // if (BackRenderer != null && Backindex < BackMaterials.Length)
+        // {   
+        //     Material[] materials = BackRenderer.materials;
+        //     materials[0] = BackMaterials[Backindex]; //얘는 0번째 인덱스 바꿔도 상관없으니까 바꿔줌.
+        //     BackRenderer.materials = materials;
+        //     //faceRenderer.material = faceMaterials[faceindex];
+        // }
+        // else
+        // {
+        //     Debug.LogError ("백팩 머트리얼 못찾겠어~");
+        // }
+        
     }
+
+
+    //플레이어 옷 추가....
+    public void ChangeDrees(int index)
+    {
+        Dressindex = index;
+        UpdateDress();
+    }
+
+    //플레이어 백팩 커스터마이징 추가
+    public void ChangeBack(int index)
+    {
+        Backindex = index;
+        UpdateBack();
+    }
+
+
 
 
     /// <summary>

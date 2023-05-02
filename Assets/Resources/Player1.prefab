@@ -162,7 +162,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3130501843124259521}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 43f8cb6ca5cba4b7d89f5e736f937731, type: 2}
   m_CullingMode: 0
@@ -654,6 +654,21 @@ MonoBehaviour:
   camPivot: {fileID: 0}
   maxHP: 1000
   hpBar: {fileID: 8179478331711236534}
+  inTheHouse: 0
+  canTrigger: 0
+  blockKeyDownE: 0
+  oldRot: {x: 0, y: 0, z: 0}
+  gameStart: 0
+  backpack: {fileID: 3130501843138064443}
+  backpackMat:
+  - {fileID: 2100000, guid: 1d0f967f03536854d8e023471d2e1393, type: 2}
+  - {fileID: 2100000, guid: 885abc4c04d679b4e8b4b1b53d9ab471, type: 2}
+  - {fileID: 2100000, guid: 4ec81ba0404fb4bc3a788c1112ec698a, type: 2}
+  dress: {fileID: 3130501843138057531}
+  dressMat:
+  - {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
+  - {fileID: 2100000, guid: ac12ce644f30b794587856fa7229074a, type: 2}
+  - {fileID: 2100000, guid: b722af0d1c88dbe4199b90aeeaef1d55, type: 2}
   m_path: []
   m_grid2D: {fileID: 0}
   m_closedList: []
