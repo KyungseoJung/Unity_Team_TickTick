@@ -88,6 +88,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
 
+       // pV.TransferOwnership();
         //룸 프로퍼티 참조
 
         StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
@@ -154,6 +155,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
 
+
         PhotonNetwork.isMessageQueueRunning = true;
 
         enterText.text = "";
@@ -183,7 +185,11 @@ public class csPhotonGame : Photon.MonoBehaviour
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
 
         string tmpStr = "Blueprint_WorkBench";
-        DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
+        }
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
@@ -564,13 +570,13 @@ public class csPhotonGame : Photon.MonoBehaviour
         }
     }
 
-    public void DropItemCreate(string objName, Vector3 pos, int count)
+    public void DropItemCreate(string objName, Vector3 pos, int count=1)
     {
         pV.RPC("DropItemCreateRPC", PhotonTargets.MasterClient, objName, pos, count);
     }
     
     [PunRPC]
-    public void DropItemCreateRPC(string objName, Vector3 pos, int count)
+    public void DropItemCreateRPC(string objName, Vector3 pos, int count=1)
     {
         GameObject tmpObj = PhotonNetwork.InstantiateSceneObject(objName, pos, Quaternion.identity, 0, null);
         tmpObj.GetComponent<Item>().count = count;
