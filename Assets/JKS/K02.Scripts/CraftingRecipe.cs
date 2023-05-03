@@ -194,6 +194,12 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
 
     void StartCraftingItem()    //'제작'버튼에 연결 - 동적으로 하는 게 빠르겠다.
     {
+        if(!inventory.HaveEmptySpace()) //#14-3 인벤토리에 이제 남은 자리 없으면, 경고 알람 띄우기
+        {
+            inventory.OpenWarningWindow();
+
+            return;
+        }
         // if (inventory.CanAddItem(craftItemType,1))  //#12-3 인벤토리 추가 가능 상태라면
         // {
 

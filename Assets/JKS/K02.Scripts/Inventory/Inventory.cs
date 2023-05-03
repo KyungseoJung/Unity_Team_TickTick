@@ -77,7 +77,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     private Item _loadItem;     //JSON 데이터를 이용해서 가져올 Item 클래스 데이터 저장용
     private Enum_DropItemType _loadItemType;    
 //#12-3
-    public GameObject[] allRecipe;  //#14-3 멀티 보완중 //인스펙터로 연결하기
+    public CraftingRecipe[] allRecipe;  //#14-3 멀티 보완중 //인스펙터로 연결하기
     public GameObject warningWindow;
 //#14-2 제작대 오브젝트 연결
     public GameObject CraftingUI;   //인스펙터로 직접 연결
@@ -929,10 +929,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void CheckAllRecipeState()   //#12-3
     {
-        foreach(GameObject recipes in allRecipe)
+        foreach(CraftingRecipe recipes in allRecipe)
         {
             Debug.Log("//#14-3 for문");
-            recipes.SendMessage("CheckRecipeState");
+            // recipes.SendMessage("CheckRecipeState");
+            recipes.CheckRecipeState();
         }
     }
 

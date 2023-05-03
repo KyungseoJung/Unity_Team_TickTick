@@ -14842,15 +14842,15 @@ MonoBehaviour:
   row: 4
   col: 4
   allRecipe:
-  - {fileID: 319922508}
-  - {fileID: 842596745}
-  - {fileID: 1859459259}
-  - {fileID: 1062889731}
-  - {fileID: 350150309}
-  - {fileID: 1501513899}
-  - {fileID: 1616136943}
-  - {fileID: 1506310015}
-  - {fileID: 1062552222}
+  - {fileID: 319922511}
+  - {fileID: 842596748}
+  - {fileID: 1859459262}
+  - {fileID: 1062889734}
+  - {fileID: 350150312}
+  - {fileID: 1501513902}
+  - {fileID: 1616136946}
+  - {fileID: 1506310018}
+  - {fileID: 1062552225}
   warningWindow: {fileID: 823948902}
   CraftingUI: {fileID: 2035295375}
 --- !u!1 &5340281806438597218
