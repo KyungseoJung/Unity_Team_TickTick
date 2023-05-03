@@ -190,12 +190,12 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (PhotonNetwork.isMasterClient)
         {
-            DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
+          //  DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
-        Invoke("LoadInvenDataStart", 3f);
+        Invoke("LoadInvenDataStart", 1f);
         Invoke("OffTutorialCanvas", 6f);
 
         yield return null;
