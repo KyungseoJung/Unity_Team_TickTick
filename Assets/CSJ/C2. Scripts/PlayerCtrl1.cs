@@ -136,6 +136,20 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     private Color32 backPackColor;
 
     bool isLoadCustom=false;
+
+    public GameObject hideObj;
+    public GameObject oculusObj;
+    bool isOM = false;
+
+    public void SetOulusMode(bool tmpCheck)
+    {
+        isOM = tmpCheck;
+        Debug.Log(tmpCheck + " 셋 오큘러스 버튼 눌림");
+
+        hideObj.SetActive(!tmpCheck);
+        oculusObj.SetActive(tmpCheck);
+    }
+
     public void SetInTheHouse(bool a)
     {
         inTheHouse = a;
@@ -248,6 +262,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
+        if (isOM)
+        {
+            return;
+        }
+
         //튜토리얼 안끝났으면 아무것도 안해~
         if (!gameStart)
         {

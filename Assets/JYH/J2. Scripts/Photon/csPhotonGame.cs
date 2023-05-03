@@ -627,6 +627,10 @@ public class csPhotonGame : Photon.MonoBehaviour
         // {
         //    return;
         // }
+        if (isOM)
+        {
+            return;
+        }
 
         if (!useEnter && Input.GetKeyDown(KeyCode.Return))
         {
@@ -1729,6 +1733,21 @@ public class csPhotonGame : Photon.MonoBehaviour
     //    StartCoroutine(Smile());
     //}
 
+
+    public bool isOM = false;
     
+    public void OnClickOculusBtn()
+    {
+        if (isOM)
+        {
+            isOM = false;
+            myPlyerCtrl.SetOulusMode(isOM);
+        }
+        else
+        {
+            isOM = true;
+            myPlyerCtrl.SetOulusMode(isOM);
+        }
+    }
 
 }
