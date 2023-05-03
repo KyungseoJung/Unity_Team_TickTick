@@ -122,7 +122,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //플레이어 얼굴 커스터마이징 추가~ 
     //public Material[] faceMaterials = new Material[3]; //플레이어 얼굴 배열
 
-    //private int faceindex; //플레이어 얼굴 변수
+    private int faceindex; //플레이어 얼굴 변수
 
 
     //플레이어 백팩 커스터마이징 추가~
@@ -132,6 +132,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     private int Dressindex; // 플레이어 옷 변수
 
     //public Material[] dressMaterials = new
+    private Color32 backPackColor;
 
 
     public void SetInTheHouse(bool a)
@@ -209,14 +210,28 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         //PhotonView pV = GetComponent<PhotonView>();
 
         //플레이어 얼굴 커스터마이징 추가
-        //faceindex = 0; //얼굴 초기화
-        //UpdateFace(); //얼굴 업데이트 함수
+        faceindex = 0; //얼굴 초기화
+        UpdateFace(InfoManager.Ins.clothesNum); //얼굴 업데이트 함수    //JSON 데이터 연결
 
 
         //플레이어 백팩 커스터마이징 추가
         Backindex = 0; //백팩 초기화
-        UpdateBack();  //백팩 업데이트 함수
+        switch(ColorToHex(InfoManager.Ins.clothesColor))        //JSON 데이터 연결
+        {
+            case ("#7ED67F") : // 초록색
+                Backindex = 0;
+                break;
+            case ("#FF8676") :  // 빨간색
+                Backindex = 1;
+                break;
+            case ("#FFF884") :   // 노란색
+                Backindex = 2;
+                break;
+        }
+        UpdateBack(Backindex);  //백팩 업데이트 함수 
 
+
+        //플레이어 옷 커스터마이징 추가
         Dressindex = 0; //옷 초기화
         UpdateDress();  //옷 업데이트
 
@@ -530,41 +545,45 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public Renderer dress;
     public Material[] dressMat;
 
+    public Renderer face;
+    public Material originBody; 
+    public Material[] faceMat;
+
     //public Renderer snow;
     //public Material[] snowMat;
 
     //플레이어 얼굴 커스터마이징 추가
     // private void UpdateFace(int index=0)
     // {   
-    //     Material[] tmpMats = snow.materials;
+    //     Material[] tmpMats = face.materials;
     //     tmpMats[1] = snowMat[index];
-    //     //플레이어 얼굴 오브젝트 찾기! 플레이어 오브젝트의 3번째 자식이기 때문에 find로 못찾음!!
-    //     // Transform faceTransform = transform.GetChild(2);
+        //플레이어 얼굴 오브젝트 찾기! 플레이어 오브젝트의 3번째 자식이기 때문에 find로 못찾음!!
+        // Transform faceTransform = transform.GetChild(2);
 
-    //     // if (faceTransform == null) //얼굴 위치가 안불러와진다면 디버그 출력!
-    //     // {
-    //     //     Debug.LogError ("얼굴 안불러와져~");
+        // if (faceTransform == null) //얼굴 위치가 안불러와진다면 디버그 출력!
+        // {
+        //     Debug.LogError ("얼굴 안불러와져~");
 
-    //     //     return;
+        //     return;
 
-    //     // }
+        // }
 
-    //     // SkinnedMeshRenderer faceRenderer = faceTransform.GetComponent<SkinnedMeshRenderer>(); //플레이어 얼굴 랜더러 컴포넌트 연결
-    //     // if (faceRenderer != null && faceindex >= 0 && faceindex < faceMaterials.Length)
-    //     // {   
-    //     //     Material[] materials = faceRenderer.materials; //얼굴 머트리얼 배열을 연결
+        // SkinnedMeshRenderer faceRenderer = faceTransform.GetComponent<SkinnedMeshRenderer>(); //플레이어 얼굴 랜더러 컴포넌트 연결
+        // if (faceRenderer != null && faceindex >= 0 && faceindex < faceMaterials.Length)
+        // {   
+        //     Material[] materials = faceRenderer.materials; //얼굴 머트리얼 배열을 연결
 
-    //     //     //materials[0] = materials[0]; //첫 번째 요소는 그대로 유지! (옷 텍스쳐라서)
-    //     //     materials[1] = faceMaterials[faceindex]; //두 번째 요소만 바꿔주기
+        //     //materials[0] = materials[0]; //첫 번째 요소는 그대로 유지! (옷 텍스쳐라서)
+        //     materials[1] = faceMaterials[faceindex]; //두 번째 요소만 바꿔주기
 
-    //     //     faceRenderer.materials = materials;
-    //     //     //faceRenderer.material = faceMaterials[faceindex];
-    //     // }
-    //     // else
-    //     // {
-    //     //     Debug.LogError ("얼굴 머트리얼 못찾겠어~");
-    //     // }
-    // }
+        //     faceRenderer.materials = materials;
+        //     //faceRenderer.material = faceMaterials[faceindex];
+        // }
+        // else
+        // {
+        //     Debug.LogError ("얼굴 머트리얼 못찾겠어~");
+        // }
+    //}
 
     // //플레이어 얼굴 커스터마이징 추가
     // public void ChangeFace(int index) //선택한 얼굴로 바꿔주기
@@ -574,7 +593,13 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     // }
 
 
+    //플레이어 얼굴 커스터마이징 추가
+    private void UpdateFace (int index = 0)
+    {
+        face.materials = new Material[2] {originBody, faceMat[index]};
+    }
 
+    //플레이어 옷 커스터마이징 추가
     private void UpdateDress(int index = 0)
     {
         dress.material = dressMat[index];
@@ -621,18 +646,25 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
 
     //플레이어 옷 추가....
-    public void ChangeDrees(int index)
-    {
-        Dressindex = index;
-        UpdateDress();
-    }
+    // public void ChangeDrees(int index)
+    // {
+    //     Dressindex = index;
+    //     UpdateDress();
+    // }
 
-    //플레이어 백팩 커스터마이징 추가
-    public void ChangeBack(int index)
-    {
-        Backindex = index;
-        UpdateBack();
-    }
+    // //플레이어 백팩 커스터마이징 추가
+    // public void ChangeBack(int index)
+    // {
+    //     Backindex = index;
+    //     UpdateBack();
+    // }
+
+    // //플레이어 얼굴 커스터마이징 추가
+    // public void ChangeFace(int index)
+    // {
+    //     faceindex = index;
+    //     UpdateFace();
+    // }
 
 
 
@@ -1059,6 +1091,30 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             //GameObject.Find("CraftingCanvas").SetActive(false);
             m_grid2D.craftingUI.SetActive(false);
         }
+    }
+
+
+
+    // private Color32 HexToColor32(string hex)
+    // {
+    //     // HEX 문자열을 RGB 값으로 분리
+    //     byte r = byte.Parse(hex.Substring(1, 2), System.Globalization.NumberStyles.HexNumber);
+    //     byte g = byte.Parse(hex.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
+    //     byte b = byte.Parse(hex.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
+
+    //     // Color32로 변환하여 반환
+    //     return new Color32(r, g, b, 255);
+    // }
+
+    private string ColorToHex(Color32 color)
+    {
+        // R, G, B 값을 HEX 문자열로 변환
+        string r = color.r.ToString("X2");
+        string g = color.g.ToString("X2");
+        string b = color.b.ToString("X2");
+
+        // '#' 문자열과 결합하여 반환
+        return "#" + r + g + b;
     }
 }
 
