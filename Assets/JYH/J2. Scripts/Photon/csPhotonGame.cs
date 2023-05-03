@@ -196,7 +196,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
-        Invoke("LoadInvenDataStart", 0.1f);
+        Invoke("LoadInvenDataStart", 3f);
         Invoke("OffTutorialCanvas", 3f);
 
         yield return null;
@@ -204,10 +204,18 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void LoadInvenDataStart()
     {
-        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().LoadInvenData();
-        //##0501 크래프팅 유아이 연결하고 비활성화
-        craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
+        tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+
+        tPlayer.LoadInvenData();
+
+        craftingUI = tPlayer.CraftingUI;
+
         craftingUI.SetActive(false);
+        tPlayer.warningWindow.SetActive(false);
+        //tPlayer.craftinUI.SetActive(false);
+        //##0501 크래프팅 유아이 연결하고 비활성화
+        //craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
+        //craftingUI.SetActive(false);
     }
 
     void OffTutorialCanvas()
