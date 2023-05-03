@@ -135,7 +135,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //public Material[] dressMaterials = new
     private Color32 backPackColor;
 
-
+    bool isLoadCustom=false;
     public void SetInTheHouse(bool a)
     {
         inTheHouse = a;
@@ -210,6 +210,9 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //PhotonView pV = GetComponent<PhotonView>();
 
+        if(pv.isMine){
+
+                isLoadCustom=true;
         //플레이어 얼굴 커스터마이징 추가
         faceindex = 0; //얼굴 초기화
         UpdateFace(InfoManager.Ins.clothesNum); //얼굴 업데이트 함수    //JSON 데이터 연결
@@ -238,6 +241,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         UpdateDress(Dressindex);  //옷 업데이트
 
 
+        }
 
 
     }
@@ -464,6 +468,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         Tr.position = Vector3.Lerp(Tr.position, currPos, Time.deltaTime * 3.0f);
         //원격 플레이어의 아바타를 수신받은 각도만큼 부드럽게 회전시키자
         Tr.rotation = Quaternion.Slerp(Tr.rotation, currRot, Time.deltaTime * 3.0f);
+
     }
 
 
@@ -700,12 +705,22 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             // 내가 보내는 경우 
             stream.SendNext(Tr.position);
             stream.SendNext(Tr.rotation);
+            
+            stream.SendNext(faceindex);
+            stream.SendNext(Backindex);
         }
         else
         {
             // 다른 플레이어가 보내는 경우 
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
+
+            if(!isLoadCustom){
+                isLoadCustom=true;
+                faceindex = (int)stream.ReceiveNext();
+                Backindex = (int)stream.ReceiveNext();
+            }
+            
         }
     }
 
