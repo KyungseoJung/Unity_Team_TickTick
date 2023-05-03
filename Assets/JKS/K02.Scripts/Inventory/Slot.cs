@@ -31,8 +31,20 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
 
     void Awake()
     {
-        inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
-        inventory = inventoryObject.GetComponent<Inventory>();
+        // inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
+        // inventory = inventoryObject.GetComponent<Inventory>();
+    }
+
+    private void OnEnable() {
+        if(inventoryObject==null)
+        {
+            inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
+        }
+
+        if(inventory==null)
+        {
+            inventory = inventoryObject.GetComponent<Inventory>();
+        }
     }
 
     void Start()
@@ -62,6 +74,16 @@ public class Slot : MonoBehaviour   //#2-1 인벤토리 중 슬롯 하나하나�
     // 인벤토리에 새로운 아이템(슬롯) 추가
     public void AddSlot(Item _item, int _count /* =1 */ )
     {
+        if(inventoryObject==null)
+        {
+            inventoryObject = transform.root.gameObject.GetComponentInChildren<Inventory>().gameObject;
+        }
+
+        if(inventory==null)
+        {
+            inventory = inventoryObject.GetComponent<Inventory>();
+        }
+
         //Debug.Log(_item.itemName);
         item = _item;
         itemTotalSum = _count; /*_count;*/
