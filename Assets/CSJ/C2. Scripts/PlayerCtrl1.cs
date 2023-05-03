@@ -299,10 +299,22 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             Invoke("ResetBlockKeyDownE", 0.2f);
             //GameObject.FindGameObjectWithTag("CraftingUI").SetActive(true);
             //GameObject.Find("CraftingCanvas").SetActive(true);
-            
-         if(m_grid2D.tPlayer.HaveEmptySpace())   // 남은 자리 있어야 제작대 켜지도록
+
+            if (m_grid2D.tPlayer.HaveEmptySpace())   // 남은 자리 있어야 제작대 켜지도록
             {
-                m_grid2D.craftingUI.SetActive(true);
+                if(m_grid2D.tPlayer == null)
+                {
+                    m_grid2D.tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+                }
+
+                if (m_grid2D.craftingUI == null)
+                {
+                    m_grid2D.craftingUI = m_grid2D.tPlayer.CraftingUI;
+                }
+                else
+                {
+                    m_grid2D.craftingUI.SetActive(true);
+                }
             }
             else
             {

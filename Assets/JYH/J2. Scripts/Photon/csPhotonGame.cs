@@ -192,11 +192,12 @@ public class csPhotonGame : Photon.MonoBehaviour
             DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
 
-        yield return new WaitForSeconds(3f);
-
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
-        Invoke("LoadInvenDataStart", 3f);
+        yield return new WaitForSeconds(3f);
+
+        LoadInvenDataStart();
+
         Invoke("OffTutorialCanvas", 3f);
 
         yield return null;
@@ -204,18 +205,35 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void LoadInvenDataStart()
     {
-        tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
-
-        tPlayer.LoadInvenData();
-
-        craftingUI = tPlayer.CraftingUI;
-
-        craftingUI.SetActive(false);
-        tPlayer.warningWindow.SetActive(false);
+        
         //tPlayer.craftinUI.SetActive(false);
         //##0501 크래프팅 유아이 연결하고 비활성화
         //craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
         //craftingUI.SetActive(false);
+
+        StartCoroutine(LoadInvenDataStartCoroutine());
+    }
+
+    IEnumerator LoadInvenDataStartCoroutine()
+    {
+        while (tPlayer == null)
+        {
+            tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        tPlayer.LoadInvenData();
+
+        while (craftingUI == null)
+        {
+            craftingUI = tPlayer.CraftingUI;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        craftingUI.SetActive(false);
+        tPlayer.warningWindow.SetActive(false);
+
+        yield return null;
     }
 
     void OffTutorialCanvas()
