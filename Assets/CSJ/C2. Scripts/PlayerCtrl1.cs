@@ -129,7 +129,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //public Material[] BackMaterials = new Material[2]; //플레이어 백팩 배열
     private int Backindex; //플레이어 백팩 변수
 
-    private int Dressindex; // 플레이어 옷 변수
+    // private int Dressindex; // 플레이어 옷 변수
+    private int Dressindex;
 
     //public Material[] dressMaterials = new
     private Color32 backPackColor;
@@ -232,8 +233,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
 
         //플레이어 옷 커스터마이징 추가
-        Dressindex = 0; //옷 초기화
-        UpdateDress();  //옷 업데이트
+        // Dressindex = 0; //옷 초기화
+        Dressindex = Random.Range(0, dressMat.Length);
+        UpdateDress(Dressindex);  //옷 업데이트
+
+
 
 
     }
@@ -601,7 +605,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     //플레이어 옷 커스터마이징 추가
     private void UpdateDress(int index = 0)
-    {
+    {   
         dress.material = dressMat[index];
     }
 

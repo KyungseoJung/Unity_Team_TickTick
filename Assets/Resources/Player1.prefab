@@ -667,6 +667,8 @@ MonoBehaviour:
   dress: {fileID: 3130501843138057531}
   dressMat:
   - {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
+  - {fileID: 2100000, guid: ac12ce644f30b794587856fa7229074a, type: 2}
+  - {fileID: 2100000, guid: b722af0d1c88dbe4199b90aeeaef1d55, type: 2}
   face: {fileID: 3130501843138057531}
   originBody: {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
   faceMat:
