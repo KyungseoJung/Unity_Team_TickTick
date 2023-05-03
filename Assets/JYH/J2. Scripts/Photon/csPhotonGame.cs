@@ -192,11 +192,11 @@ public class csPhotonGame : Photon.MonoBehaviour
             DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
 
-        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
-
         yield return new WaitForSeconds(3f);
 
-        LoadInvenDataStart();
+        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+
+        Invoke("LoadInvenDataStart", 3f);
 
         Invoke("OffTutorialCanvas", 3f);
 
