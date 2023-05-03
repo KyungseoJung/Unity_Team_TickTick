@@ -17,6 +17,16 @@ public class csDayCtrl : Photon.MonoBehaviour, IPunObservable
     public GameObject[] skyObj = new GameObject[3];
     bool skyObjActive = true;
 
+    public PhotonView pV;
+
+    private void Awake()
+    {
+        pV = GetComponent<PhotonView>();
+
+        pV.ObservedComponents[0] = this;
+        pV.synchronization = ViewSynchronization.UnreliableOnChange;
+    }
+
     private void Start()
     {
         skyObj[0].SetActive(true);

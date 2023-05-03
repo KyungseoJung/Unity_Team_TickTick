@@ -243,7 +243,7 @@ public class csRPCManager : Photon.MonoBehaviour
     [PunRPC]
     public void StartSmile()
     {
-        if (pV.isMine)
+        //if (pV.isMine)
         {
             StopCoroutine(Smile());
             csPG.smile.SetActive(false);
@@ -270,5 +270,40 @@ public class csRPCManager : Photon.MonoBehaviour
         //포톤 방나감 콜백 대충 여기서 세이브
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("scLobby0");
+    }
+
+
+    public void GetConnectPlayerCount()
+    {
+        Room currRoom = PhotonNetwork.room;
+
+        csPG.txtConnect.text = currRoom.PlayerCount.ToString() + "/" + currRoom.MaxPlayers.ToString();
+    }
+
+    public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
+        Debug.Log(newPlayer.ToStringFull());
+
+        GetConnectPlayerCount();
+    }
+
+    public void OnPhotonPlayerDisconnected(PhotonPlayer outPlayer)
+    {
+        GetConnectPlayerCount();
+    }
+
+    //[PunRPC]
+    //public void LogMsg(string msg)
+    //{
+    //    txtLogMsg.text = txtLogMsg.text + msg;
+    //}
+
+    public void OnEnterChat()
+    {
+        string msg = "\n\t<color=#ffffff>[" + PhotonNetwork.player.NickName + "] : " + csPG.enterText.text + "</color>";
+
+        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
+
+        csPG.enterText.text = "";
     }
 }

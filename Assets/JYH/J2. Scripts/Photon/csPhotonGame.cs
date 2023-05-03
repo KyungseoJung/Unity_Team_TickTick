@@ -315,15 +315,15 @@ public class csPhotonGame : Photon.MonoBehaviour
         pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
 
         //마스터가 나가면 방폭
-        if (PhotonNetwork.isMasterClient)
-        {
+        //if (PhotonNetwork.isMasterClient)
+        //{
             pV.RPC("DestroyRoomRPC", PhotonTargets.All, null);
-        }
-        else
-        {
-            PhotonNetwork.LeaveRoom(true);
+        //}
+        //else
+        //{
+          //  PhotonNetwork.LeaveRoom(true);
             //SceneManager.LoadScene("scLobby0");
-        }
+        //}
     }
 
     //[PunRPC]
@@ -1727,37 +1727,4 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     
 
-    public void GetConnectPlayerCount()
-    {
-        Room currRoom = PhotonNetwork.room;
-
-        txtConnect.text = currRoom.PlayerCount.ToString() + "/" + currRoom.MaxPlayers.ToString();
-    }
-
-    public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
-    {
-        Debug.Log(newPlayer.ToStringFull());
-
-        GetConnectPlayerCount();
-    }
-
-    public void OnPhotonPlayerDisconnected(PhotonPlayer outPlayer)
-    {
-        GetConnectPlayerCount();
-    }
-
-    //[PunRPC]
-    //public void LogMsg(string msg)
-    //{
-    //    txtLogMsg.text = txtLogMsg.text + msg;
-    //}
-
-    public void OnEnterChat()
-    {
-        string msg = "\n\t<color=#ffffff>[" + PhotonNetwork.player.NickName + "] : " + enterText.text + "</color>";
-
-        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
-
-        enterText.text = "";
-    }
 }
