@@ -39,7 +39,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     public Button[] chooseColorsBtns;   // '색' > '가방 색' 선택 버튼   //[0]부터 차례대로 : btnColor0, btnColor1, btnColor2
     public GameObject[] chooseScreen;       //[0] : 옷 선택하는 panel, [1] : 색 선택하는 panel, [2] : 플레이어 이름, 섬 이름 작성하는 panel
 
-    public Image playerClothes;     // ImgPlayerClothes 오브젝트
+    public Image playerClothes;     // ImgPlayerClothes 오브젝트    //#14-1 JSON 저장 위해서 이미지 오브젝트는 일단 살려두자
     public Image[] newClothes;
     public Image[] newColor;
 // #13-1 커스터마이징 플레이어와 Material 연결하기
@@ -154,7 +154,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
         OnClickGoBack();    
 
 // 다음씬 넘어가기 임시 버튼 =========================
-        btnGoNextScene.onClick.AddListener(OnClickGoNextScene);
+        // btnGoNextScene.onClick.AddListener(OnClickGoNextScene);  //#14-1
 
 //#4-1 
         // Debug.Log("//#4-2 Start 끝");
@@ -235,7 +235,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
             // Debug.Log("토글1 길이는 : " + tgHostOption.Length);
             tgHostOption[i].isOn = false;
         }
-        tgHostOption[0].isOn = true;
+        tgHostOption[0].isOn = true;    // 첫 토글은 체크된 상태로 시작
         for(int i=1; i<tgOpenOption.Length; i++)    // 토글 모두 꺼놓고 시작
         {
             // Debug.Log("토글2");
@@ -559,7 +559,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
                 inputFieldPassWord.SetActive(false);
                 break;
             case 3 : 
-                hostOptExplain.text = "비밀방입니다. 설정할 비밀번호를 입력하세요.";
+                hostOptExplain.text = "비밀방입니다. \n 설정할 비밀번호를 입력하세요.";
                 inputFieldPassWord.SetActive(true);
                 break;
             default : 
@@ -584,13 +584,13 @@ public class LobbyManager : MonoBehaviour   //#1-1
         }
     }
 
-    void OnClickGoNextScene()
-    {
-        GameObject.Find("OptionManager").GetComponent<AudioSource>().Stop();     //1 노래 멈춰
-        GameObject.Find("OptionCanvas").GetComponent<Canvas>().enabled = false;  //2 캔버스 숨겨
+    // void OnClickGoNextScene()    //#14-1
+    // {
+    //     GameObject.Find("OptionManager").GetComponent<AudioSource>().Stop();     //1 노래 멈춰
+    //     GameObject.Find("OptionCanvas").GetComponent<Canvas>().enabled = false;  //2 캔버스 숨겨
 
-        SceneManager.LoadScene("scPlayUI0");    //씬 이동
-    }
+    //     SceneManager.LoadScene("scPlayUI0");    //씬 이동
+    // }
 
 
 //포톤 관련 - 나중에
