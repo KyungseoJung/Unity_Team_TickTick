@@ -1892,6 +1892,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3143783c88b35294e868eb543391975a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapData:
+    widthX: 64
+    widthZ: 64
+    height: 64
+    waveLength: 50
+    amplitude: 5
+    groundHeightOffset: 20
   dayCtrl: {fileID: 0}
   oldTime: 
   isReady: 0
@@ -1907,6 +1914,7 @@ MonoBehaviour:
   - {fileID: 5508476080157611045}
   - {fileID: 5508476080695713277}
   - {fileID: 5508476080905556284}
+  actionNow: 1
   rayCastRange: 15
   myPlyerCtrl: {fileID: 0}
   craftingUI: {fileID: 0}
@@ -1917,6 +1925,7 @@ MonoBehaviour:
   enemySpawnCount: 0
   timeText: {fileID: 5508476080138750400}
   isUiBlock: 0
+  keyBlock: 1
   crossHair: {fileID: 5508476079860137130}
   tutorialCanvas: {fileID: 5508476080272876333}
   gameStart: 0

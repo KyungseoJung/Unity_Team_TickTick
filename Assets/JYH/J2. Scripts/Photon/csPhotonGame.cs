@@ -301,7 +301,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
-            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBufferedViaServer, pos, tmpCS, tmpNum);
+            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBuffered, pos, tmpCS, tmpNum);
         }       
     }
 
@@ -312,12 +312,15 @@ public class csPhotonGame : Photon.MonoBehaviour
         string msg = "\n\t<color=#999999>[" + PhotonNetwork.player.NickName + "] Disconnected</color>";
 
         //RPC 함수 호출
-        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
+        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
+
+        StopAllCoroutines();
+        CancelInvoke();
 
         //마스터가 나가면 방폭
         //if (PhotonNetwork.isMasterClient)
         //{
-            pV.RPC("DestroyRoomRPC", PhotonTargets.All, null);
+        pV.RPC("DestroyRoomRPC", PhotonTargets.AllBuffered, null);
         //}
         //else
         //{
@@ -464,7 +467,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void GrowthTimeCheck()//타이머
     {
-        pV.RPC("RPCGrowthTimeCheck", PhotonTargets.AllBufferedViaServer, null);
+        pV.RPC("RPCGrowthTimeCheck", PhotonTargets.AllBuffered, null);
     }
 
     //[PunRPC]
@@ -499,7 +502,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void NextDay()
     {
-        pV.RPC("NextDayRPC", PhotonTargets.AllBufferedViaServer, null);
+        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
     }
 
     //[PunRPC]
@@ -1103,7 +1106,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void SetObjDMG(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
     {
-        pV.RPC("SetObjDMGRPC", PhotonTargets.AllBufferedViaServer, pos, dmg, ui);
+        pV.RPC("SetObjDMGRPC", PhotonTargets.AllBuffered, pos, dmg, ui);
     }
 
     //[PunRPC]
@@ -1206,7 +1209,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //Debug.Log(123123123);
 
             //밭 설치
-            pV.RPC("RPCActionHOE", PhotonTargets.AllBufferedViaServer, blockPos);            
+            pV.RPC("RPCActionHOE", PhotonTargets.AllBuffered, blockPos);            
         }
     }
 
@@ -1253,7 +1256,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             {
                 worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = false;//지금 내위치는 탑이아님
 
-                pV.RPC("CreateCube", PhotonTargets.AllBufferedViaServer, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);//블록 생성
+                pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);//블록 생성
                 SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);//블록 아이템 갯수 차감
             }
         }
@@ -1407,7 +1410,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
                             if (worldBlock[(int)tmpPos.x, (int)tmpPos.y, (int)tmpPos.z] != null)
                             {
-                                pV.RPC("DrawBlock", PhotonTargets.AllBufferedViaServer, tmpPos);
+                                pV.RPC("DrawBlock", PhotonTargets.AllBuffered, tmpPos);
                             }
                             // Debug.Log(tmpPos + "///" + hit.transform.position);
                         }
@@ -1426,7 +1429,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void CreateWaterAuto(Vector3 blockPos)//근처 빈 공간 있으면 자동으로 물로 채우고 
     {
-        pV.RPC("CreateCube", PhotonTargets.AllBufferedViaServer, new Vector3(blockPos.x, blockPos.y, blockPos.z), Enum_CubeType.WATER);
+        pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y, blockPos.z), Enum_CubeType.WATER);
         //GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
         //worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
         //tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
@@ -1594,7 +1597,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void DelChildObj(Vector3 pos)
     {
-        pV.RPC("DelChildObjRPC", PhotonTargets.AllBufferedViaServer, pos);
+        pV.RPC("DelChildObjRPC", PhotonTargets.AllBuffered, pos);
     }
 
     //[PunRPC]
