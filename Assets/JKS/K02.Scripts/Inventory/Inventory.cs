@@ -79,6 +79,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
 //#12-3
     private GameObject[] allRecipe;
     public GameObject warningWindow;
+//#14-2 제작대 오브젝트 연결
+    public GameObject CraftingUI;   //인스펙터로 직접 연결
 
     void Awake()
     {
@@ -107,7 +109,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
         InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
 
-        warningWindow.SetActive(false); //#12-4 꺼놓은 상태로 시작
+        // warningWindow.SetActive(false); //#12-4 꺼놓은 상태로 시작
     }
 
     void Update()

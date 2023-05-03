@@ -14842,7 +14842,6 @@ MonoBehaviour:
   row: 4
   col: 4
   warningWindow: {fileID: 823948902}
-  CraftingUI: {fileID: 2035295375}
 --- !u!1 &5340281806438597218
 GameObject:
   m_ObjectHideFlags: 0
