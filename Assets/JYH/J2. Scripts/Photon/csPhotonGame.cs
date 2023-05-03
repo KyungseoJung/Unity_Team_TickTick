@@ -319,15 +319,15 @@ public class csPhotonGame : Photon.MonoBehaviour
         CancelInvoke();
 
         //마스터가 나가면 방폭
-        //if (PhotonNetwork.isMasterClient)
-        //{
-        pV.RPC("DestroyRoomRPC", PhotonTargets.AllBuffered, null);
-        //}
-        //else
-        //{
-          //  PhotonNetwork.LeaveRoom(true);
+        if (PhotonNetwork.isMasterClient)
+        {
+            pV.RPC("DestroyRoomRPC", PhotonTargets.AllBuffered, null);
+        }
+        else
+        {
+            PhotonNetwork.LeaveRoom(true);
             //SceneManager.LoadScene("scLobby0");
-        //}
+        }
     }
 
     //[PunRPC]

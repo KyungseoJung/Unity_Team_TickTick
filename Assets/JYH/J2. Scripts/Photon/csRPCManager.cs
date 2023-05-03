@@ -23,8 +23,11 @@ public class csRPCManager : Photon.MonoBehaviour
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
-        csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
-        csPG.pV = pV;
+        if (pV.isMine)
+        {
+            csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+            csPG.pV = pV;
+        }
        // csPG.InitMap();
     }
 
