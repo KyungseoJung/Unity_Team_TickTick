@@ -77,15 +77,15 @@ public class Inventory : MonoBehaviour, IInventoryBase
     private Item _loadItem;     //JSON 데이터를 이용해서 가져올 Item 클래스 데이터 저장용
     private Enum_DropItemType _loadItemType;    
 //#12-3
-    private GameObject[] allRecipe;
+    public GameObject[] allRecipe;  //#14-3 멀티 보완중 //인스펙터로 연결하기
     public GameObject warningWindow;
 //#14-2 제작대 오브젝트 연결
     public GameObject CraftingUI;   //인스펙터로 직접 연결
 
-    void Awake()
-    {
-        allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
-    }
+    // void Awake()
+    // {
+    //     allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
+    // }
     IEnumerator Start()
     {
         //slots = gridInventory.GetComponentsInChildren<Slot>();
@@ -810,6 +810,8 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 if((itemInventory[i, j].Equals(_useItemType)) && itemInventoryCount[i, j]>=_useCount)   //#12-2 어차피 재료 아이템은 한 슬롯에 여러개씩 있으니까 이렇게 검사해도 돼 
                     //#12-2 && 뒷 부분은 이미 CraftingRecipe.cs에서 검사하고 온 거라, 안 해도 되긴 하는데, 대비용으로 해놓자
                 {
+
+                    Debug.Log("//#14-3 n번째 슬롯 아이템 빼기 : " + col*i+j + "번째 슬롯. " + _useCount + "개 빼기");
                     slots[col*i + j].UpdateSlotCount(- _useCount);  
                 }
             }
@@ -929,6 +931,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
     {
         foreach(GameObject recipes in allRecipe)
         {
+            Debug.Log("//#14-3 for문");
             recipes.SendMessage("CheckRecipeState");
         }
     }
