@@ -88,10 +88,15 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
 
-       // pV.TransferOwnership();
+        // pV.TransferOwnership();
         //룸 프로퍼티 참조
 
-        StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
+        if (pV.isMine)
+        {
+            tutorialCanvas.SetActive(true);
+            StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
+        }
+        
     }
 
     IEnumerator Start()
@@ -103,20 +108,26 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        if (PhotonNetwork.connectedAndReady && PhotonNetwork.isMasterClient)//방장일때탄다
+        if (pV.isMine)
         {
-            dayCtrl = PhotonNetwork.InstantiateSceneObject("SkyDome", new Vector3(mapData.widthX * 2, mapData.height - 134f, mapData.widthZ * 2), Quaternion.identity, 0, null).GetComponent<csDayCtrl>();
+            if (PhotonNetwork.connectedAndReady && PhotonNetwork.isMasterClient)//방장일때탄다
+            {
+                dayCtrl = PhotonNetwork.InstantiateSceneObject("SkyDome", new Vector3(mapData.widthX * 2, mapData.height - 134f, mapData.widthZ * 2), Quaternion.identity, 0, null).GetComponent<csDayCtrl>();
 
-            InvokeRepeating("GrowthTimeCheck", 0f, 0.2f);//타이머시작
+                InvokeRepeating("GrowthTimeCheck", 0f, 0.2f);//타이머시작
+            }
+            else if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
+            {
+                debugBtn.SetActive(false);
+            }
+
+            Cursor.lockState = CursorLockMode.Locked;
+            LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
         }
-        else if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
+        else
         {
-            debugBtn.SetActive(false);
+            gameObject.SetActive(false);
         }
-
-        Cursor.lockState = CursorLockMode.Locked;
-        LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
-
     }
 
     IEnumerator InitMapData()
@@ -161,9 +172,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         enterText.text = "";
         enterText.gameObject.SetActive(false);
 
-        string msg = "\n\t<color=#00ff00>["
-                    + PhotonNetwork.player.NickName
-                    + "] Connected</color>";
+        string msg = "\n\t<color=#00ff00>[" + PhotonNetwork.player.NickName + "] Connected</color>";
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -186,7 +195,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
 
-        Invoke("LoadInvenDataStart", 1f);
+        Invoke("LoadInvenDataStart", 3f);
         Invoke("OffTutorialCanvas", 6f);
 
         yield return null;
@@ -590,12 +599,12 @@ public class csPhotonGame : Photon.MonoBehaviour
             return;
         }
 
-        //if (!pV.isMine)
-        //{
-        //    return;
-        //}
+        if (!pV.isMine)
+        {
+            return;
+        }
 
-        if(!useEnter && Input.GetKeyDown(KeyCode.Return))
+        if (!useEnter && Input.GetKeyDown(KeyCode.Return))
         {
             useEnter = true;
             enterText.gameObject.SetActive(true);

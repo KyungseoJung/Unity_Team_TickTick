@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class csGameStart : MonoBehaviour
 {
-    private void Awake()
+    public GameObject mg;
+
+    private void Start()
     {
-        PhotonNetwork.Instantiate("MainGamePrefap", Vector3.zero, Quaternion.identity, 0);
-    }
+        PhotonNetwork.Instantiate(mg.name, Vector3.zero, Quaternion.identity, 0);
+    } 
+
 }
