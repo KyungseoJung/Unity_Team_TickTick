@@ -93,9 +93,9 @@ public class csPhotonGame : Photon.MonoBehaviour
         //if (pV.isMine)
         //{
             tutorialCanvas.SetActive(true);
-            StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
+        //StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
         //}
-        
+        InitMapData();
     }
 
     IEnumerator Start()
@@ -129,7 +129,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         //}
     }
     
-    IEnumerator InitMapData()
+    void InitMapData()
     {
         m_nodeArr = new Node[mapData.widthX, mapData.widthZ];
 
@@ -192,20 +192,19 @@ public class csPhotonGame : Photon.MonoBehaviour
             DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
 
-        yield return new WaitForSeconds(3f);
-
-        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+        //yield return new WaitForSeconds(3f);
+        
 
         Invoke("LoadInvenDataStart", 3f);
 
-        Invoke("OffTutorialCanvas", 3f);
+        Invoke("OffTutorialCanvas", 6f);
 
-        yield return null;
+        //yield return null;
     }
 
     void LoadInvenDataStart()
     {
-        
+        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
         //tPlayer.craftinUI.SetActive(false);
         //##0501 크래프팅 유아이 연결하고 비활성화
         //craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
@@ -216,6 +215,8 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     IEnumerator LoadInvenDataStartCoroutine()
     {
+        yield return new WaitForSeconds(3f);
+
         while (tPlayer == null)
         {
             tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
@@ -1368,7 +1369,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             
             oldBlock = null;
             bool waterCheck = WaterCheck(blockPos);
-            pV.RPC("ActionSHOVELRPC", PhotonTargets.All, blockPos);
+            pV.RPC("ActionSHOVELRPC", PhotonTargets.AllBuffered, blockPos);
             DropItemCreate("ITEM_Cube", blockPos, 1);
 
             //Debug.Log(waterCheck+"무슨일이 일어나는거지");
