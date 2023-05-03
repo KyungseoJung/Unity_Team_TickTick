@@ -129,7 +129,7 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
 
         //##0501임시로꺼봄
         //Invoke("CheckRecipeState", 2.0f);   //# 이 함수가 Inventory.cs 대부분의 함수들보다 먼저 실행되어서 null로 뜨는 문제가 발생함
-        // CheckRecipeState();
+         CheckRecipeState();
 
         //##0501 다음부터 활성화 될때마다 온언에이블 탈 수 있게
         startCheck = true;
@@ -177,8 +177,8 @@ public class CraftingRecipe : MonoBehaviour   //#12-1 제작대 레시피
     void OnEnable() // 비활성화에서 활성화 될 때, 매번 호출되는 콜백함수
     {
         //##0501 스타트 함수가 한번 지난 뒤 호출됨 >> 시작할 때 에러안남 만세! 함수 호출순서 어웨이크 > 온언에이블 > 스타트 응용
-        if (startCheck /*&& !checkOnce*/)
-        {
+         if (startCheck /*&& !checkOnce*/)
+         {
             Debug.Log("//#12-1 OnEnable 호출 확인");
             // StartCraftingItem();
             CheckRecipeState(); // 이 스크립트를 가진 모든 오브젝트에서 실행될 테니까// 굳이 Inventory 스크립트에서 SendMessage 하지 않아도 돼
