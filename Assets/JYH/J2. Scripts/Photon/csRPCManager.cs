@@ -136,7 +136,7 @@ public class csRPCManager : Photon.MonoBehaviour
     [PunRPC]
     public void ActionSHOVELRPC(Vector3 blockPos)
     {
-        Debug.Log("누군가 삽질함");
+        Debug.Log("누군가 삽질함" + blockPos);
         Destroy(csPG.worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj);
         csPG.worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = null;
     }

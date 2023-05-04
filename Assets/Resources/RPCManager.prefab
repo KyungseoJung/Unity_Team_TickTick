@@ -1908,7 +1908,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5508476079331086256}
-        m_MethodName: StartSmile
+        m_MethodName: OnClickSmileBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
