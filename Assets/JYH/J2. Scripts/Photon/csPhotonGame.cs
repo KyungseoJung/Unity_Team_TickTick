@@ -16,13 +16,7 @@ using System.Runtime.Serialization.Formatters.Binary; // System.Runtime.Serializ
 public class csPhotonGame : Photon.MonoBehaviour
 {
     [Header("맵정보")]
-    public MapDataClass mapData = new MapDataClass();
-
-    [Header("날씨 스크립트 가져오기")]
-    public csDayCtrl dayCtrl;
-
-    [Header("분마다 시간체크용")]
-    public string oldTime;
+    public MapDataClass mapData = new MapDataClass();   
 
     [Header("블록 정보 3차원으로 저장")]
     public Block[,,] worldBlock=null;
@@ -56,37 +50,22 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("포톤 관련")]
     [SerializeField]
     public PhotonView pV;
-    public GameObject smile;
 
-    [Header("스폰 관련")]
-    public GameObject enemySpawn;
-    public int enemySpawnCount;
 
     [Header("UI 관련")]
-    public Text timeText;
     public bool isUiBlock = false;
     public bool keyBlock =true;
     [SerializeField]
     public GameObject crossHair;
+    public bool useEnter = false;
 
     [Header("튜토리얼 캔버스")]
     public GameObject tutorialCanvas;
     public bool gameStart = false;
 
-    [Header("채팅 관련")]
-    public Text txtConnect;
-    public Text txtLogMsg;
-    public InputField enterText;
-    public bool useEnter = false;
-
-    [Header("디버그 관련")]
-    public GameObject debugBtn;
-    public bool isDebugMode = false;
-
     private void Awake()
     {
-        PhotonNetwork.Instantiate("RPCManager", Vector3.zero, Quaternion.identity, 0);
-
+        pV = transform.parent.GetComponent<PhotonView>();
         // pV.TransferOwnership();
         //룸 프로퍼티 참조
 
@@ -98,35 +77,14 @@ public class csPhotonGame : Photon.MonoBehaviour
         InitMapData();
     }
 
-    IEnumerator Start()
+    void Start()
     {
-        while (!PhotonNetwork.connectedAndReady)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-       // if (pV.isMine)
-        //{
-        if (PhotonNetwork.connectedAndReady && PhotonNetwork.isMasterClient)//방장일때탄다
-        {
-            dayCtrl = PhotonNetwork.InstantiateSceneObject("SkyDome", new Vector3(mapData.widthX * 2, mapData.height - 134f, mapData.widthZ * 2), Quaternion.identity, 0, null).GetComponent<csDayCtrl>();
-
-            InvokeRepeating("GrowthTimeCheck", 0f, 0.2f);//타이머시작
-        }
-        else if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
         {
             debugBtn.SetActive(false);
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
         LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
-        //}
-        //else
-        //{
-       //     gameObject.SetActive(false);
-        //}
     }
     
     void InitMapData()
@@ -166,12 +124,8 @@ public class csPhotonGame : Photon.MonoBehaviour
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
 
 
-        PhotonNetwork.isMessageQueueRunning = true;
-
-        enterText.text = "";
-        enterText.gameObject.SetActive(false);
-
-        string msg = "\n\t<color=#00ff00>[" + PhotonNetwork.player.NickName + "] Connected</color>";
+        PhotonNetwork.isMessageQueueRunning = true;        
+        
 
         if (PhotonNetwork.isMasterClient)
         {
@@ -180,10 +134,7 @@ public class csPhotonGame : Photon.MonoBehaviour
                 CreateBlockChild(pos);
             }
 
-            StartCoroutine(EnemySpawn());
-        }
-
-        PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
+        }       
 
         string tmpStr = "Blueprint_WorkBench";
 
@@ -251,25 +202,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         return gameStart;
     }
 
-    IEnumerator EnemySpawn()
-    {
-        //Debug.Log("애너미스폰");
-
-        Transform[] enemySpawnPoint = enemySpawn.GetComponentsInChildren<Transform>();
-
-        //Debug.Log(enemySpawnPoint.Length);
-
-        int maxEnemyPrefaps = csLevelManager.Ins.enemyPrefaps.Length;
-
-        while (enemySpawnCount < 20)
-        {
-            PhotonNetwork.InstantiateSceneObject(csLevelManager.Ins.enemyPrefaps[UnityEngine.Random.Range(0, maxEnemyPrefaps)].name, enemySpawnPoint[UnityEngine.Random.Range(1, enemySpawnPoint.Length)].position, Quaternion.identity, 0, null);
-            
-            enemySpawnCount++;
-            //Debug.Log(enemySpawnCount);
-        }
-        yield return null;
-    }
+    
 
     void CreateBlockChild(Vector3 pos)
     {
@@ -306,29 +239,6 @@ public class csPhotonGame : Photon.MonoBehaviour
         }       
     }
 
-    public void OnClickExitBtn()
-    {
-        //OptionManager.Ins.PlayClickSound();
-
-        string msg = "\n\t<color=#999999>[" + PhotonNetwork.player.NickName + "] Disconnected</color>";
-
-        //RPC 함수 호출
-        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
-
-        StopAllCoroutines();
-        CancelInvoke();
-
-        //마스터가 나가면 방폭
-        if (PhotonNetwork.isMasterClient)
-        {
-            pV.RPC("DestroyRoomRPC", PhotonTargets.AllBuffered, null);
-        }
-        else
-        {
-            PhotonNetwork.LeaveRoom(true);
-            //SceneManager.LoadScene("scLobby0");
-        }
-    }
 
     //[PunRPC]
     //public void DestroyRoomRPC()
@@ -466,10 +376,6 @@ public class csPhotonGame : Photon.MonoBehaviour
         //}
     }
 
-    void GrowthTimeCheck()//타이머
-    {
-        pV.RPC("RPCGrowthTimeCheck", PhotonTargets.AllBuffered, null);
-    }
 
     //[PunRPC]
     //public void RPCGrowthTimeCheck()
@@ -499,12 +405,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     //    //text_time.text = time;
     //    timeText.text = date + "\n" + time;
     //    //Debug.Log(string.Format("{0}\n{1}", date, time));
-    //}
-
-    public void NextDay()
-    {
-        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
-    }
+    //}    
 
     //[PunRPC]
     //public void NextDayRPC()
@@ -634,27 +535,22 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (!useEnter && Input.GetKeyDown(KeyCode.Return))
         {
-            useEnter = true;
-            enterText.gameObject.SetActive(true);
-            enterText.ActivateInputField();
 
             if (!isUiBlock)
             {
                 isUiBlock = true;
-                crossHair.SetActive(false);
+                //crossHair.SetActive(false);
                 Cursor.lockState = CursorLockMode.None;
             }
         }
         else if (useEnter && Input.GetKeyDown(KeyCode.Return))
         {
             useEnter = false;
-            enterText.gameObject.SetActive(false);
-            enterText.DeactivateInputField();
 
             if (isUiBlock)
             {
                 isUiBlock = false;
-                crossHair.SetActive(true);
+                //crossHair.SetActive(true);
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
@@ -666,7 +562,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             if (!isUiBlock)
             {
                 isUiBlock = true;
-                crossHair.SetActive(false);
+                //crossHair.SetActive(false);
                 //Debug.Log("uiblock");
                 Cursor.lockState = CursorLockMode.None;
 
@@ -678,21 +574,9 @@ public class csPhotonGame : Photon.MonoBehaviour
             else
             {
                 isUiBlock = false;
-                crossHair.SetActive(true);
+                //crossHair.SetActive(true);
                 //Debug.Log("enuiblock");
                 Cursor.lockState = CursorLockMode.Locked;
-            }
-
-            if (useEnter)
-            {
-                useEnter = true;
-                enterText.gameObject.SetActive(true);
-            }
-            else
-            {
-                useEnter = false;
-                enterText.gameObject.SetActive(false);
-                enterText.DeactivateInputField();
             }
 
             Invoke("KeyBlockFct", 0.2f);
@@ -1715,15 +1599,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     }
 
 
-    //채팅기능
-
-    public void OnClickSmileBtn()
-    {
-        //if (pV.isMine)
-       // {
-            pV.RPC("StartSmile", PhotonTargets.All, null);
-       // }
-    }
+    //채팅기능  
 
     //[PunRPC]
     //public void StartSmile()
@@ -1749,5 +1625,78 @@ public class csPhotonGame : Photon.MonoBehaviour
             myPlyerCtrl.SetOulusMode(isOM);
         }
     }
+
+    public GameObject smile;
+    public void OnClickSmileBtn()
+    {
+        //if (pV.isMine)
+        {            
+            pV.RPC("StartSmile", PhotonTargets.All, null);
+        }
+    }
+
+    [PunRPC]
+    public void StartSmile()
+    {
+        if (smile == null)
+        {
+            smile = myPlyerCtrl.GetComponent<PlayerCtrl1>().smilePos.gameObject;
+        }
+
+        if (pV.isMine)
+        {
+            StopCoroutine(Smile());
+            smile.SetActive(false);
+            StartCoroutine(Smile());
+        }
+    }
+
+    IEnumerator Smile()
+    {
+        smile.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        smile.SetActive(false);
+    }
+
+    public void OnClickExitBtn()
+    {
+        //OptionManager.Ins.PlayClickSound();
+
+        string msg = "\n\t<color=#999999>[" + PhotonNetwork.player.NickName + "] Disconnected</color>";
+
+        //RPC 함수 호출
+        GameObject.FindGameObjectWithTag("SceneOwner").GetComponent<csSceneOwner>().LogMsgAll(msg);
+
+        StopAllCoroutines();
+        CancelInvoke();
+
+        //마스터가 나가면 방폭
+        if (PhotonNetwork.isMasterClient)
+        {
+            pV.RPC("DestroyRoom", PhotonTargets.All, null);
+        }
+        else
+        {
+            PhotonNetwork.LeaveRoom(true);
+            //SceneManager.LoadScene("scLobby0");
+        }
+    }
+
+
+    [Header("디버그 관련")]
+    public GameObject debugBtn;
+    public bool isDebugMode = false;
+
+    public void OnClickDebugBtn()
+    {
+       // GameObject.FindGameObjectWithTag("SceneOwner").GetComponent<csSceneOwner>().NextDay();
+        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
+    }
+
+    public void NextDay()
+    {
+        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
+    }
+
 
 }

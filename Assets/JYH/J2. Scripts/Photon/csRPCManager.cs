@@ -18,16 +18,16 @@ public class csRPCManager : Photon.MonoBehaviour
     [SerializeField]
     PhotonView pV;
 
-    csPhotonGame csPG;
+    public csPhotonGame csPG;
 
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
-        if (pV.isMine)
-        {
-            csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
-            csPG.pV = pV;
-        }
+        //if (pV.isMine)
+        //{
+        //    csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+        //    csPG.pV = pV;
+        //}
        // csPG.InitMap();
     }
 
@@ -36,43 +36,7 @@ public class csRPCManager : Photon.MonoBehaviour
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
     {
         csPG.worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().SetObj(tmpCS, tmpNum);
-    }
-
-    [PunRPC]
-    public void RPCGrowthTimeCheck()
-    {
-        string date = DateTime.Now.ToString("yy.MM.dd ") + DateTime.Now.DayOfWeek.ToString().ToUpper().Substring(0, 3);
-        //or date = DateTime.Now.ToString("yyyy. MM. dd. ddd");
-        string time = DateTime.Now.ToString("HH:mm");
-
-        if (csPG.oldTime == null)
-        {
-            csPG.oldTime = DateTime.Now.ToString("HH:mm");
-
-        }
-
-        if (!csPG.oldTime.Equals(time))
-        {
-            csPG.oldTime = time;
-
-            if (PhotonNetwork.isMasterClient)
-            {
-                csPG.dayCtrl.NextTime();
-            }
-        }
-
-        //ui text에 넣을 수 있음
-        //text_date.text = date;
-        //text_time.text = time;
-        csPG.timeText.text = date + "\n" + time;
-        //Debug.Log(string.Format("{0}\n{1}", date, time));
-    }
-
-    [PunRPC]
-    public void LogMsg(string msg)
-    {
-        csPG.txtLogMsg.text = csPG.txtLogMsg.text + msg;
-    }
+    }    
 
     [PunRPC]
     public void DropItemCreateRPC(string objName, Vector3 pos, int count = 1)
@@ -244,28 +208,9 @@ public class csRPCManager : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    public void StartSmile()
-    {
-        //if (pV.isMine)
-        {
-            StopCoroutine(Smile());
-            csPG.smile.SetActive(false);
-            StartCoroutine(Smile());
-        }
-    }
-
-    IEnumerator Smile()
-    {
-        csPG.smile.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        csPG.smile.SetActive(false);
-    }
-
-
     public void DestroyRoom()
     {
         PhotonNetwork.LeaveRoom(true);
-
     }
 
     public void OnLeftRoom()
@@ -273,40 +218,5 @@ public class csRPCManager : Photon.MonoBehaviour
         //포톤 방나감 콜백 대충 여기서 세이브
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("scLobby0");
-    }
-
-
-    public void GetConnectPlayerCount()
-    {
-        Room currRoom = PhotonNetwork.room;
-
-        csPG.txtConnect.text = currRoom.PlayerCount.ToString() + "/" + currRoom.MaxPlayers.ToString();
-    }
-
-    public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
-    {
-        Debug.Log(newPlayer.ToStringFull());
-
-        GetConnectPlayerCount();
-    }
-
-    public void OnPhotonPlayerDisconnected(PhotonPlayer outPlayer)
-    {
-        GetConnectPlayerCount();
-    }
-
-    //[PunRPC]
-    //public void LogMsg(string msg)
-    //{
-    //    txtLogMsg.text = txtLogMsg.text + msg;
-    //}
-
-    public void OnEnterChat()
-    {
-        string msg = "\n\t<color=#ffffff>[" + PhotonNetwork.player.NickName + "] : " + csPG.enterText.text + "</color>";
-
-        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
-
-        csPG.enterText.text = "";
-    }
+    }   
 }

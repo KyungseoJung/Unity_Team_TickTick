@@ -19,6 +19,8 @@ public class csDayCtrl : Photon.MonoBehaviour, IPunObservable
 
     public PhotonView pV;
 
+    public csPhotonGame masterPG;
+
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
@@ -53,7 +55,7 @@ public class csDayCtrl : Photon.MonoBehaviour, IPunObservable
             {
                 skyOffSetVal = 0f;
 
-                GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>().NextDay();
+                masterPG.NextDay();
             }
 
             //스카이박스 머테리얼 설정

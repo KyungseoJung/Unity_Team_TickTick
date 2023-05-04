@@ -141,6 +141,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public GameObject oculusObj;
     bool isOM = false;
 
+    public Transform smilePos;
+
     public void SetOulusMode(bool tmpCheck)
     {
         isOM = tmpCheck;
