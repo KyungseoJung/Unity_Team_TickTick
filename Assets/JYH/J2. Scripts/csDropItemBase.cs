@@ -49,7 +49,7 @@ public class csDropItemBase : Item
             //Debug.Log("타긴하니");
             //만약 인벤토리가 꽉차있지 않으면
 
-            csPhotonGame tmpPG = col.gameObject.GetComponent<csPhotonGame>();
+            csPhotonGame tmpPG = col.gameObject.GetComponent<PlayerCtrl1>().m_grid2D;
 
             if (tmpPG.tPlayer.CanAddItem(ItemType,count))
             {

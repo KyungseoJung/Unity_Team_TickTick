@@ -277,6 +277,16 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     void Update()
     {
+        if (!pv.isMine && gameStart)
+        {
+            MoveAvarta();
+            return;
+        }
+        else if (!pv.isMine)
+        {
+            return;
+        }
+
         if (isOM)
         {
             return;
@@ -299,12 +309,6 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         {
             transform.eulerAngles = oldRot;
 
-            return;
-        }
-
-        if (!pv.isMine)
-        {
-            MoveAvarta();
             return;
         }
 
@@ -374,6 +378,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     private void LateUpdate()
     {
+        if (!pv.isMine)
+        {
+            return;
+        }
+
         if (m_grid2D.isUiBlock)
         {
             return;
