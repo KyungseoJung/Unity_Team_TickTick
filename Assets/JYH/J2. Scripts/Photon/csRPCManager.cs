@@ -23,12 +23,12 @@ public class csRPCManager : Photon.MonoBehaviour
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
-        //if (pV.isMine)
-        //{
-        //    csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
-        //    csPG.pV = pV;
-        //}
-       // csPG.InitMap();
+        if (pV.isMine)
+        {
+            csPG = GetComponentInChildren<csPhotonGame>();
+            csPG.pV = pV;
+        }
+        // csPG.InitMap();
     }
 
 
@@ -51,7 +51,7 @@ public class csRPCManager : Photon.MonoBehaviour
         StopAllCoroutines();
         CancelInvoke();
 
-        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>().SaveInvenData();
+        csPG.tPlayer.SaveInvenData();
 
         Invoke("DestroyRoom", 1f);
     }
@@ -220,5 +220,21 @@ public class csRPCManager : Photon.MonoBehaviour
         //포톤 방나감 콜백 대충 여기서 세이브
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("scLobby0");
-    }   
+    }
+
+    [PunRPC]
+    public void StartSmile()
+    {
+        if (csPG.smile == null)
+        {
+            csPG.smile = csPG.myPlyerCtrl.GetComponent<PlayerCtrl1>().smilePos.gameObject;
+        }
+
+        if (pV.isMine)
+        {
+           // StopCoroutine(Smile());
+            csPG.smile.SetActive(false);
+           // StartCoroutine(Smile());
+        }
+    }
 }

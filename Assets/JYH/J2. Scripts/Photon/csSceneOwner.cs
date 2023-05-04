@@ -38,7 +38,7 @@ public class csSceneOwner : MonoBehaviour
         PhotonNetwork.Instantiate("RPCManager", Vector3.zero, Quaternion.identity, 0);
     }
 
-    private void Start()
+    IEnumerator Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -57,6 +57,8 @@ public class csSceneOwner : MonoBehaviour
         enterText.gameObject.SetActive(false);
 
         PhotonNetwork.Instantiate("Player1", new Vector3(10, 30, 10), Quaternion.identity, 0);
+
+        yield return null;
     }
 
     private void Update()

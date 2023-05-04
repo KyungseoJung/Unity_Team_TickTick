@@ -280,6 +280,7 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     {
         Debug.Log("Joined Lobby !!!");
 
+
         /*
          * 클라이언트의 룸 찾기 : 클라이언트는 게임(방) 이름을 통해 참여하거나 Photon 에게 나에게 맞는 게임을 찾아 달라고 
          * 요청 하여 참여한다.
@@ -520,11 +521,14 @@ public class csPhotonInit : MonoBehaviour { //#6-1 팀플 포톤 //#19-2 (UI버�
     void OnJoinedRoom()
     {
         Debug.Log("Enter Room");
+        userId = GetUserId();
+        Debug.Log("//#15 내 이름은 : " + GetUserId());
+
         //여기까지 게임을 실행하면 로비 입장, 랜덤 매치 메이킹, 룸 생성, 룸 입장의 과정을 거치며 Console 뷰에 
         //Joined Lobby !!!, No Rooms !!!, Enter Room 메시지가 출력~ 즉 순서대로 룸 입장까지 완료된 로그 메시지를 확인하자~!
 
         //플레이어를 생성하는 함수 호출
-//        CreatePlayer();
+        //        CreatePlayer();
         //룸 씬으로 전환하는 코루틴 실행 (UI 버전에서 사용)
         StartCoroutine(this.LoadStage());
     }
@@ -987,6 +991,16 @@ So, 테스트는 2개의 방을 파서 해야 돼
         }
 */
 
+    }
+
+    public void SetUserID()
+    {
+        Invoke("InvokeSetID",3f);
+    }
+
+    public void InvokeSetID()
+    {
+        userId = GetUserId();
     }
 }
 // 참고 https://doc-api.photonengine.com/ko-kr/pun/current/class_room_options.html

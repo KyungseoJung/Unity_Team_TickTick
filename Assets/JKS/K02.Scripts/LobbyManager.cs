@@ -90,6 +90,7 @@ public class LobbyManager : MonoBehaviour   //#1-1
     [Header("다음 씬 넘어가기 임시 버튼")]
     [Space(10)]
     public Button btnGoNextScene;
+
 //버튼 연결 ========================================================
     
     void Start()

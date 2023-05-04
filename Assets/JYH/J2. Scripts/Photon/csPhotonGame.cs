@@ -30,15 +30,24 @@ public class csPhotonGame : Photon.MonoBehaviour
     public bool isCreateFurniture = false;
 
     [Header("대충 플레이어가 들고있을 변수")]
-    [HideInInspector]
+    [SerializeField]
     public Inventory tPlayer;
+    [SerializeField]
     public Enum_PlayerUseItemType UseItemType;
+    [SerializeField]
     public GameObject bluePrint=null;
+    [SerializeField]
     public GameObject[] bluePrintObj;
+    [SerializeField]
     public bool actionNow = true;//지금 뭐 동작중인지 체크
+    [SerializeField]
     public float rayCastRange = 20f;
+    [SerializeField]
     public PlayerCtrl1 myPlyerCtrl;
-    public GameObject craftingUI;    
+    [SerializeField]
+    public GameObject craftingUI;
+    [SerializeField]
+    public GameObject warningWindow;
 
     [Header("레이 케스팅용")]
     [SerializeField]
@@ -64,31 +73,39 @@ public class csPhotonGame : Photon.MonoBehaviour
     public GameObject tutorialCanvas;
     public bool gameStart = false;
 
+    public int GetOwnerID()
+    {
+        return myOwnerId;
+    }
+
     private void Awake()
     {
         pV = transform.parent.GetComponent<PhotonView>();
-        myOwnerId = pV.photonView.ownerId;
+        
         // pV.TransferOwnership();
         //룸 프로퍼티 참조
 
         if (pV.isMine)
         {
+            myOwnerId = pV.photonView.ownerId;
             tutorialCanvas.SetActive(true);
             InitMapData();
-        }
-        
+        }        
     }
 
     void Start()
     {
-        if (PhotonNetwork.connectedAndReady && !PhotonNetwork.isMasterClient)
-        {
-            debugBtn.SetActive(false);
-        }
-
         if (pV.isMine)
         {
+            if (!PhotonNetwork.isMasterClient)
+            {
+                debugBtn.SetActive(false);
+            }
             LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
+        }
+        else
+        {
+            transform.parent.gameObject.SetActive(false);
         }
     }
     
@@ -160,7 +177,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void LoadInvenDataStart()
     {
-        SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+        //SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
         //tPlayer.craftinUI.SetActive(false);
         //##0501 크래프팅 유아이 연결하고 비활성화
         //craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
@@ -171,24 +188,13 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     IEnumerator LoadInvenDataStartCoroutine()
     {
-        yield return new WaitForSeconds(3f);
-
-        while (tPlayer == null)
-        {
-            tPlayer = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
-            yield return new WaitForSeconds(0.2f);
-        }
-
         tPlayer.LoadInvenData();
 
-        while (craftingUI == null)
-        {
-            craftingUI = tPlayer.CraftingUI;
-            yield return new WaitForSeconds(0.2f);
-        }
+        yield return new WaitForSeconds(3f);
 
         craftingUI.SetActive(false);
-        tPlayer.warningWindow.SetActive(false);
+
+        warningWindow.SetActive(false);
 
         yield return null;
     }
@@ -204,10 +210,15 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public bool GetGameStart()
     {
-        return gameStart;
+        if(myPlyerCtrl != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-
-    
 
     void CreateBlockChild(Vector3 pos)
     {
@@ -240,6 +251,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
+            Debug.Log("자식생성");
             pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBuffered, pos, tmpCS, tmpNum);
         }       
     }
@@ -1645,22 +1657,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             pV.RPC("StartSmile", PhotonTargets.All, null);
         }
     }
-
-    [PunRPC]
-    public void StartSmile()
-    {
-        if (smile == null)
-        {
-            smile = myPlyerCtrl.GetComponent<PlayerCtrl1>().smilePos.gameObject;
-        }
-
-        if (pV.isMine)
-        {
-            StopCoroutine(Smile());
-            smile.SetActive(false);
-            StartCoroutine(Smile());
-        }
-    }
+    
 
     IEnumerator Smile()
     {
@@ -1708,6 +1705,4 @@ public class csPhotonGame : Photon.MonoBehaviour
     {
         pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
     }
-
-
 }

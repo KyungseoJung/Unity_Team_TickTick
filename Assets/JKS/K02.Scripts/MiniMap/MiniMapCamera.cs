@@ -10,10 +10,7 @@ public class MiniMapCamera : MonoBehaviour  //#11-5
     public float minimapCameraDist;
     Vector3 minimapCameraPos;
 
-    void Awake()
-    {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+    public csPhotonGame csPG;
 
     void Start()
     {
@@ -24,6 +21,15 @@ public class MiniMapCamera : MonoBehaviour  //#11-5
     
     void LateUpdate()
     {
+        if (csPG.myPlyerCtrl == null)
+        {
+            return;
+        }
+        else if(csPG.myPlyerCtrl != null && playerTransform == null)
+        {
+            playerTransform = csPG.myPlyerCtrl.transform;
+        }
+
         if(playerTransform != null)
         {
             minimapCameraPos = playerTransform.position;

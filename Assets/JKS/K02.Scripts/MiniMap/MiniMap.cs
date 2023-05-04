@@ -48,7 +48,9 @@ public class MiniMap : MonoBehaviour    //@16 미니맵
     public RectTransform playerArrow;   //플레이어가 바라보는 방향(rotation Z 값 조정)(그냥 실제 플레이어의 y rotation값과 같게 하면 될 듯)
 
 // 미니맵을 표시할 RawImage 오브젝트 - 나중에 오브젝트에 연결?
+    [SerializeField]
     private RawImage zoomInRawImage; //여기에 미니맵이 그려질 거야  //테스트용 public 선언
+    [SerializeField]
     private RawImage zoomOutRawImage; //여기에 미니맵이 그려질 거야  //테스트용 public 선언
 //#11-4 //껐다 키기 위한 목적
     public GameObject zoomInRawObj;     //줌인 부모
@@ -78,16 +80,18 @@ List<MiniMapObjData> zoomInMiniMap= new List<MiniMapObjData>();
 Transform playerTransform;   //테스트용 public 잠깐만
 public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
 
-//#11-5 플레이어 회전에 따라 맵도 돌도록
-// RectTransform zoomInRectT;
-// RectTransform zoomOutRectT;
+    //#11-5 플레이어 회전에 따라 맵도 돌도록
+    // RectTransform zoomInRectT;
+    // RectTransform zoomOutRectT;
 
+    //###
+    public csPhotonGame csPG;
 
     void Awake()    
     {
-        zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
-        zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
-        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        //zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+        //zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+        //playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     
         //#11-5 플레이어 회전에 따라 맵도 돌도록
         // zoomInRectT = zoomInRawObj.GetComponent<RectTransform>();
@@ -153,6 +157,16 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     
     void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
     {
+        //###
+        if (csPG.myPlyerCtrl==null)
+        {
+            return;
+        }
+        else if(csPG.myPlyerCtrl!=null && playerTransform == null)
+        {
+            playerTransform = csPG.myPlyerCtrl.transform;
+        }
+
         //#11-4 플레이어 바라보는 방향으로 맞추기
         // Quaternion arrowrotation = Quaternion.Euler(0, 0, playerTransform.rotation.y);
         // playerArrow.localRotation = arrowrotation;

@@ -82,6 +82,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
 //#14-2 제작대 오브젝트 연결
     public GameObject CraftingUI;   //인스펙터로 직접 연결
 
+    //##
+    public csPhotonGame csPG;
+
     // void Awake()
     // {
     //     allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3

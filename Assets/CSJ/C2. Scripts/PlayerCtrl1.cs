@@ -164,7 +164,19 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         myRigid = GetComponent<Rigidbody>();
         pV = GetComponent<PhotonView>();
         anim = GetComponent<Animator>();
-        m_grid2D = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+
+        GameObject[] tmpObj = GameObject.FindGameObjectsWithTag("PhotonGameManager");
+
+        foreach (GameObject obj in tmpObj)
+        {
+            if (obj.GetComponent<csPhotonGame>().GetOwnerID() == pv.photonView.ownerId)
+            {
+                Debug.Log(pv.photonView.ownerId + "이건왜안타?" + obj.GetComponent<csPhotonGame>().GetOwnerID());
+                m_grid2D = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+                m_grid2D.myPlyerCtrl = this;
+                break;
+            }
+        }
 
         pv.ObservedComponents[0] = this;
         pv.synchronization = ViewSynchronization.UnreliableOnChange;
@@ -190,7 +202,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     IEnumerator Start()
     {
-        Debug.Assert(m_grid2D);
+       // Debug.Assert(m_grid2D);
 
         yield return new WaitForSeconds(5.0f);
 
@@ -276,6 +288,12 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             gameStart = m_grid2D.GetGameStart();//언제 트루되는지 계속 물어봄
             return;
         }
+
+        if (m_grid2D == null)
+        {
+            return;
+        }
+
 
         if (m_grid2D.isUiBlock)
         {
