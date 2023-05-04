@@ -659,6 +659,8 @@ MonoBehaviour:
   blockKeyDownE: 0
   oldRot: {x: 0, y: 0, z: 0}
   gameStart: 0
+  hideObj: {fileID: 0}
+  oculusObj: {fileID: 0}
   backpack: {fileID: 3130501843138064443}
   backpackMat:
   - {fileID: 2100000, guid: 4ec81ba0404fb4bc3a788c1112ec698a, type: 2}
@@ -673,8 +675,8 @@ MonoBehaviour:
   originBody: {fileID: 2100000, guid: d5978c221831b4c79b82626ec093f47e, type: 2}
   faceMat:
   - {fileID: 2100000, guid: b0a6262cd9208479eb0dd4941fb248e7, type: 2}
-  - {fileID: 2100000, guid: 192e4fcbfbd074e7393a154a422b33f2, type: 2}
   - {fileID: 2100000, guid: e854a1cc3c66c46b4ad697206a532f07, type: 2}
+  - {fileID: 2100000, guid: 192e4fcbfbd074e7393a154a422b33f2, type: 2}
   m_path: []
   m_grid2D: {fileID: 0}
   m_closedList: []
