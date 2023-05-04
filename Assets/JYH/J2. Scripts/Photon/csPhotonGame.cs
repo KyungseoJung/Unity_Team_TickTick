@@ -90,6 +90,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             myOwnerId = pV.photonView.ownerId;
             tutorialCanvas.SetActive(true);
             InitMapData();
+            //Debug.Log("맵로드");
         }        
     }
 
@@ -103,10 +104,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             }
             LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
         }
-        else
-        {
-            transform.parent.gameObject.SetActive(false);
-        }
+        //else
+        //{
+        //    transform.parent.gameObject.SetActive(false);
+        //}
     }
     
     void InitMapData()
@@ -178,6 +179,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     void LoadInvenDataStart()
     {
         //SceneManager.LoadScene("MainGame_UI", LoadSceneMode.Additive);  //#3-3
+
         //tPlayer.craftinUI.SetActive(false);
         //##0501 크래프팅 유아이 연결하고 비활성화
         //craftingUI = GameObject.FindGameObjectWithTag("CraftingUI");
@@ -252,7 +254,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
             Debug.Log("자식생성");
-            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBuffered, pos, tmpCS, tmpNum);
+            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBufferedViaServer, pos, tmpCS, tmpNum);
         }       
     }
 
@@ -549,6 +551,15 @@ public class csPhotonGame : Photon.MonoBehaviour
         if (isOM)
         {
             return;
+        }
+
+        if (myPlyerCtrl == null)
+        {
+            return;
+        }
+        else if(myPlyerCtrl!=null && smile == null)
+        {
+            smile = myPlyerCtrl.smilePos.gameObject;
         }
 
         if (!useEnter && Input.GetKeyDown(KeyCode.Return))
@@ -1018,7 +1029,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void SetObjDMG(Vector3 pos, float dmg, Enum_PlayerUseItemType ui)
     {
-        pV.RPC("SetObjDMGRPC", PhotonTargets.AllBuffered, pos, dmg, ui);
+        pV.RPC("SetObjDMGRPC", PhotonTargets.AllBufferedViaServer, pos, dmg, ui);
     }
 
     //[PunRPC]
@@ -1121,7 +1132,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //Debug.Log(123123123);
 
             //밭 설치
-            pV.RPC("RPCActionHOE", PhotonTargets.AllBuffered, blockPos);            
+            pV.RPC("RPCActionHOE", PhotonTargets.AllBufferedViaServer, blockPos);            
         }
     }
 
@@ -1168,7 +1179,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             {
                 worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].top = false;//지금 내위치는 탑이아님
 
-                pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);//블록 생성
+                pV.RPC("CreateCube", PhotonTargets.AllBufferedViaServer, new Vector3(blockPos.x, blockPos.y+1, blockPos.z), type);//블록 생성
                 SelectSlot.Ins.nowUsingSlot.UpdateSlotCount(-1);//블록 아이템 갯수 차감
             }
         }
@@ -1280,7 +1291,13 @@ public class csPhotonGame : Photon.MonoBehaviour
             
             oldBlock = null;
             bool waterCheck = WaterCheck(blockPos);
-            pV.RPC("ActionSHOVELRPC", PhotonTargets.AllBuffered, blockPos);
+
+            {
+                Destroy(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj);
+                worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = null;
+                pV.RPC("ActionSHOVELRPC", PhotonTargets.OthersBuffered, blockPos);
+            }
+
             DropItemCreate("ITEM_Cube", blockPos, 1);
 
             //Debug.Log(waterCheck+"무슨일이 일어나는거지");
@@ -1322,7 +1339,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
                             if (worldBlock[(int)tmpPos.x, (int)tmpPos.y, (int)tmpPos.z] != null)
                             {
-                                pV.RPC("DrawBlock", PhotonTargets.AllBuffered, tmpPos);
+                                pV.RPC("DrawBlock", PhotonTargets.AllBufferedViaServer, tmpPos);
                             }
                             // Debug.Log(tmpPos + "///" + hit.transform.position);
                         }
@@ -1341,7 +1358,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     void CreateWaterAuto(Vector3 blockPos)//근처 빈 공간 있으면 자동으로 물로 채우고 
     {
-        pV.RPC("CreateCube", PhotonTargets.AllBuffered, new Vector3(blockPos.x, blockPos.y, blockPos.z), Enum_CubeType.WATER);
+        pV.RPC("CreateCube", PhotonTargets.AllBufferedViaServer, new Vector3(blockPos.x, blockPos.y, blockPos.z), Enum_CubeType.WATER);
         //GameObject tmpObj = (GameObject)Instantiate(csLevelManager.Ins.cube[5], new Vector3(blockPos.x, (blockPos.y) * 0.5f, blockPos.z), Quaternion.identity);
         //worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(Enum_CubeType.WATER, true, tmpObj, true, false, Enum_CubeState.NONE, 0, Enum_ObjectGrowthLevel.ZERO);
         //tmpObj.GetComponent<csCube>().SetCube(worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z]);
@@ -1509,7 +1526,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     public void DelChildObj(Vector3 pos)
     {
-        pV.RPC("DelChildObjRPC", PhotonTargets.AllBuffered, pos);
+        pV.RPC("DelChildObjRPC", PhotonTargets.AllBufferedViaServer, pos);
     }
 
     //[PunRPC]
@@ -1624,13 +1641,7 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     //채팅기능  
 
-    //[PunRPC]
-    //public void StartSmile()
-    //{
-    //    StopCoroutine(Smile());
-    //    smile.SetActive(false);
-    //    StartCoroutine(Smile());
-    //}
+    
 
 
     public bool isOM = false;
@@ -1652,12 +1663,19 @@ public class csPhotonGame : Photon.MonoBehaviour
     public GameObject smile;
     public void OnClickSmileBtn()
     {
-        //if (pV.isMine)
+        if (pV.isMine)
         {            
             pV.RPC("StartSmile", PhotonTargets.All, null);
         }
     }
-    
+
+    [PunRPC]
+    public void StartSmile()
+    {
+        StopCoroutine(Smile());
+        smile.SetActive(false);
+        StartCoroutine(Smile());
+    }
 
     IEnumerator Smile()
     {
@@ -1698,11 +1716,11 @@ public class csPhotonGame : Photon.MonoBehaviour
     public void OnClickDebugBtn()
     {
        // GameObject.FindGameObjectWithTag("SceneOwner").GetComponent<csSceneOwner>().NextDay();
-        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
+        pV.RPC("NextDayRPC", PhotonTargets.AllBufferedViaServer, null);
     }
 
     public void NextDay()
     {
-        pV.RPC("NextDayRPC", PhotonTargets.AllBuffered, null);
+        pV.RPC("NextDayRPC", PhotonTargets.AllBufferedViaServer, null);
     }
 }

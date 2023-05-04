@@ -26,7 +26,12 @@ public class csRPCManager : Photon.MonoBehaviour
         if (pV.isMine)
         {
             csPG = GetComponentInChildren<csPhotonGame>();
+
             csPG.pV = pV;
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
         }
         // csPG.InitMap();
     }
@@ -35,6 +40,7 @@ public class csRPCManager : Photon.MonoBehaviour
     [PunRPC]
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
     {
+        Debug.Log("자식생성타니");
         csPG.worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].obj.GetComponent<csCube>().SetObj(tmpCS, tmpNum);
     }    
 

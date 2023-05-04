@@ -163,20 +163,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         capsuleCollider = GetComponent<CapsuleCollider>();
         myRigid = GetComponent<Rigidbody>();
         pV = GetComponent<PhotonView>();
-        anim = GetComponent<Animator>();
-
-        GameObject[] tmpObj = GameObject.FindGameObjectsWithTag("PhotonGameManager");
-
-        foreach (GameObject obj in tmpObj)
-        {
-            if (obj.GetComponent<csPhotonGame>().GetOwnerID() == pv.photonView.ownerId)
-            {
-                Debug.Log(pv.photonView.ownerId + "이건왜안타?" + obj.GetComponent<csPhotonGame>().GetOwnerID());
-                m_grid2D = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
-                m_grid2D.myPlyerCtrl = this;
-                break;
-            }
-        }
+        anim = GetComponent<Animator>();        
 
         pv.ObservedComponents[0] = this;
         pv.synchronization = ViewSynchronization.UnreliableOnChange;
@@ -184,12 +171,27 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         if(pv.isMine) // PhotonNetwork.isMasterClient 마스터 클라이언트는 이런식 체크
         {
+            GameObject[] tmpObj = GameObject.FindGameObjectsWithTag("PhotonGameManager");
+
+            foreach (GameObject obj in tmpObj)
+            {
+                if (obj.GetComponent<csPhotonGame>().GetOwnerID() == pv.photonView.ownerId)
+                {
+                    Debug.Log(pv.photonView.ownerId + "이건왜안타?" + obj.GetComponent<csPhotonGame>().GetOwnerID());
+                    m_grid2D = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+                    m_grid2D.myPlyerCtrl = this;
+                    break;
+                }
+            }
+
             m_grid2D.myPlyerCtrl = this;
+
             //메인 카메라에 추가된 SmoothFollowCam 스크립트(컴포넌트)에 추적 대상을 연결 
             //Camera.main.GetComponent<SmoothFollowCam>().target = camPivot;
          }
         else //자신의 네트워크 객체가 아닐때...
         {
+            gameObject.GetComponent<CapsuleCollider>().enabled = false;
             myRigid.isKinematic = true;
         }
 
@@ -1144,6 +1146,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
      private void OnCollisionEnter(Collision collision)
     {
+        if (!pv.isMine)
+        {
+            return;
+        }
+
         if (collision.transform.tag.Equals("Building"))
         {
             ResetNode2();
@@ -1153,6 +1160,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     //제작대 사용
     private void OnTriggerStay(Collider other)
     {
+        if (!pv.isMine)
+        {
+            return;
+        }
+
         if (other.CompareTag("WorkBench") && !canTrigger)
         {
             other.transform.parent.GetComponent<csWorkBench>().ShowText();
@@ -1163,6 +1175,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     private void OnTriggerExit(Collider other)
     {
+        if (!pv.isMine)
+        {
+            return;
+        }
+
         if (other.CompareTag("WorkBench") && canTrigger)
         {
             other.transform.parent.GetComponent<csWorkBench>().HideText();
