@@ -224,9 +224,9 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         //PhotonView pV = GetComponent<PhotonView>();
 
-        if(pv.isMine){
+        // if(pv.isMine){
 
-                isLoadCustom=true;
+        //         // isLoadCustom=true;
         //플레이어 얼굴 커스터마이징 추가
         faceindex = 0; //얼굴 초기화
         UpdateFace(InfoManager.Ins.clothesNum); //얼굴 업데이트 함수    //JSON 데이터 연결
@@ -255,7 +255,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         UpdateDress(Dressindex);  //옷 업데이트
 
 
-        }
+        // }
 
 
     }
@@ -734,12 +734,12 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
 
-            if(!isLoadCustom){
-                isLoadCustom=true;
+            // if(!isLoadCustom){
+            //     isLoadCustom=true;
                 faceindex = (int)stream.ReceiveNext();
                 Backindex = (int)stream.ReceiveNext();
-            }
-            
+            // }
+            if(!isLoadCustom){ UpdateFace(faceindex);  UpdateBack(Backindex); isLoadCustom = true; }
         }
     }
 
