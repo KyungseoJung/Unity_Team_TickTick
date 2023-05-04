@@ -199,6 +199,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: border
       objectReference: {fileID: 0}
+    - target: {fileID: 7430858104111708919, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.699996
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104111708919, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.491
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.391
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e5f64d6f88cf54295f90928310c248, type: 3}
 --- !u!1 &4820173320148829792 stripped

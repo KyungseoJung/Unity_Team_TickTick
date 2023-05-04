@@ -114,7 +114,7 @@ MonoBehaviour:
   ObjType: 1
   hpBarObj: {fileID: 1289152187536955556}
   haBarAddY: 0.5
-  pV: {fileID: 0}
+  PG: {fileID: 0}
   haveGrowth: 0
   dropItem: {fileID: 1076815607729153978, guid: a27cf5eaf87564e4baeda921c1a772c7,
     type: 3}
@@ -205,6 +205,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: border
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104111708919, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.296
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1000013
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.19600001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e5f64d6f88cf54295f90928310c248, type: 3}
