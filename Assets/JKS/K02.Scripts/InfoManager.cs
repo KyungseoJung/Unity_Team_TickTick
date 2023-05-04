@@ -108,11 +108,14 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 //#11-6 인벤토리 정보 ===============================
     public InventoryInfo GetInvenInfo(int index)    //#11-6 인벤토리 정보
     {
-        foreach(InventoryInfo aaa in invenList){
-            // Debug.Log(aaa.itemCount+"////"+aaa.itemType);
-        }
+        // foreach(InventoryInfo aaa in invenList){
+        //     // Debug.Log(aaa.itemCount+"////"+aaa.itemType);
+        // }
         //  Debug.Log("//#11-6 인벤토리 Get 카운트 : " +invenList.Count);
         //  Debug.Log("//#11-6 인벤토리 Index 번호 : " + index);
+
+        //Debug.Log("//#15-1 invenList.Count : " + invenList.Count);
+
         if(index >= invenList.Count)
         {
             // Debug.Log("//#11-6  인벤토리 인덱스 범위 초과");
@@ -233,6 +236,9 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
         playerInfo.clothesColor = HexToColor32("#7ED67F");
 
         SaveJSONData();
+
+        //#15-1 플레이어 데이터 삭제하면, 인벤토리 데이터도 삭제되도록
+        InitializeInvenJSONData();
     }
 
     public void InitializeInvenJSONData()   //#11-6 인벤토리 JSON 데이터 초기화 하기
@@ -240,7 +246,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
         invenList.Clear();
         invenInfo = new InventoryInfo();
 
-        SaveInvenJSONData();    //초기화 한 걸로 싹 넣기
+        SaveInvenJSONData();    //초기화 한 걸로 싱글톤 데이터에 싹 넣기
     }
 
 

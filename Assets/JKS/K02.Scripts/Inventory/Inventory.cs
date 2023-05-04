@@ -242,7 +242,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void SaveInvenData() //#11-6 게임 퇴장할 때, 인벤토리 데이터 저장하기 - 한번씩만 해야할 듯. 나중에 JSON끼리 꼬여버려서 데이터 축적 돼
     {   
-        InfoManager.Ins.InitializeInvenJSONData();  //JSON 파일 싹 밀어버린 후
+        InfoManager.Ins.InitializeInvenJSONData();  //JSON 파일 싹 밀어버린 후, 나가는 타이밍의 내 인벤토리 데이터를 저장하기
 
         for(int i=0; i<row; i++)
         {
@@ -279,6 +279,10 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 // invenInfo = InfoManager.Ins.GetInvenInfo(i*col+j);
                 invenInfo = new InventoryInfo();
 
+                if(InfoManager.Ins.GetInvenInfo((col * i) + j) == null)
+                {
+                    return;     //Debug.Log("//#15-1 GetInvenInfo값이 null임");
+                }
                 invenInfo.itemType = InfoManager.Ins.GetInvenInfo((col * i) + j).itemType;
                 invenInfo.itemCount = InfoManager.Ins.GetInvenInfo((col * i) + j).itemCount;
 
@@ -946,6 +950,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
     void CloseWarningWindow()
     {
         warningWindow.SetActive(false);
+    }
+    
+    public void CloseCaftingUI()    //#15-1 제작대 닫기
+    {   
+        CraftingUI.SetActive(false);
     }
 
 
