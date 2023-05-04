@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HP
-  m_Shader: {fileID: 4800000, guid: 201f9e87db641574d859a99bb25fc996, type: 3}
+  m_Shader: {fileID: 4800000, guid: df3f9d97483873f4d949f4acf1c026e3, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

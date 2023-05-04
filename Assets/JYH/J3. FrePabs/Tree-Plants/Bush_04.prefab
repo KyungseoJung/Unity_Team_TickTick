@@ -101,7 +101,7 @@ MonoBehaviour:
   ObjType: 1
   hpBarObj: {fileID: 5758579814869871321}
   haBarAddY: 0.5
-  pV: {fileID: 0}
+  PG: {fileID: 0}
 --- !u!65 &3705737632076391573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -196,6 +196,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: border
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104111708919, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.094
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430858104296296822, guid: b2e5f64d6f88cf54295f90928310c248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0060000047
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e5f64d6f88cf54295f90928310c248, type: 3}
