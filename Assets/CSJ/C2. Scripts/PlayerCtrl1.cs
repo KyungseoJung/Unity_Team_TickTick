@@ -229,9 +229,10 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         // if(pv.isMine){
 
         //         // isLoadCustom=true;
+
         //플레이어 얼굴 커스터마이징 추가
-        faceindex = 0; //얼굴 초기화
-        UpdateFace(InfoManager.Ins.clothesNum); //얼굴 업데이트 함수    //JSON 데이터 연결
+        faceindex = InfoManager.Ins.clothesNum; //얼굴 초기화
+        UpdateFace(faceindex); //얼굴 업데이트 함수    //JSON 데이터 연결
 
 
         //플레이어 백팩 커스터마이징 추가
@@ -719,7 +720,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
     //PhotonView 컴포넌트의 Observe 속성이 스크립트 컴포넌트로 지정되면 PhotonView
     //컴포넌트는 데이터를 송수신할 때, 해당 스크립트의 OnPhotonSerializeView 콜백 함수를 호출한다.
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
@@ -727,8 +728,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             stream.SendNext(Tr.position);
             stream.SendNext(Tr.rotation);
             
-            stream.SendNext(faceindex);
-            stream.SendNext(Backindex);
+            // stream.SendNext(faceindex);
+            // stream.SendNext(Backindex);
         }
         else
         {
@@ -736,12 +737,12 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
 
-            // if(!isLoadCustom){
-            //     isLoadCustom=true;
-                faceindex = (int)stream.ReceiveNext();
-                Backindex = (int)stream.ReceiveNext();
-            // }
-            if(!isLoadCustom){ UpdateFace(faceindex);  UpdateBack(Backindex); isLoadCustom = true; }
+          
+                // isLoadCustom=true;
+                // faceindex = (int)stream.ReceiveNext();
+                // Backindex = (int)stream.ReceiveNext();
+          
+               //if(!isLoadCustom){ UpdateFace(faceindex);   UpdateBack(Backindex); isLoadCustom = true;  }
         }
     }
 
