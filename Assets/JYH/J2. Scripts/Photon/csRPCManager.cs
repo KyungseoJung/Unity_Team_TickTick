@@ -83,6 +83,7 @@ public class csRPCManager : Photon.MonoBehaviour
     [PunRPC]
     public void RPCActionHOE(Vector3 blockPos)
     {
+        Debug.Log("누군가 밭만듬");
         csPG.worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj.GetComponent<csCube>().SetObj(Enum_CubeState.FIELD);
     }
 
@@ -129,6 +130,7 @@ public class csRPCManager : Photon.MonoBehaviour
     [PunRPC]
     public void ActionSHOVELRPC(Vector3 blockPos)
     {
+        Debug.Log("누군가 삽질함");
         Destroy(csPG.worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].obj);
         csPG.worldBlock[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = null;
     }

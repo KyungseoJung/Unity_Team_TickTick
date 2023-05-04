@@ -50,6 +50,7 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("포톤 관련")]
     [SerializeField]
     public PhotonView pV;
+    public int myOwnerId;
 
 
     [Header("UI 관련")]
@@ -66,15 +67,16 @@ public class csPhotonGame : Photon.MonoBehaviour
     private void Awake()
     {
         pV = transform.parent.GetComponent<PhotonView>();
+        myOwnerId = pV.photonView.ownerId;
         // pV.TransferOwnership();
         //룸 프로퍼티 참조
 
-        //if (pV.isMine)
-        //{
+        if (pV.isMine)
+        {
             tutorialCanvas.SetActive(true);
-        //StartCoroutine(InitMapData());//클라이언트에 맵만들기 시작
-        //}
-        InitMapData();
+            InitMapData();
+        }
+        
     }
 
     void Start()
@@ -84,7 +86,10 @@ public class csPhotonGame : Photon.MonoBehaviour
             debugBtn.SetActive(false);
         }
 
-        LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
+        if (pV.isMine)
+        {
+            LayerMaskBlock = 1 << LayerMask.NameToLayer("PreViewCheck");
+        }
     }
     
     void InitMapData()
@@ -518,16 +523,17 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     private void Update()
     {
+        if (!pV.isMine)
+        {
+            return;
+        }
+
         // //맵 로드 안됬으면 아무것도 안한다
         if (!isReady || !gameStart)
         {
             return;
         }
 
-        //if (!pV.isMine)
-        // {
-        //    return;
-        // }
         if (isOM)
         {
             return;
@@ -835,6 +841,11 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!pV.isMine)
+        {
+            return;
+        }
+
         if (!UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWATCHFIRE) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTTENT) && !UseItemType.Equals(Enum_PlayerUseItemType.BLUEPRINTWORKBENCH)
            && isBuild)// && !isUiBlock)//빌드모드 끝
         {
