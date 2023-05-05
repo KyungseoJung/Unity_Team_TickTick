@@ -85,10 +85,11 @@ public class Inventory : MonoBehaviour, IInventoryBase
     //##
     public csPhotonGame csPG;
 
-    // void Awake()
-    // {
-    //     allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
-    // }
+    void Awake()
+    {
+        //   allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
+        InfoManager.Ins.LoadInvenJSONData();
+    }
     IEnumerator Start()
     {
         //slots = gridInventory.GetComponentsInChildren<Slot>();
@@ -110,7 +111,7 @@ public class Inventory : MonoBehaviour, IInventoryBase
         SortingButtonsObj.SetActive(false); //#4-3 비활성화 상태로 시작
         DropItemZone.SetActive(false);  //#4-3
 
-        InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
+        //InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
 
         // warningWindow.SetActive(false); //#12-4 꺼놓은 상태로 시작
 
@@ -274,20 +275,23 @@ public class Inventory : MonoBehaviour, IInventoryBase
 
     public void LoadInvenData() //#11-6 게임 입장할 때, JSON (인벤토리) 데이터 가져와서 슬롯에 보이게 하기
     {
-        
-        for (int i = 0; i < row ; i++)
+        Debug.Log("12333333");
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
             {
-                for (int j = 0; j < col ; j++)
-                {
                 // invenInfo = InfoManager.Ins.GetInvenInfo(i*col+j);
                 invenInfo = new InventoryInfo();
 
-                if(InfoManager.Ins.GetInvenInfo((col * i) + j) == null)
+                if (InfoManager.Ins.GetInvenInfo((col * i) + j) == null)
                 {
+                    Debug.Log("123165465");
                     return;     //Debug.Log("//#15-1 GetInvenInfo값이 null임");
                 }
                 invenInfo.itemType = InfoManager.Ins.GetInvenInfo((col * i) + j).itemType;
                 invenInfo.itemCount = InfoManager.Ins.GetInvenInfo((col * i) + j).itemCount;
+
+                Debug.Log(invenInfo.itemType+"//"+ invenInfo.itemCount+"asdasdasd");
 
                 //Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
                 //Debug.Log("//#11-6 JSON에서 가져오는 invenInfo 타입 : " + invenInfo.itemType);
@@ -297,13 +301,13 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 itemInventoryCount[i,j] = invenInfo.itemCount;
                 */
 
-                switch(invenInfo.itemType)
+                switch (invenInfo.itemType)
                 {
-                    case (int)Enum_DropItemType.NONE :
+                    case (int)Enum_DropItemType.NONE:
                         _loadItem = null;   //#11-7 보완 (밑에서 null로 인식을 안해서 ChangeSlotData에서 에러 뜨는 것 같음.)
                         _loadItemType = Enum_DropItemType.NONE;
                         break;  //여기서 return; 하면 하나라도 비어있으면 로드 안되고 함수가 끝나겠지
-                    case (int)Enum_DropItemType.FRUIT :
+                    case (int)Enum_DropItemType.FRUIT:
                         _loadItem = objFruit.GetComponent<Item>();
                         _loadItemType = Enum_DropItemType.FRUIT;
                         break;
@@ -372,13 +376,14 @@ public class Inventory : MonoBehaviour, IInventoryBase
                 }
 
                 Debug.Log("//#11-6 아이템 추가하기 시작 : _loadItemType : " + _loadItemType);
-                if(_loadItem != null)   //아이템이 없는 경우에는 그냥 AddSlot 안 타도록
-                {  
+                if (_loadItem != null)   //아이템이 없는 경우에는 그냥 AddSlot 안 타도록
+                {
                     //수집하는 원리의 함수를 이용해야 하니까, 위치 그대로는 못가져옴 - 일부러 앞으로 당겨서 넣는 것처럼 하자
-                    CollectItemLoad(_loadItemType, invenInfo.itemCount,((col * i) + j));   //AddSlot 아님! Collect 하기
+                    CollectItemLoad(_loadItemType, invenInfo.itemCount, ((col * i) + j));   //AddSlot 아님! Collect 하기
                 }
-                else{
-                    CollectItemLoad(Enum_DropItemType.NONE, 0,((col * i) + j));
+                else
+                {
+                    CollectItemLoad(Enum_DropItemType.NONE, 0, ((col * i) + j));
                 }
             }
         }

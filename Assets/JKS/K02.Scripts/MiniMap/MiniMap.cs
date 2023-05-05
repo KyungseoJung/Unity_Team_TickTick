@@ -87,15 +87,17 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     //###
     public csPhotonGame csPG;
 
-    void Awake()    
+    void Awake()
     {
         //zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
         //zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
         //playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-    
+
         //#11-5 플레이어 회전에 따라 맵도 돌도록
         // zoomInRectT = zoomInRawObj.GetComponent<RectTransform>();
         // zoomOutRectT = zoomOutRawObj.GetComponent<RectTransform>();
+
+        csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
 
     }
 
@@ -158,11 +160,11 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
     {
         //###
-        if (csPG.myPlyerCtrl==null)
+        if (csPG == null )
         {
             return;
         }
-        else if(csPG.myPlyerCtrl!=null && playerTransform == null)
+        else if(csPG!=null && csPG.myPlyerCtrl!=null && playerTransform == null)
         {
             playerTransform = csPG.myPlyerCtrl.transform;
         }

@@ -164,6 +164,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     
     public void LoadInvenJSONData() //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
     {
+        //Debug.LogError("#11-6");
         invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
 
         TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
@@ -172,14 +173,15 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         for(int i=0; i<invenJson["인벤토리"].Count; i++)
         {
-            invenInfo2 = new InventoryInfo();     
+            //invenInfo2 = new InventoryInfo();     
+            InventoryInfo iI = new InventoryInfo();
             //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
             //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
-            invenInfo2.itemType = /* (Enum_DropItemType)System.Enum.Parse
+            iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
                     (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
-            invenInfo2.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+            iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
 
-            invenList.Add(invenInfo2);   //리스트에 객체 차곡차곡 저장
+            invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
         }
 
     }

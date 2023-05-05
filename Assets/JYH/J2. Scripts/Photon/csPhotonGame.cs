@@ -13,7 +13,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary; // System.Runtime.Serialization.Formatters.Binary 네임스페이스 추가
 
-public class csPhotonGame : Photon.MonoBehaviour
+public class csPhotonGame : UnityEngine.MonoBehaviour
 {
     [Header("맵정보")]
     public MapDataClass mapData = new MapDataClass();   
@@ -21,6 +21,8 @@ public class csPhotonGame : Photon.MonoBehaviour
     [Header("블록 정보 3차원으로 저장")]
     public Block[,,] worldBlock=null;
     public IHighlighter oldBlock;
+
+    public csMap map;
 
     //[HideInInspector]
     [Header("건물 건설 상태 관련")]
@@ -73,28 +75,30 @@ public class csPhotonGame : Photon.MonoBehaviour
     public GameObject tutorialCanvas;
     public bool gameStart = false;
 
+    bool mapFinish = false;
+
     public int GetOwnerID()
     {
         return myOwnerId;
     }
 
     private void Awake()
-    {
+    {        
         pV = transform.parent.GetComponent<PhotonView>();
-        
+        //this.transform.parent = null;
         // pV.TransferOwnership();
         //룸 프로퍼티 참조
-
         if (pV.isMine)
         {
             myOwnerId = pV.photonView.ownerId;
             tutorialCanvas.SetActive(true);
-            InitMapData();
-            //Debug.Log("맵로드");
+            //InitMapData();
+            map = GameObject.FindGameObjectWithTag("Map").GetComponent<csMap>();
+            StartCoroutine(InitMapData());
         }
     }
 
-    void Start()
+    IEnumerator Start()
     {
         if (pV.isMine)
         {
@@ -108,55 +112,87 @@ public class csPhotonGame : Photon.MonoBehaviour
         //{
         //    transform.parent.gameObject.SetActive(false);
         //}
+
+        while (!mapFinish)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        yield return null;
     }
     
-    void InitMapData()
+    IEnumerator InitMapData()
     {
         m_nodeArr = new Node[mapData.widthX, mapData.widthZ];
 
-        worldBlock = new Block[mapData.widthX, mapData.height, mapData.widthZ];
-        List<Vector3> childVector = new List<Vector3>();
-
-        for (int x = 0; x < mapData.widthX; x++)
+        while (map == null)
         {
-            for (int z = 0; z < mapData.widthZ; z++)
-            {
-                float xb = (x + 0) / mapData.waveLength;
-                float zb = (z + 0) / mapData.waveLength;
-                int y = (int)((Mathf.PerlinNoise(xb, zb) * mapData.amplitude) * mapData.amplitude + mapData.groundHeightOffset);
-                Vector3 pos = new Vector3(x, y, z);               
-                
-                CreateBlockData(y, pos, true);               
-
-                if (UnityEngine.Random.Range(0, 100) < 40 && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z]!=null && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z].top && !worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
-                {
-                    childVector.Add(pos);
-                }
-
-                while (y > 0)
-                {
-                    y--;
-                    pos = new Vector3(x, y, z);
-                    CreateBlockData(y, pos, false);
-                }     
-            }
+            yield return new WaitForSeconds(0.2f);
+            map = GameObject.FindGameObjectWithTag("Map").GetComponent<csMap>();
         }
+
+        //기존 맵생성로직
+        //worldBlock = new Block[mapData.widthX, mapData.height, mapData.widthZ];
+        //List<Vector3> childVector = new List<Vector3>();
+
+        //for (int x = 0; x < mapData.widthX; x++)
+        //{
+        //    for (int z = 0; z < mapData.widthZ; z++)
+        //    {
+        //        float xb = (x + 0) / mapData.waveLength;
+        //        float zb = (z + 0) / mapData.waveLength;
+        //        int y = (int)((Mathf.PerlinNoise(xb, zb) * mapData.amplitude) * mapData.amplitude + mapData.groundHeightOffset);
+        //        Vector3 pos = new Vector3(x, y, z);               
+
+        //        CreateBlockData(y, pos, true);               
+
+        //        if (UnityEngine.Random.Range(0, 100) < 40 && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z]!=null && worldBlock[(int)pos.x, (int)pos.y , (int)pos.z].top && !worldBlock[(int)pos.x, (int)pos.y, (int)pos.z].type.Equals(Enum_CubeType.WATER))
+        //        {
+        //            childVector.Add(pos);
+        //        }
+
+        //        while (y > 0)
+        //        {
+        //            y--;
+        //            pos = new Vector3(x, y, z);
+        //            CreateBlockData(y, pos, false);
+        //        }     
+        //    }
+        //}
 
         //SceneManager.LoadScene("addPlayer", LoadSceneMode.Additive);//플레이어스폰포인트로 대체
 
         //SceneManager.LoadScene("addMain", LoadSceneMode.Additive);//애너미스폰포인트
 
+        worldBlock = map.GetBlock();
+
+        while (worldBlock==null)
+        {
+            yield return new WaitForSeconds(0.2f);
+            worldBlock = map.GetBlock();
+        }
+
+        mapFinish = true;
 
         PhotonNetwork.isMessageQueueRunning = true;        
         
 
         if (PhotonNetwork.isMasterClient)
         {
+            List<Vector3> childVector = new List<Vector3>();
+
+            childVector = map.GetList();
+
+            while (childVector == null)
+            {
+                yield return new WaitForSeconds(0.2f);
+                childVector = map.GetList();
+            }
+
             foreach (Vector3 pos in childVector)
             {
                 CreateBlockChild(pos);
             }
-
         }       
 
         string tmpStr = "Blueprint_WorkBench";
@@ -166,8 +202,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
 
-        //yield return new WaitForSeconds(3f);
-        
+        //yield return new WaitForSeconds(3f);        
 
         Invoke("LoadInvenDataStart", 3f);
 
@@ -190,9 +225,16 @@ public class csPhotonGame : Photon.MonoBehaviour
 
     IEnumerator LoadInvenDataStartCoroutine()
     {
+        
+        Debug.Log("asdasdbbbaaa");
+        yield return new WaitForSeconds(3f);
+
         tPlayer.LoadInvenData();
 
-        yield return new WaitForSeconds(3f);
+        if (tPlayer == null)
+        {
+            Debug.Log("asdasdbbbaaaccc");
+        }
 
         craftingUI.SetActive(false);
 
@@ -254,7 +296,7 @@ public class csPhotonGame : Photon.MonoBehaviour
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
             Debug.Log("자식생성");
-            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBuffered, pos, tmpCS, tmpNum);
+            pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBufferedViaServer, pos, tmpCS, tmpNum);
         }       
     }
 
@@ -1132,7 +1174,7 @@ public class csPhotonGame : Photon.MonoBehaviour
             //Debug.Log(123123123);
 
             //밭 설치
-            pV.RPC("RPCActionHOE", PhotonTargets.AllBuffered, blockPos);            
+            pV.RPC("RPCActionHOE", PhotonTargets.AllBufferedViaServer, blockPos);            
         }
     }
 
@@ -1699,15 +1741,20 @@ public class csPhotonGame : Photon.MonoBehaviour
         //마스터가 나가면 방폭
         if (PhotonNetwork.isMasterClient)
         {
-            pV.RPC("DestroyRoom", PhotonTargets.All, null);
+            //Debug.Log("asdasdaaa");
+            pV.RPC("DestroyRoomRPC", PhotonTargets.All, null);
         }
         else
         {
-            PhotonNetwork.LeaveRoom(true);
-            //SceneManager.LoadScene("scLobby0");
-        }
+            tPlayer.SaveInvenData();
+            Invoke("DestroyRoom", 2f);
+        }        
     }
 
+    public void DestroyRoom()
+    {
+        PhotonNetwork.LeaveRoom(true);
+    }
 
     [Header("디버그 관련")]
     public GameObject debugBtn;
