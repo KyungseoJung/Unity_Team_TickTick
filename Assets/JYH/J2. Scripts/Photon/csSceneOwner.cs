@@ -135,7 +135,7 @@ public class csSceneOwner : MonoBehaviour
 
         string msg = "\n\t<color=#00ff00>[" + newPlayer.NickName + "] Connected</color>";
 
-        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
+        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
     }
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer outPlayer)
@@ -145,7 +145,7 @@ public class csSceneOwner : MonoBehaviour
 
     public void LogMsgAll(string msg)
     {
-        pV.RPC("LogMsg", PhotonTargets.AllBuffered, msg);
+        pV.RPC("LogMsg", PhotonTargets.AllBufferedViaServer, msg);
     }
 
 

@@ -1213,6 +1213,31 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         // '#' 문자열과 결합하여 반환
         return "#" + r + g + b;
     }
+
+    //스마일~~
+
+    public GameObject smile;
+
+    public void StartSmile()
+    {
+        if (pV.isMine)
+        {
+            pV.RPC("StartSmileRPC", PhotonTargets.All, null);
+        }
+    }
+
+    [PunRPC]
+    public void StartSmileRPC()
+    {
+        StartCoroutine(Smile());
+    }
+
+    IEnumerator Smile()
+    {
+        smile.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        smile.SetActive(false);
+    }
 }
 
 //RetracePath() -> a* 알고리즘을 사용해 찾은 경로를 역추적해서 node 리스트로 반환하는 함수

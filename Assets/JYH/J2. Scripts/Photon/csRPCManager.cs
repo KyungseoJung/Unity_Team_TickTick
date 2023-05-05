@@ -47,7 +47,7 @@ public class csRPCManager : UnityEngine.MonoBehaviour
     [PunRPC]
     public void CreateBlockChildRPC(Vector3 pos, Enum_CubeState tmpCS, int tmpNum)
     {
-        Debug.Log("자식생성타니");
+        //Debug.Log("자식생성타니");
 
         //CreateBlockChildRPCAction(pos,tmpCS,tmpNum);
         map.CreateBlockChildRPCAction(pos,tmpCS,tmpNum);
@@ -150,16 +150,12 @@ public class csRPCManager : UnityEngine.MonoBehaviour
     [PunRPC]
     public void StartSmile()
     {
-        if (csPG.smile == null)
+        //if (pV.isMine)
         {
-            csPG.smile = csPG.myPlyerCtrl.GetComponent<PlayerCtrl1>().smilePos.gameObject;
-        }
-
-        if (pV.isMine)
-        {
-           // StopCoroutine(Smile());
-            csPG.smile.SetActive(false);
-           // StartCoroutine(Smile());
+            csPG.myPlyerCtrl.StartSmile();
         }
     }
+
+
+
 }

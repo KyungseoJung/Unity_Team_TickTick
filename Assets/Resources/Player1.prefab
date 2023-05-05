@@ -751,6 +751,7 @@ MonoBehaviour:
   m_pathNode: []
   m_currNeighbours: []
   m_execute: 0
+  smile: {fileID: 876641992018200100}
 --- !u!1 &3130501843124288931
 GameObject:
   m_ObjectHideFlags: 0

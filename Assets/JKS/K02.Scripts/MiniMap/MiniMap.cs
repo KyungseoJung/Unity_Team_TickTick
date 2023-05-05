@@ -176,10 +176,6 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
         {
             playerTransform = csPG.myPlyerCtrl.transform;
         }
-        else
-        {
-            Debug.Log("뭔가 문제 있음");
-        }
 
         //#11-4 플레이어 바라보는 방향으로 맞추기
         // Quaternion arrowrotation = Quaternion.Euler(0, 0, playerTransform.rotation.y);

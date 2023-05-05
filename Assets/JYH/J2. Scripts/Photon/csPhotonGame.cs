@@ -297,7 +297,7 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
 
         if (!tmpCS.Equals(Enum_CubeState.NONE))
         {
-            Debug.Log("자식생성");
+            //Debug.Log("자식생성");
             pV.RPC("CreateBlockChildRPC", PhotonTargets.AllBufferedViaServer, pos, tmpCS, tmpNum);
         }       
     }
@@ -1711,21 +1711,6 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
         {            
             pV.RPC("StartSmile", PhotonTargets.All, null);
         }
-    }
-
-    [PunRPC]
-    public void StartSmile()
-    {
-        StopCoroutine(Smile());
-        smile.SetActive(false);
-        StartCoroutine(Smile());
-    }
-
-    IEnumerator Smile()
-    {
-        smile.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        smile.SetActive(false);
     }
 
     public void OnClickExitBtn()
