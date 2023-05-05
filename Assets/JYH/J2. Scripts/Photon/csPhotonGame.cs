@@ -96,19 +96,9 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
             //InitMapData();
             map = GameObject.FindGameObjectWithTag("Map").GetComponent<csMap>();
             StartCoroutine(InitMapData());
-
-            StartCoroutine(LoadData());
         }
     }
 
-    IEnumerator LoadData()
-    {
-        yield return new WaitForSeconds(1f);
-
-       tPlayer.LoadInvenData();
-
-        yield return null;
-    }
 
     IEnumerator Start()
     {
@@ -217,7 +207,7 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
 
         Invoke("LoadInvenDataStart", 3f);
 
-        Invoke("OffTutorialCanvas", 7f);
+        Invoke("OffTutorialCanvas", 8f);
 
         //yield return null;
     }
@@ -239,9 +229,9 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
         childFinish = true;
 
         Debug.Log("asdasdbbbaaa");
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
 
-        //tPlayer.LoadInvenData();
+        tPlayer.LoadInvenData();
 
         if (tPlayer == null)
         {
@@ -1744,7 +1734,8 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
         else
         {
             tPlayer.SaveInvenData();
-            Invoke("DestroyRoom", 2f);
+            tutorialCanvas.SetActive(true);
+            Invoke("DestroyRoom", 4f);
         }        
     }
 

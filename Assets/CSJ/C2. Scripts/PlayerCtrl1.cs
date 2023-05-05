@@ -206,7 +206,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     {
        // Debug.Assert(m_grid2D);
 
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(7.0f);
 
         //  if(pv.isMine)   //#20-1
         // {

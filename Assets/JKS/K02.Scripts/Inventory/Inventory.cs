@@ -85,12 +85,12 @@ public class Inventory : MonoBehaviour, IInventoryBase
     //##
     public csPhotonGame csPG;
 
-    void Awake()
-    {
+    //void Awake()
+    //{
         //   allRecipe = GameObject.FindGameObjectsWithTag("Recipe");    //#12-3
-        InfoManager.Ins.LoadInvenJSONData();
-    }
-    IEnumerator Start()
+        //InfoManager.Ins.LoadInvenJSONData();
+    //}
+    void Start()
     {
         //slots = gridInventory.GetComponentsInChildren<Slot>();
 
@@ -111,11 +111,9 @@ public class Inventory : MonoBehaviour, IInventoryBase
         SortingButtonsObj.SetActive(false); //#4-3 비활성화 상태로 시작
         DropItemZone.SetActive(false);  //#4-3
 
-        //InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
+        InfoManager.Ins.LoadInvenJSONData();    //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
 
         // warningWindow.SetActive(false); //#12-4 꺼놓은 상태로 시작
-
-        yield return null;
     }
 
     void Update()

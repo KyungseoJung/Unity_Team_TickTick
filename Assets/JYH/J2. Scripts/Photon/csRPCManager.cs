@@ -65,8 +65,8 @@ public class csRPCManager : UnityEngine.MonoBehaviour
     public void DestroyRoomRPC()
     {
         csPG.tPlayer.SaveInvenData();
-
-        Invoke("DestroyRoom", 2f);
+        csPG.tutorialCanvas.SetActive(true);
+        Invoke("DestroyRoom", 4f);
     }
 
     public void DestroyRoom()
