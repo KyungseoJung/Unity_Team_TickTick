@@ -96,7 +96,18 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
             //InitMapData();
             map = GameObject.FindGameObjectWithTag("Map").GetComponent<csMap>();
             StartCoroutine(InitMapData());
+
+            StartCoroutine(LoadData());
         }
+    }
+
+    IEnumerator LoadData()
+    {
+        yield return new WaitForSeconds(1f);
+
+       tPlayer.LoadInvenData();
+
+        yield return null;
     }
 
     IEnumerator Start()
@@ -202,12 +213,11 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
         {
             DropItemCreate(tmpStr, new Vector3(12, 30, 12), 1);
         }
-
         //yield return new WaitForSeconds(3f);        
 
         Invoke("LoadInvenDataStart", 3f);
 
-        Invoke("OffTutorialCanvas", 6f);
+        Invoke("OffTutorialCanvas", 7f);
 
         //yield return null;
     }
@@ -231,7 +241,7 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
         Debug.Log("asdasdbbbaaa");
         yield return new WaitForSeconds(3f);
 
-        tPlayer.LoadInvenData();
+        //tPlayer.LoadInvenData();
 
         if (tPlayer == null)
         {
