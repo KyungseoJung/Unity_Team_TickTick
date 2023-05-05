@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: -4370532654108734827}
   - component: {fileID: -8630109368203013337}
   - component: {fileID: 5484105466907201235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 4 Magpie
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1194,12 +1194,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Attack
-  - Type: 9
-    SynchronizeType: 0
-    Name: Stunned
-  - Type: 4
-    SynchronizeType: 0
-    Name: Walk
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

@@ -1562,7 +1562,7 @@ GameObject:
   - component: {fileID: 7514674502930065003}
   - component: {fileID: -758685714827172551}
   - component: {fileID: -2759121062425218874}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 6 Dingo
   m_TagString: Enemy
   m_Icon: {fileID: 0}

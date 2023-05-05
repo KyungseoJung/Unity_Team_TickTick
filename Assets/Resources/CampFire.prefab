@@ -14557,9 +14557,9 @@ GameObject:
   - component: {fileID: 307421231172379895}
   - component: {fileID: 557593033}
   - component: {fileID: 2698807398963582936}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CampFire
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

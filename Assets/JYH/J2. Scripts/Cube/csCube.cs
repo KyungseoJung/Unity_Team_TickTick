@@ -197,6 +197,7 @@ public class csCube : MonoBehaviour, ICubeInfo, IHighlighter
 
     public void DestroyObj()
     {
+        highlighter.SetActive(false);
         Destroy(gameObject);
     }
 

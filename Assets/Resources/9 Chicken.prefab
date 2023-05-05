@@ -944,7 +944,7 @@ GameObject:
   - component: {fileID: 6177149151545053704}
   - component: {fileID: 9050482527903534430}
   - component: {fileID: -1905436367074557181}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 9 Chicken
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1118,9 +1118,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Stunned
-  - Type: 4
-    SynchronizeType: 0
-    Name: Walk
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

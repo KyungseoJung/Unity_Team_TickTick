@@ -1266,7 +1266,7 @@ GameObject:
   - component: {fileID: 3603255364435539912}
   - component: {fileID: -8048041598179907212}
   - component: {fileID: -213394765072464810}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 14 Bush Devil
   m_TagString: Enemy
   m_Icon: {fileID: 0}

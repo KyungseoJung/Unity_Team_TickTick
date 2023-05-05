@@ -75,7 +75,8 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
     public GameObject tutorialCanvas;
     public bool gameStart = false;
 
-    bool mapFinish = false;
+    public bool mapFinish = false;
+    public bool childFinish = false;
 
     public int GetOwnerID()
     {
@@ -225,7 +226,8 @@ public class csPhotonGame : UnityEngine.MonoBehaviour
 
     IEnumerator LoadInvenDataStartCoroutine()
     {
-        
+        childFinish = true;
+
         Debug.Log("asdasdbbbaaa");
         yield return new WaitForSeconds(3f);
 

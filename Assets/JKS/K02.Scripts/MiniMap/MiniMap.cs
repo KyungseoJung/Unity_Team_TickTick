@@ -87,86 +87,98 @@ public GameObject[] btnSizeChange;  //[0] : btnSizeDown, btnSizeUp 버튼 연결
     //###
     public csPhotonGame csPG;
 
-    void Awake()
+    //void Awake()
+    //{
+    //zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+    //zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
+    //playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+    //#11-5 플레이어 회전에 따라 맵도 돌도록
+    // zoomInRectT = zoomInRawObj.GetComponent<RectTransform>();
+    // zoomOutRectT = zoomOutRawObj.GetComponent<RectTransform>();
+
+    //csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
+
+    //}
+
+    IEnumerator Start()
     {
-        //zoomInRawImage = GameObject.Find("zoomInRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
-        //zoomOutRawImage = GameObject.Find("zoomOutRawImage").GetComponent<RawImage>();   //scPlayUi에 있는 미니맵 연결하기
-        //playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        //while (csPG == null)//연결 혹시 안됬으면 될때까지 찾아
+        //{
+        //    yield return new WaitForSeconds(0.2f);
+        //    csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();            
+        //}
 
-        //#11-5 플레이어 회전에 따라 맵도 돌도록
-        // zoomInRectT = zoomInRawObj.GetComponent<RectTransform>();
-        // zoomOutRectT = zoomOutRawObj.GetComponent<RectTransform>();
+        while (!csPG.childFinish)//맵 다그리면 트루 
+        {
+            yield return new WaitForSeconds(0.2f);//아니면 좀 있다 보자~
+        }
 
-        csPG = GameObject.FindGameObjectWithTag("PhotonGameManager").GetComponent<csPhotonGame>();
-
-    }
-
-    void Start()
-    {
         btnSizeChange[0].SetActive(false);   // btnSizeDown 켜두고
         btnSizeChange[1].SetActive(true);  // btnSizeUp 꺼두기
 
         setMinimapPos();    //미니맵 박스 위치 맞춰주기
-//#11-4 디폴트는 줌아웃 사이즈로    
+                            //#11-4 디폴트는 줌아웃 사이즈로    
         zoomInRawObj.SetActive(false);
         zoomOutRawObj.SetActive(true);
 
-// @16-3 List 정의
-    rockPositions = new List<Vector3>();
-    treePositions = new List<Vector3>();
+        // @16-3 List 정의
+        rockPositions = new List<Vector3>();
+        treePositions = new List<Vector3>();
 
-/*
-//@16-2 Tilemap 클래스 이용하기 =============================
-    //땅 타일맵의 모든 타일 위치를 가져와서 리스트에 추가
-    foreach(Vector3Int position in groundTilemap.cellBounds.allPositionsWithin)
-    {
-        if(groundTilemap.HasTile(position))
-        {
-            tilePosition = groundTilemap.CellToWorld(position) + new Vector3(0.5f, 0.5f, 0);    
-                    //타일 중앙 좌표 계산을 위해서(좌측 상단보다는 중심점 가져와서 계산하는 게 좋대 : (0f, 0f, 0f)
-            groundPositions.Add(tilePosition);
-        }
-    }
+        /*
+        //@16-2 Tilemap 클래스 이용하기 =============================
+            //땅 타일맵의 모든 타일 위치를 가져와서 리스트에 추가
+            foreach(Vector3Int position in groundTilemap.cellBounds.allPositionsWithin)
+            {
+                if(groundTilemap.HasTile(position))
+                {
+                    tilePosition = groundTilemap.CellToWorld(position) + new Vector3(0.5f, 0.5f, 0);    
+                            //타일 중앙 좌표 계산을 위해서(좌측 상단보다는 중심점 가져와서 계산하는 게 좋대 : (0f, 0f, 0f)
+                    groundPositions.Add(tilePosition);
+                }
+            }
 
-    //벽 타일맵의 모든 타일 위치를 가져와서 리스트에 추가
-    foreach(Vector3Int position in wallTilemap.cellBounds.allPositionsWithin)
-    {
-        if(wallTilemap.HasTile(position))
-        {
-            tilePosition = wallTilemap.CellToWorld(position) + new Vector3(0.5f, 0.5f, 0);
-            wallPositions.Add(tilePosition);
-        }
-    }
-*/
+            //벽 타일맵의 모든 타일 위치를 가져와서 리스트에 추가
+            foreach(Vector3Int position in wallTilemap.cellBounds.allPositionsWithin)
+            {
+                if(wallTilemap.HasTile(position))
+                {
+                    tilePosition = wallTilemap.CellToWorld(position) + new Vector3(0.5f, 0.5f, 0);
+                    wallPositions.Add(tilePosition);
+                }
+            }
+        */
 
-//@16-3 플레이어, Foods, Goals 지점들 리스트 가져오기
-    rockPositions = GetPositionsOnTag("Rock");   //("Player");
-    treePositions = GetPositionsOnTag("Tree");  //("Goals");
+        //@16-3 플레이어, Foods, Goals 지점들 리스트 가져오기
+        rockPositions = GetPositionsOnTag("Rock");   //("Player");
+        treePositions = GetPositionsOnTag("Tree");  //("Goals");
 
-//@16-3 특정 태그를 통해 위치 가져오기
-    // 땅, 벽 타일맵의 위치 리스트를 미니맵에 그려주기
-//#11-3    MakeMinimap(groundPositions, MAP_TYPE.GROUND);
+        //@16-3 특정 태그를 통해 위치 가져오기
+        // 땅, 벽 타일맵의 위치 리스트를 미니맵에 그려주기
+        //#11-3    MakeMinimap(groundPositions, MAP_TYPE.GROUND);
 
-    MakeMinimap(treePositions, MAP_TYPE.TREE, true);    //zoomIn으로 한번 그려놓고
-    MakeMinimap(treePositions, MAP_TYPE.TREE, false);   //zoomOut으로 한번 그려놓기
-    
-    MakeMinimap(rockPositions, MAP_TYPE.ROCK, true);    //zoomIn으로 한번 그려놓고
-    MakeMinimap(rockPositions, MAP_TYPE.ROCK, false);   //zoomOut으로 한번 그려놓기
+        MakeMinimap(treePositions, MAP_TYPE.TREE, true);    //zoomIn으로 한번 그려놓고
+        MakeMinimap(treePositions, MAP_TYPE.TREE, false);   //zoomOut으로 한번 그려놓기
 
-    mapSize = zoomOutSize;  //디폴트는 줌아웃으로 가자
+        MakeMinimap(rockPositions, MAP_TYPE.ROCK, true);    //zoomIn으로 한번 그려놓고
+        MakeMinimap(rockPositions, MAP_TYPE.ROCK, false);   //zoomOut으로 한번 그려놓기
 
+        mapSize = zoomOutSize;  //디폴트는 줌아웃으로 가자
+
+        yield return null;
     }
     
     void FixedUpdate()  //#11-1 Update보다 FixedUpdate가 맞으려나? 카메라 위치 가져오는 것도 FixedUpdate에서 했었으니까 같은 맥락일 듯..?
     {
         //###
-        if (csPG == null )
-        {
-            return;
-        }
-        else if(csPG!=null && csPG.myPlyerCtrl!=null && playerTransform == null)
+        if(csPG!=null && csPG.myPlyerCtrl!=null && playerTransform == null)
         {
             playerTransform = csPG.myPlyerCtrl.transform;
+        }
+        else
+        {
+            Debug.Log("뭔가 문제 있음");
         }
 
         //#11-4 플레이어 바라보는 방향으로 맞추기
