@@ -32,9 +32,9 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 {
     private PlayerInfo playerInfo;
     private List<InventoryInfo> invenList;  //#11-6
-    private InventoryInfo invenInfo;        //#11-6
+    //private InventoryInfo invenInfo;        //#11-6
 
-    private InventoryInfo invenInfo2;       //#11-6 JSON데이터 로드용 - 이거 안 하면, 뭔가 꼬여서 초기화되어버림    
+    //private InventoryInfo invenInfo2;       //#11-6 JSON데이터 로드용 - 이거 안 하면, 뭔가 꼬여서 초기화되어버림    
     // public void Print()
     // {
     //     InventoryInfo abc = new InventoryInfo();
@@ -70,8 +70,8 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
         playerInfo = new PlayerInfo();
         // playerInfo.playerName = "";     //객체를 초기화 해줘야 null Reference 오류가 발생하지 않아
         invenList = new List<InventoryInfo>();  //#11-6
-        invenInfo = new InventoryInfo();          //#11-6
-
+        //invenInfo = new InventoryInfo();          //#11-6
+        invenList.Clear();
 
         LoadJSONData();
 
@@ -165,7 +165,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     public void LoadInvenJSONData() //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
     {
         //Debug.LogError("#11-6");
-        invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
+        //invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
 
         StartCoroutine(LoadInvenJSONDataCoroutine());
 
@@ -256,6 +256,8 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
         // JSON 파일로 저장     ===========================
         string invenJsonString = invenJson.ToString();
         System.IO.File.WriteAllText(Application.dataPath + "/Resources/inventory_info.json", invenJsonString);
+
+        invenList.Clear();
         //# 이미 덮어쓰는 코드인가?
     }
 
@@ -275,7 +277,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     public void InitializeInvenJSONData()   //#11-6 인벤토리 JSON 데이터 초기화 하기
     {
         invenList.Clear();
-        invenInfo = new InventoryInfo();
+        //invenInfo = new InventoryInfo();
 
         SaveInvenJSONData();    //초기화 한 걸로 싱글톤 데이터에 싹 넣기
     }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour   //#1-1 
 {
-    private OptionManager _oMgr;    // 효과음 사용을 위해 옵션 메니저 가져옴
+    //private OptionManager _oMgr;    // 효과음 사용을 위해 옵션 메니저 가져옴
     public Button goBackBtn;           //'뒤로가기 버튼'
     string _playerName;             //#9-1 플레이어가 값을 입력했는지 확인하는 목적
     string _islandName;
@@ -95,12 +95,14 @@ public class LobbyManager : MonoBehaviour   //#1-1
     
     void Start()
     {
-        StartCoroutine(LoadJSONDataFct());
+        //StartCoroutine(LoadJSONDataFct());
 
-        _oMgr = GameObject.Find("OptionManager").GetComponent<OptionManager>();
+        //_oMgr = GameObject.Find("OptionManager").GetComponent<OptionManager>();
+
+        OptionManager.Ins.PlayBackground(3);
 //        _oMgr.PlayBackground(stage);
 
-// '돌아가기' 버튼 ======================
+        // '돌아가기' 버튼 ======================
         goBackBtn.onClick.AddListener(OnClickGoBack);
         goBackBtn.gameObject.SetActive(false);
 
@@ -170,13 +172,13 @@ public class LobbyManager : MonoBehaviour   //#1-1
         // matPlayerBackPack = skinnedBackPack.materials[0];
     }
 
-    IEnumerator LoadJSONDataFct()
-    {
-        Debug.Log("//#4-2 JSON 불러옴");
-        // InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
-        InfoManager.Ins.LoadJSONData();    //#11-6
-        yield return new WaitForSeconds(0.5f);
-    }
+    //IEnumerator LoadJSONDataFct()
+    //{
+    //    Debug.Log("//#4-2 JSON 불러옴");
+    //    // InfoManager.Info.LoadJSONData();    //#4-2 JSON 데이터 로드   //#4-4 나중에 주석 풀 것
+    //    InfoManager.Ins.LoadJSONData();    //#11-6
+    //    yield return new WaitForSeconds(0.5f);
+    //}
 // #9-1 Input Field 글자 수 제한
     void OnInputChange1(string _input1)
     {
