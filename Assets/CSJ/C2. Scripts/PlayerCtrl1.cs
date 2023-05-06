@@ -142,6 +142,9 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     bool isOM = false;
 
     public Transform smilePos;
+    public bool playWalkSound = false;
+    bool playWalkSoundDelay=false;
+
 
     public void SetOulusMode(bool tmpCheck)
     {
@@ -326,6 +329,13 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
             Move();
         }
 
+        if (playWalkSound && !playWalkSoundDelay)
+        {
+            playWalkSoundDelay = true;
+            Invoke("ReSetPlayWalkSoundDelay", 0.3f);
+            csLevelManager.Ins.PlayAudioClip(this.transform.position, 1);
+        }
+
         //Move();
         //MoveBlock();
 
@@ -371,6 +381,11 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
                 m_grid2D.tPlayer.OpenWarningWindow();
             }
         }      
+    }
+
+    public void ReSetPlayWalkSoundDelay()
+    {
+        playWalkSoundDelay = false;
     }
 
     public void ResetBlockKeyDownE()
@@ -510,7 +525,15 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
 
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
 
-        anim.SetBool("isWalk", _velocity != Vector3.zero);
+        if (_velocity != Vector3.zero)
+        {
+            playWalkSound = true;
+        }
+        else
+        {
+            playWalkSound = false;
+        }
+        anim.SetBool("isWalk", playWalkSound);
      }
 
     public void MoveAvarta()
@@ -827,6 +850,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         if (m_path.Count > 0) //path 리스트에 노드가 존재하는 경우
         {
             anim.SetBool("isWalk", true); //걷기 애니메이션 실행
+            playWalkSound = true;
 
             //Vector3 dir = m_path[0].transform.position - transform.position;
 
@@ -879,6 +903,7 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         else
         {
             anim.SetBool("isWalk", false); //아니라면 애니메이션 중지!
+            playWalkSound = false;
         }
     }
 
