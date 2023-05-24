@@ -11,9 +11,9 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
     [SerializeField]
      float stamina = 0;
     public float Stamina { get { return stamina; } set { stamina = value; } }
-    public float maxHP = 5;
+    public float maxHP = 3;
     public float attackRange = 2f;      // 일정 범위
-    public float energy = 5f;         // 에너지 초기값
+    public float energy = 3f;         // 에너지 초기값
     public float damagePerHit = 1f;    // 공격 데미지
     
 
@@ -25,11 +25,14 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
     HPBar hpBar;
     //EnemyAttack enemyAttack = new EnemyAttack();
 
+    EnemySound mySound;
+
     public bool isAttackNow = false;
     
     public virtual void Awake()
     {
         animator = GetComponent<Animator>();
+        mySound = GetComponent<EnemySound>();
     }
 
     private void Start()
@@ -49,26 +52,49 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
         }
     }
 
+    protected virtual void Update()
+    {
+        if (Hp <= 0 &&!isDIe)
+        {
+            mySound.PlayDieSound();
+            Debug.Log("die");
+            isDIe = true;
+            animator.SetTrigger("Die");
+            Invoke("DesObj", 3f);
+        }
+    }
+
+    public void DesObj()
+    {
+        GetComponent<Collider>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+
+        gameObject.SetActive(false);
+    }
 
     public void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Player" &&!isAttackNow)
+        if (other.gameObject.tag == "sword" &&!isAttackNow && !isDIe)
         {
+            mySound.PlayDieSound();
+            Hp--;
+            Debug.Log(Hp);
+            isAttackNow = true;
+            Invoke("ReSetAttackNow", 0.3f);
+
             float distance = Vector3.Distance(transform.position, other.transform.position);
             if (distance <= attackRange)
             {
                 //isAttackNow = true;
                 //animator.SetBool("Walk", false);
                 //animator.SetBool("Attack", true);
-                
+
                 // 플레이어가 일정 범위 내에 있을 때 공격 애니메이션 실행
-                animator.SetTrigger("Attack");
+
                 animator.SetBool("Walk", false);
+                animator.SetTrigger("Attack");
                 net_Aim = 1;
                 
-
-                isAttackNow = true;
-                Invoke("ReSetAttackNow", 0.2f);
                 // 플레이어 캐릭터의 TakeDamage 함수 호출
                 //other.gameObject.GetComponent<PlayerController>().TakeDamage(damagePerHit);
             }
@@ -150,5 +176,8 @@ public class EnemyAttack : MonoBehaviour, IObjectStatus, IPhotonInTheRoomCallBac
         {
         
         }
-    
+
+
+    public bool isDIe = false;
+
 }

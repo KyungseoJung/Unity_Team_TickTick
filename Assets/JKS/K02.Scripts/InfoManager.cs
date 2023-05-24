@@ -7,18 +7,19 @@ using System.IO;
 
 using TeamInterface;    //#11-6 인벤토리 데이터 저장하기 위함. Enum_DropItemType
 
+using UnityEngine.Networking;   //#19-1
 
 
-[System.Serializable]   
+[System.Serializable]
 public class PlayerInfo
 {
     public string playerName;
     public string islandName;
     public int clothesNum;
-    public Color32 clothesColor;   
+    public Color32 clothesColor;
 }
 
-[System.Serializable]   
+[System.Serializable]
 public class InventoryInfo  //#11-6
 {
     // public int itemIndex;       //n번째 슬롯
@@ -34,7 +35,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     private List<InventoryInfo> invenList;  //#11-6
     //private InventoryInfo invenInfo;        //#11-6
 
-    //private InventoryInfo invenInfo2;       //#11-6 JSON데이터 로드용 - 이거 안 하면, 뭔가 꼬여서 초기화되어버림    
+    //private InventoryInfo invenInfo2;       //#11-6 JSON데이터 로드용 - 이거 안 하면, 뭔가 꼬여서 초기화되어버림
     // public void Print()
     // {
     //     InventoryInfo abc = new InventoryInfo();
@@ -50,7 +51,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     //     {
     //         if(info == null)
     //         {
-    //             info = GameObject.FindObjectOfType(typeof(InfoManager)) as InfoManager; 
+    //             info = GameObject.FindObjectOfType(typeof(InfoManager)) as InfoManager;
     //                 //이런 타입을 가진 오브젝트가 있다면, 그 오브젝트를 InfoManager로서 객체화 해라
     //             if(info == null)
     //             {
@@ -61,7 +62,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     //         return info;
     //     }
     // }
-    
+
 //Start에 적으면 다른 것들보다 늦게 실행돼서 Null 에러 뜬다.
     protected override void Awake()
     {
@@ -77,7 +78,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         // Debug.Log("JSON 테스트용 : " + playerInfo.playerName);
     }
-    
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -98,7 +99,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
     {
         get {return playerInfo.clothesNum; }
         set {playerInfo.clothesNum = value; }
-    }    
+    }
     public Color32 clothesColor
     {
         get { return playerInfo.clothesColor; }
@@ -140,7 +141,8 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
     public void LoadJSONData()     //JSON 데이터 로드하기(JSON 파일 -> 클래스로)
     {
-        
+        RemoveMetaFile("player_info.json"); // meta 파일 분리   //#19-1
+
         TextAsset jsonData = Resources.Load<TextAsset>("player_info");
         string StrJsonData = jsonData.text;                             //# 데이터를 문자열로 가져와서
         var json = JSON.Parse(StrJsonData); //배열 형태로 자동 파싱         //# SimpleJSON을 통해 객체로 생성
@@ -148,9 +150,9 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         playerInfo.playerName = json["플레이어 이름"].ToString();
         playerInfo.islandName = json["섬 이름"].ToString();
-        
+
         playerInfo.clothesNum = json["옷 종류"].AsInt;
-          
+
         string hex = json["옷 색"].Value;
         Color32 color = HexToColor32(hex);
         playerInfo.clothesColor = color;
@@ -161,58 +163,169 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 // Debug.Log("테스트용 string hex = json 풍선색 value : " + json["옷 색"].Value );
 
     }
+
+// public void LoadInvenJSONData()
+// {
+//     RemoveMetaFile("inventory_info.json");
+
+//     string filePath = Path.Combine(Application.streamingAssetsPath, "inventory_info.json");
     
-    public void LoadInvenJSONData() //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
+//     StartCoroutine(LoadInvenJSONDataCoroutine(filePath));
+// }
+public void LoadInvenJSONData()
+{
+    RemoveStreamingMetaFile("inventory_info.json");
+
+    string filePath;
+    
+    if (Application.isEditor)
     {
-        //Debug.LogError("#11-6");
-        //invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
-
-        StartCoroutine(LoadInvenJSONDataCoroutine());
-
-        //TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
-        //string invenStrJsonData = invenJsonData.text;
-        //var invenJson = JSON.Parse(invenStrJsonData);
-
-        //for(int i=0; i<invenJson["인벤토리"].Count; i++)
-        //{
-        //    //invenInfo2 = new InventoryInfo();     
-        //    InventoryInfo iI = new InventoryInfo();
-        //    //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
-        //    //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
-        //    iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
-        //            (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
-        //    iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
-
-        //    invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
-        //}
-
+        filePath = Path.Combine(Application.streamingAssetsPath, "inventory_info.json");
     }
+    else
+    {
+        filePath = Path.Combine(Application.streamingAssetsPath, "inventory_info.json");
+        filePath = "file://" + filePath;
+    }
+
+    StartCoroutine(LoadInvenJSONDataCoroutine(filePath));
+}
+
+
+IEnumerator LoadInvenJSONDataCoroutine(string filePath)
+{
+    Debug.Log("로드인벤제이슨데이터");
+
+    string jsonStr;
+
+    if (filePath.Contains("://")) // 실행 파일이 빌드된 상태인 경우
+    {
+        UnityWebRequest www = UnityWebRequest.Get(filePath);
+        yield return www.SendWebRequest();
+        jsonStr = www.downloadHandler.text;
+    }
+    else // 에디터 상에서 실행 중인 경우
+    {
+        jsonStr = File.ReadAllText(filePath);
+    }
+
+    var invenJson = JSON.Parse(jsonStr);
+
+    for (int i = 0; i < invenJson["인벤토리"].Count; i++)
+    {
+        InventoryInfo iI = new InventoryInfo();
+        iI.itemType = invenJson["인벤토리"][i]["종류"].AsInt;
+        iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+        invenList.Add(iI);
+    }
+}
+
+    private void RemoveMetaFile(string fileName)    //#19-1 0506추가
+    {
+    #if UNITY_EDITOR
+        string assetPath = "Assets/Resources/" + fileName;
+        string metaPath = assetPath + ".meta";
+
+        UnityEditor.AssetDatabase.ImportAsset(assetPath);
+        UnityEditor.AssetDatabase.DeleteAsset(metaPath);
+        UnityEditor.AssetDatabase.Refresh();
+    #else
+        Debug.LogWarning("RemoveMetaFile()는 에디터에서만 지원됩니다.");
+        // RemoveMetaFileNonEditor(fileName);
+
+    #endif
+    }
+
+    private void RemoveStreamingMetaFile(string fileName)
+    {
+    #if UNITY_EDITOR
+        string assetPath = "StreamingAssets/Resources/" + fileName;
+        string metaPath = assetPath + ".meta";
+
+        UnityEditor.AssetDatabase.ImportAsset(assetPath);
+        UnityEditor.AssetDatabase.DeleteAsset(metaPath);
+        UnityEditor.AssetDatabase.Refresh();
+    #else
+        Debug.LogWarning("RemoveMetaFile()는 에디터에서만 지원됩니다.");
+        // RemoveMetaFileNonEditor(fileName);
+
+    #endif        
+    }
+
+//#19-1 주석
+//     public void LoadInvenJSONData() //#11-6 리스트 자체는 한번 싹 Clear하고 JSON 데이터로 리스트 값 채워넣기
+//     {
+//         RemoveMetaFile("inventory_info.json"); //#19-1 meta 파일 분리
+
+//         //Debug.LogError("#11-6");
+//         //invenList.Clear();  //싱글톤 데이터 넣기 전에 안에 싹 비우기
+
+// //        StartCoroutine(LoadInvenJSONDataCoroutine());
+
+
+//         Debug.Log("로드인벤제이슨데이터");
+
+//         TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
+//         string invenStrJsonData = invenJsonData.text;
+//         var invenJson = JSON.Parse(invenStrJsonData);
+
+//         for (int i = 0; i < invenJson["인벤토리"].Count; i++)
+//         {
+//             //invenInfo2 = new InventoryInfo();
+//             InventoryInfo iI = new InventoryInfo();
+//             //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
+//             //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
+//             iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
+//                     (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
+//             iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+
+//             invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
+//         }
+
+//         //TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
+//         //string invenStrJsonData = invenJsonData.text;
+//         //var invenJson = JSON.Parse(invenStrJsonData);
+
+//         //for(int i=0; i<invenJson["인벤토리"].Count; i++)
+//         //{
+//         //    //invenInfo2 = new InventoryInfo();
+//         //    InventoryInfo iI = new InventoryInfo();
+//         //    //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
+//         //    //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
+//         //    iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
+//         //            (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
+//         //    iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+
+//         //    invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
+//         //}
+
+//     }
 
     //##
-    IEnumerator LoadInvenJSONDataCoroutine()
-    {
-        yield return new WaitForSeconds(6f);
+    // IEnumerator LoadInvenJSONDataCoroutine()
+    // {
+    //     // yield return new WaitForSeconds(6f);
 
-        Debug.Log("로드인벤제이슨데이터");
+    //     Debug.Log("로드인벤제이슨데이터");
 
-        TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
-        string invenStrJsonData = invenJsonData.text;
-        var invenJson = JSON.Parse(invenStrJsonData);
+    //     TextAsset invenJsonData = Resources.Load<TextAsset>("inventory_info");
+    //     string invenStrJsonData = invenJsonData.text;
+    //     var invenJson = JSON.Parse(invenStrJsonData);
 
-        for (int i = 0; i < invenJson["인벤토리"].Count; i++)
-        {
-            //invenInfo2 = new InventoryInfo();     
-            InventoryInfo iI = new InventoryInfo();
-            //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
-            //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
-            iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
-                    (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
-            iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
+    //     for (int i = 0; i < invenJson["인벤토리"].Count; i++)
+    //     {
+    //         //invenInfo2 = new InventoryInfo();
+    //         InventoryInfo iI = new InventoryInfo();
+    //         //invenInfo.itemType = invenJson["인벤토리"][i]["종류"].ToString();
+    //         //#11-6 문자열 데이터 -> ENUM형으로 변환하기 (System선언해서 Enum.Parse 함수 이용해도 O)
+    //         iI.itemType = /* (Enum_DropItemType)System.Enum.Parse
+    //                 (typeof(Enum_DropItemType), */ invenJson["인벤토리"][i]["종류"].AsInt;
+    //         iI.itemCount = invenJson["인벤토리"][i]["개수"].AsInt;
 
-            invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
-        }
-        yield return null;
-    }
+    //         invenList.Add(iI);   //리스트에 객체 차곡차곡 저장
+    //     }
+    //     yield return null;
+    // }
 
     public void SaveJSONData()  //데이터 저장. (클래스 -> JSON 파일)
     {
@@ -231,7 +344,12 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         // JSON 파일로 저장     ===========================
         string jsonString = json.ToString();
+//#19-1 이 방법은 아닌 듯. exe에서 json파일이 아예 안 생겨
+// #if UNITY_EDITOR
         System.IO.File.WriteAllText(Application.dataPath + "/Resources/player_info.json", jsonString);
+// #else
+//        System.IO.File.WriteAllText(Application.dataPath + "player_info", jsonString);
+// #endif
     }
 
     public void SaveInvenJSONData() //#11-6
@@ -255,8 +373,14 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         // JSON 파일로 저장     ===========================
         string invenJsonString = invenJson.ToString();
-        System.IO.File.WriteAllText(Application.dataPath + "/Resources/inventory_info.json", invenJsonString);
-
+//#19-1 이 방법은 아닌 듯. exe에서 json파일이 아예 안 생겨
+// #if UNITY_EDITOR
+        // System.IO.File.WriteAllText(Application.dataPath + "/Resources/inventory_info.json", invenJsonString);
+        System.IO.File.WriteAllText(Application.dataPath + "/StreamingAssets/inventory_info.json", invenJsonString);
+        //#19-1
+// #else
+//        System.IO.File.WriteAllText(Application.dataPath + "inventory_info", invenJsonString);
+// #endif
         invenList.Clear();
         //# 이미 덮어쓰는 코드인가?
     }
@@ -321,7 +445,7 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
         playerInfo.playerName = json["플레이어 이름"].ToString();
         playerInfo.playType = json["플레이 타입"].ToString();
-        
+
         playerInfo.skills = new List<string>();
         for(int i=0; i<json["Inhale/ Exhale 스킬 적용 범위"].Count; i++)
         {
@@ -343,17 +467,17 @@ public class InfoManager : csGenericSingleton<InfoManager>        //#5-1 플레�
 
             itemList.Add(itemInfo);
         }
-        
+
         //파싱된 정보 출력
-        Debug.Log("플레이어 정보: " + playerInfo.playerName + ", " + playerInfo.playType + ", " + 
-                  string.Join(", ", playerInfo.skills) + ", " + playerInfo.topScore + ", " + 
+        Debug.Log("플레이어 정보: " + playerInfo.playerName + ", " + playerInfo.playType + ", " +
+                  string.Join(", ", playerInfo.skills) + ", " + playerInfo.topScore + ", " +
                   playerInfo.numberOfStars);
-        
+
         foreach(string skill in playerInfo.skills)
         {
             Debug.Log("스킬 : " + skill);
         }
-            
+
         foreach(ItemInfo item in itemList)
         {
             Debug.Log("Name : " + item.name);

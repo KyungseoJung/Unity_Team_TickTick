@@ -145,6 +145,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
     public bool playWalkSound = false;
     bool playWalkSoundDelay=false;
 
+    public Text nameNormal;
+    public Text nameShadow;
 
     public void SetOulusMode(bool tmpCheck)
     {
@@ -202,6 +204,8 @@ public class PlayerCtrl1 : MonoBehaviour, IObjectStatus, IPhotonBase, IPhotonInT
         currPos = Tr.position; 
         currRot = Tr.rotation;
 
+
+        nameShadow.text = nameNormal.text = pv.owner.NickName;
         //pv.viewID = PhotonNetwork.AllocateViewID();
     }
 

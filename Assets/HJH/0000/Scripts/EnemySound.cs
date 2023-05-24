@@ -33,6 +33,11 @@ public class EnemySound : MonoBehaviour
         }
     }
 
+    public void PlayDieSound()
+    {
+        OptionManager.Ins.PlayEffect(transform.position, enemySound);
+    }
+
     // private void OnCollisionStay(Collision collision)
     // {
     //     if (collision.gameObject.CompareTag("Player"))

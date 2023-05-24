@@ -676,11 +676,10 @@ GameObject:
   - component: {fileID: 8688923928873873397}
   - component: {fileID: 1545072696478350923}
   - component: {fileID: 4281461176059288158}
-  - component: {fileID: 8851120999681772496}
-  - component: {fileID: 539754752749388685}
   - component: {fileID: 5470184061694463747}
   - component: {fileID: -8881318315827414244}
   - component: {fileID: 2304971366109672397}
+  - component: {fileID: 5596520043116251632}
   m_Layer: 8
   m_Name: 3 Crocodile
   m_TagString: Untagged
@@ -761,49 +760,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8851120999681772496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313293320046351548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 0}
-  haBarAddY: 0
-  isAttackNow: 0
-  moveSpeed: 1
-  rotateSpeed: 1
-  directionChangeInterval: 7
---- !u!114 &539754752749388685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313293320046351548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 1285044290845915299}
-  haBarAddY: 0.5
-  isAttackNow: 0
 --- !u!114 &5470184061694463747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,6 +815,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Walk
+  - Type: 1
+    SynchronizeType: 0
+    Name: Idle
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -878,6 +837,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 2
   enemySound: {fileID: 8300000, guid: 6f79058280be14f44af39f6a29e51839, type: 3}
+--- !u!114 &5596520043116251632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313293320046351548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxHP: 2
+  attackRange: 3
+  energy: 3
+  damagePerHit: 1
+  hpBarObj: {fileID: 1285044290845915299}
+  haBarAddY: 0
+  isAttackNow: 0
+  moveSpeed: 3
+  rotateSpeed: 1
+  directionChangeInterval: 20
 --- !u!1 &3593593927080664144
 GameObject:
   m_ObjectHideFlags: 0

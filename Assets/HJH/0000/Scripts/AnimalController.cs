@@ -21,8 +21,15 @@ private void Start()
     moveDirection = GetRandomDirection();
 }
 
-private void Update()
+    protected override void Update()
 {
+        if (isDIe)
+        {
+            return;
+        }
+
+        base.Update();
+
         if (!isAttackNow)
         {
             // 방향 변경 주기마다 새로운 이동 방향 설정

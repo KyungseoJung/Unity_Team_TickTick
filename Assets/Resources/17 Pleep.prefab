@@ -135,12 +135,11 @@ GameObject:
   - component: {fileID: 241414195949375245}
   - component: {fileID: 347645320691058834}
   - component: {fileID: 347645320691058833}
-  - component: {fileID: 347645320691058832}
   - component: {fileID: 4457242377811735402}
-  - component: {fileID: 3489018375769304964}
   - component: {fileID: 9116269774928873989}
   - component: {fileID: 9134480988669916077}
   - component: {fileID: -6297953153394040311}
+  - component: {fileID: 1018070837304134908}
   m_Layer: 8
   m_Name: 17 Pleep
   m_TagString: Enemy
@@ -207,29 +206,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &347645320691058832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581663925800326583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 0}
-  haBarAddY: 0
-  isAttackNow: 0
-  moveSpeed: 0.7
-  rotateSpeed: 0.5
-  directionChangeInterval: 3
 --- !u!54 &4457242377811735402
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -246,26 +222,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3489018375769304964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581663925800326583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 2378146059006845484}
-  haBarAddY: 1.6
-  isAttackNow: 0
 --- !u!114 &9116269774928873989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +287,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 2
   enemySound: {fileID: 8300000, guid: c5b4ae45ca471124980f492e49d134f1, type: 3}
+--- !u!114 &1018070837304134908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581663925800326583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxHP: 2
+  attackRange: 3
+  energy: 3
+  damagePerHit: 1
+  hpBarObj: {fileID: 2378146059006845484}
+  haBarAddY: 0
+  isAttackNow: 0
+  moveSpeed: 3
+  rotateSpeed: 3
+  directionChangeInterval: 15
 --- !u!1 &653588189748288351
 GameObject:
   m_ObjectHideFlags: 0

@@ -1556,12 +1556,11 @@ GameObject:
   - component: {fileID: 8062728673207905681}
   - component: {fileID: 7524996556326007925}
   - component: {fileID: 7524996556326007927}
-  - component: {fileID: 7524996556326007928}
   - component: {fileID: 3019300886707005125}
-  - component: {fileID: 5951267174541246717}
   - component: {fileID: 7514674502930065003}
   - component: {fileID: -758685714827172551}
   - component: {fileID: -2759121062425218874}
+  - component: {fileID: 1634464651254070395}
   m_Layer: 8
   m_Name: 6 Dingo
   m_TagString: Enemy
@@ -1626,29 +1625,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7524996556326007928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7255089740504479531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 0}
-  haBarAddY: 0
-  isAttackNow: 0
-  moveSpeed: 2
-  rotateSpeed: 2
-  directionChangeInterval: 4
 --- !u!54 &3019300886707005125
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1665,26 +1641,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5951267174541246717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7255089740504479531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 5804156975056038298}
-  haBarAddY: 0
-  isAttackNow: 0
 --- !u!114 &7514674502930065003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1737,9 +1693,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: Stunned
-  - Type: 4
+  - Type: 9
     SynchronizeType: 0
-    Name: Walk
+    Name: Jump
+  - Type: 9
+    SynchronizeType: 0
+    Name: Bark
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1759,6 +1718,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 2
   enemySound: {fileID: 8300000, guid: 9328f59c91e22cf408d51038b952c208, type: 3}
+--- !u!114 &1634464651254070395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7255089740504479531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxHP: 2
+  attackRange: 3
+  energy: 3
+  damagePerHit: 1
+  hpBarObj: {fileID: 5804156975056038298}
+  haBarAddY: 0
+  isAttackNow: 0
+  moveSpeed: 3
+  rotateSpeed: 3
+  directionChangeInterval: 6
 --- !u!1 &7285718289284322151
 GameObject:
   m_ObjectHideFlags: 0

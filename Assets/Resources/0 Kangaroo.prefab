@@ -1579,12 +1579,11 @@ GameObject:
   - component: {fileID: 7278823865900372248}
   - component: {fileID: 6347636881340760249}
   - component: {fileID: 4187218525939204890}
-  - component: {fileID: 7047995708415491977}
   - component: {fileID: 2847323582655523855}
-  - component: {fileID: 7022772830945736919}
   - component: {fileID: 8384541896376726173}
   - component: {fileID: 762254000763326151}
   - component: {fileID: 5035724703418626114}
+  - component: {fileID: 8310215972471709295}
   m_Layer: 8
   m_Name: 0 Kangaroo
   m_TagString: Enemy
@@ -1652,29 +1651,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7047995708415491977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062106882702376202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 100
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 0}
-  haBarAddY: 0
-  isAttackNow: 0
-  moveSpeed: 1
-  rotateSpeed: 0.2
-  directionChangeInterval: 3.3
 --- !u!136 &2847323582655523855
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1689,26 +1665,6 @@ CapsuleCollider:
   m_Height: 1.57
   m_Direction: 1
   m_Center: {x: 0, y: 0.62, z: 0}
---- !u!114 &7022772830945736919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062106882702376202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3962eaa087752a46b245e786ace1107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: 0
-  maxHP: 0
-  attackRange: 2
-  energy: 100
-  damagePerHit: 10
-  hpBarObj: {fileID: 3030554507899751871}
-  haBarAddY: 1.01
-  isAttackNow: 0
 --- !u!114 &8384541896376726173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,6 +1720,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Walk
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1783,6 +1742,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 2
   enemySound: {fileID: 8300000, guid: c8d74abb58e855d4d89eda1d560d60c1, type: 3}
+--- !u!114 &8310215972471709295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062106882702376202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5438f8215c8ff4aab3bb2a08751956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 0
+  maxHP: 2
+  attackRange: 3
+  energy: 3
+  damagePerHit: 1
+  hpBarObj: {fileID: 3030554507899751871}
+  haBarAddY: 0
+  isAttackNow: 0
+  moveSpeed: 3
+  rotateSpeed: 4
+  directionChangeInterval: 7
 --- !u!1001 &5553227888962458930
 PrefabInstance:
   m_ObjectHideFlags: 0
